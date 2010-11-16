@@ -1,0 +1,72 @@
+				<h2>About</h2>
+				<p>Yet another web interface to database of packages and files from 
+				official Slackware releases. Database is loaded with packages from 
+				Slackware 8.1 and newever.
+				</p>
+
+				<h2>Thanks</h2>
+				<p>I'd like to say thanks to <a href="http://linuax.wordpress.com/">ax</a> 
+				for providing me with subdomain in 
+				<a href="http://www.slackware.eu">slackware.eu</a> and 
+				<a href="http://packages.slackverse.org">mario</a> for...eee...whatever 
+				that might be :)
+				</p>
+
+				<h2>About - continued</h2>
+				<p>As have been already said, this is just another "package browser" 
+				in regards to deceased site <a href="http://packages.slackware.it">http://packages.slackware.it</a> 
+				which we do (did) miss so much. 
+				<br />This site has its origins in <a href="http://packages.slackverse.org/">http://packages.slackverse.org</a> 
+				as I've been around its birth and somewhat "assisted", if one could 
+				call it like that. Since I wanted to take different approach 
+				to the problem and I've missed some features, this is the result.
+				</p>
+
+				<p>Why? Because it has been a challange - brain teaser - and I like these :)</p>
+
+				<p>I do plan to publish code and scripts, but my beloved "licensing" 
+				takes time. For now, the whole application consists of bunch of Bash and 
+				Perl scripts; web part is done by CGI (and I'd love to try mod_perl or 
+				FastCGI) and database backend is supported by PostgreSQL and SQLite.</p>
+
+				<p>I think enough said.
+				<br />Enjoy,
+				<br />Zdenek Styblik
+				</p>
+
+				<h3>Mirrors</h3>
+				<p>Mirrors are synchronized every two days. Removed mirrors from main 
+				site are removed [here] after 7 resp. 8 days.
+				</p>
+
+				<h3>Search</h3>
+				<p>Currently, the searched string is matched as <abbr>%needle%</abbr>. 
+				This means the string is matched wherever that might be. However, this 
+				is likely (and hopefully) to change in the future.
+				<br />You can choose categories to narrow down the search. These are 
+				matched as: <abbr>CONDITIONS AND (cat OR cat ... OR cat)</abbr>
+				</p>
+
+				<h3>Search CLI</h3>
+				<p>SearchCLI can be called "feature". It's supposed to allow you query 
+				database from terminal, if you are in need to find package or which 
+				package contains file you're looking for. Look-up can be achieved via 
+				<a href="/download/slacksearch.sh">this script</a>, however you can 
+				write your very own if you want.
+				<br />Syntax is as follows: 
+				<abbr>% sh slacksearch.sh &lt;file|package&gt; &lt;needle&gt; [slackware version];</abbr>
+				<br />I must note <abbr>% slackpkg</abbr> can search for files too.
+				</p>
+
+				<h3>Slackware - new release</h3>
+				<p>Check for new release is done twice a day (= every 12 hours)</p>
+
+				<h3>Slackware synchronization</h3>
+				<p>Is done every 30 minutes</p>
+
+				<h3>Would it be possible to scan other repositories?</h3>
+				<p>Yes, pretty much anything that has MANIFEST file. However, I haven't 
+				considered this one yet, and there are 
+				<a href="/cgi-bin/index.cgi/links">other sites</a> that do this job.
+				</p>
+

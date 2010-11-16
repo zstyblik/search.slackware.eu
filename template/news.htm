@@ -1,0 +1,20 @@
+				<TMPL_IF name="SVERNFO">
+				<table id="stats-table">
+					<tr>
+						<th>Version</th>
+						<th>Packages</th>
+						<th>Files</th>
+						<th>Changed</th>
+					</tr>
+					<TMPL_LOOP name="SVERNFO">
+					<tr>
+						<td><TMPL_VAR name="SVER"></td>
+						<td class="number"><TMPL_VAR name="NOPKGS"></td>
+						<td class="number"><TMPL_VAR name="NOFILES"></td>
+						<td><TMPL_VAR name="LUPDATE"></td>
+					</tr>
+					</TMPL_LOOP>
+				</table>
+				<br />
+				<br />
+				</TMPL_IF>

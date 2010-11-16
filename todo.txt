@@ -1,0 +1,5 @@
+* parse and update only package descriptions
+* parse only FILELIST (or whatever) and create SQL batch, so .sq3 for
+ specific distro can be created; no updates/deletes - whole file
+* debug, may be global debug option
+* force update - compare each package, update each package, whatever

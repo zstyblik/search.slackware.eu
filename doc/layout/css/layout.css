@@ -1,0 +1,36 @@
+body
+{
+	padding: 0;
+	margin: 0;
+	font-size: 10pt;
+}
+h1, h2, h3 {
+	margin: 0;
+ 	padding: 0;
+ 	line-height: 1.7em;
+ 	font-weight: normal;
+}
+h1 + p {
+ 	font-size: 11pt;
+}
+p
+{
+	text-align: justify;
+	line-height: 1.4;
+	margin-right: 20px;
+}
+pre, blockquote
+{
+	padding: 1em;
+ 	margin: .5em 0;
+}
+ul li
+{
+	line-height: 1.6;
+} 
+abbr
+{
+	border-bottom: dotted 1px;
+}
+
+

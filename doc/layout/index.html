@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>home::slackware::package::search</title>
+		<meta http-equiv="Content-Language" content="en" />
+		<meta http-equiv="Content-Type"  content="text/html; charset=UTF-8" />
+		<meta name="description" content="Slackware package search/browser" />
+		<meta name="keywords" content="Slackware,package,search,Linux,GNU,distribution,browser,packages" />
+		<meta name="author" content="Zdenek Styblik" />
+		<link rel="stylesheet" type="text/css" media="screen" href="css/layout.css" />
+		<link rel="stylesheet" type="text/css" media="screen" href="css/search.css" />
+	</head>
+	<body>
+		<div id="main">
+			<div id="heading">
+				<div id="containersearch">
+					<form id="searchform" method="get" action="/cgi-bin/search.cgi">
+						<input id="inputsearch" name="inputsearch" type="text" size="16" />
+						<select id="sver" name="sver">
+							<option value="1">Slackware64-13.1</option>
+						</select> <!--- sver -->
+						<input id="buttonsearch" name="buttonsearch" type="button" value="search" /> 
+					</form> <!--- searchform -->
+				</div> <!--- containersearch -->
+				<div id="containerlogo">
+					<h1>
+						<span class="light">search</span><span class="dark">.slackware.eu</span>
+					</h1>
+					<ul>
+						<!---
+						<li><a href="#">News</a></li>
+						<li><a href="#">Changelogs</a></li> 
+						-->
+						<li><a href="/cgi-bin/search.cgi">Search</a></li>
+						<li><a href="/cgi-bin/index.cgi/links">Links</a></li>
+						<li><a href="/cgi-bin/index.cgi/about">About</a></li>
+					</ul>
+				</div> <!--- containerlogo -->
+			</div> <!--- heading div -->
+			<div id="cframe">
+				<!---
+				<div id="menuside">
+					<ul>
+
+						<li><a href="#">Item #1</a></li>
+						<li><a href="#">Item #2</a></li>
+					</ul>
+					<div id="containernews">
+						<h4>News:</h4>
+						<div class="newsitem">
+							<div>00:01 01.01.1970 | Some title</div>
+
+							<p>
+								New UNIX era has begun! Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer lacus nibh, tempus a, luctus at, egestas sed, ante.
+							</p>
+							<div>- Franta</div>
+						</div>
+						<hr />
+						<div class="newsitem">
+							<div>00:00 01.01.1970 | Some other title which is long</div>
+
+							<p>
+								Birth! Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer lacus nibh, tempus a, luctus at, egestas sed, ante.
+							</p>
+							<div>- Franta</div>
+						</div>
+						<hr />
+					</div>
+				</div>-->
+
+				<!--- div with content -->
+				<div id="content">
+					
+					<h1>Heading 1</h1>
+					<h2>Heading 2</h2>
+					<h3>Heading 3</h3>
+					<h4>Heading 4</h4>
+					<h5>Heading 5</h5>
+
+					<h6>Heading 6</h6>
+
+					<p>
+					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer lacus nibh, tempus a, luctus at, egestas sed, ante. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean felis. Morbi ut justo a magna porttitor bibendum. Praesent fringilla. Pellentesque pellentesque. Pellentesque risus mauris, vestibulum vitae, mollis ut, iaculis in, eros. Aliquam vel velit non lectus rutrum feugiat. Mauris eros. Aliquam rhoncus tellus eget augue. Aliquam tincidunt, justo sit amet viverra adipiscing, odio urna hendrerit quam, et condimentum lorem erat at orci. Phasellus ornare. Nulla et quam vitae purus commodo iaculis. Nam adipiscing ornare lacus. Maecenas id sapien condimentum sapien gravida tempor.
+					</p>
+
+					<blockquote>
+						Blockquote. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut.
+					</blockquote>
+
+					<address>An address.</address>
+
+					<p>
+						This is a <code>code tag</code> while this is an <abbr title="abbreviation">abbr</abbr>. Here are the <a href="#">a (link)</a>, <strong>strong</strong> and <em>emphasis</em> tags.
+					</p>
+
+					<pre>Lorem ipsum dolor sit amet,&#x0d;consectetur adipisicing elit,&#x0d;sed do eiusmod tempor incididunt&#x0d;ut labore et dolore magna aliqua.</pre>
+					<ul>
+						<li>one</li>
+						<li>two</li>
+						<li>three</li>
+
+					</ul>
+					<ol>
+						<li>one</li>
+						<li>two</li>
+						<li>three</li>
+					</ol>
+					<dl>
+
+						<dt>Term definition</dt>
+						<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer lacus nibh, tempus a, luctus at, egestas sed, ante.</dd>
+						<dt>Term definition</dt>
+						<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer lacus nibh, tempus a, luctus at, egestas sed, ante.</dd>
+						<dt>Term definition</dt>
+						<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer lacus nibh, tempus a, luctus at, egestas sed, ante.</dd>
+
+					</dl>
+
+					<form id="someform" name="someform" method="post" action="#">
+						<fieldset>
+							<legend>Form:</legend>
+							Username: <input type="text" name="user" />
+							<br />
+							<hr />
+
+							Checkbox: <input type="checkbox" name="chckbox" />
+							<br />
+							<hr />
+							Radio button: <input type="radio" name="rbutton" />
+							<br />
+							<hr />
+							Textarea:
+							<br />
+
+							<textarea name="tarea" cols="20" rows="4"></textarea>
+							<br />
+							<hr />
+							<input type="submit" value="Submit" />
+						</fieldset>
+					</form>
+					<br />
+					<br />
+					<table>
+						<tr>
+							<th>heading #1</th>
+							<th>heading #2</th>
+							<th>heading #3</th>
+						</tr>
+						<tr>
+							<td>one</td>
+							<td>two</td>
+							<td>three</td>
+						</tr>
+					</table>
+				</div> <!--- content div -->
+			</div> <!--- cframe -->
+
+			<div id="footer">
+				<div>
+					[<a href="http://search.slackware.eu">search.slackware.eu</a> :: 2010]<br />
+					[domain name provided by <a href="http://linuax.wordpress.com/">ax</a>]<br />
+					[supported by <a href="http://www.zeratul.org/">stybla</a>]<br />
+					[hosted by <a href="http://www.turnovfree.net/">turnovfree.net</a>]<br />
+				</div>
+				<br />
+			</div> <!--- footer -->
+		</div> <!--- main div -->
+	</body>
+</html>
+

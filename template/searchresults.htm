@@ -1,0 +1,33 @@
+				<div id="searchoptions">
+					<div>Slackware version :: <b><TMPL_VAR name="SLACKVER"></b></div>
+					<div>Categories :: <b><TMPL_VAR name="CATEGORIES"></b></div>
+					<div>Search for :: <b><TMPL_VAR name="HAYSTACK"></b></div>
+					<div>Results found :: <b><TMPL_VAR name="RESFOUND"></b></div>
+					<div>Search took :: <b><TMPL_VAR name="TIMETAKEN"> sec</b></div>
+				</div>
+				<br />
+				<TMPL_IF name="RESULTS">
+				<TMPL_LOOP name="RESULTS">
+				<div class="result">
+					<div class="pkgname">
+						<a href="<TMPL_VAR PKGURL>"><TMPL_VAR name="PKGNAME"></a> in <b><TMPL_VAR	name="PKGLOCATION"></b> :: package name and location
+					</div>
+					<div class="pkgdate">
+						<TMPL_VAR name="PKGDATE"> :: package created
+					</div>
+					<TMPL_IF name="PKGSIZE"><div class="pkgsize">
+						<TMPL_VAR name="PKGSIZE"> :: package size
+					</div></TMPL_IF>
+					<div class="pkgnfo">
+						<pre><TMPL_VAR name="PKGTEXT"></pre>
+						<TMPL_IF name="PKGFILES"><pre><TMPL_VAR name="PKGFILES"> total in this package</pre></TMPL_IF>
+					</div>
+				</div>
+				<br />
+				</TMPL_LOOP>
+				<div class="link-to-top">
+					<a href="#main">Back to the top</a>
+				</div>
+				<br />
+				<TMPL_ELSE><p><b>Nothing found; no match.</b></p>
+				</TMPL_IF>

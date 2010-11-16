@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title><TMPL_VAR name="TITLE"> - slackware::package::search::alpha</title>
+		<meta http-equiv="Content-Language" content="en" />
+		<meta http-equiv="Content-Type"  content="text/html; charset=UTF-8" />
+		<meta name="description" content="Slackware package browser" />
+		<meta name="keywords" content="Slackware,package,search,Linux,GNU" />
+		<meta name="author" content="Zdenek Styblik" />
+		<link rel="stylesheet" type="text/css" media="screen" href="/css/layout.css" />
+		<link rel="stylesheet" type="text/css" media="screen" href="/css/search.css" />
+	</head>
+	<body>
+		<div id="main">
+			<div id="heading">
+				<h1><a href="http://search.slackware.eu/">search.slackware.eu</a></h1>
+				<div>
+					<ul>
+<!--						<li><a href="#">News</a></li>
+						<li><a href="#">Changelogs</a></li> -->
+						<li><a href="/cgi-bin/search.cgi">Search</a></li>
+						<li><a href="/cgi-bin/index.cgi/links">Links</a></li>
+						<li><a href="/cgi-bin/index.cgi/about">About</a></li>
+					</ul>
+				</div>
+			</div> <!-- div heading -->
+			<div id="content">
+				<h2>Package info:</h2>
+				<table id="packagenfo-table">
+					<tr>
+						<td class="packagenfo-table-tr-td-left">Package name::</td>
+						<td class="packagenfo-table-tr-td-right"><TMPL_VAR name="PKGNAME"></td>
+					</tr>
+					<tr>
+						<td class="packagenfo-table-tr-td-left">Slackware version::</td>
+						<td class="packagenfo-table-tr-td-right"><TMPL_VAR name="PKGSVER"></td>
+					</tr>
+					<tr>
+						<td class="packagenfo-table-tr-td-left">Package category::</td>
+						<td class="packagenfo-table-tr-td-right"><TMPL_VAR name="PKGCAT"></td>
+					</tr>
+					<tr>
+						<td class="packagenfo-table-tr-td-left">Package serie::</td>
+						<td class="packagenfo-table-tr-td-right"><TMPL_VAR name="PKGSER"></td>
+					</tr>
+					<tr>
+						<td class="packagenfo-table-tr-td-left">Package created::</td>
+						<td class="packagenfo-table-tr-td-right"><TMPL_VAR name="PKGDATE"></td>
+					</tr>
+					<tr>
+						<td class="packagenfo-table-tr-td-left">Package MD5::</td>
+						<td class="packagenfo-table-tr-td-right"><TMPL_VAR name="PKGMD5"></td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<pre><TMPL_VAR name="PKGDESC">
+							</pre>
+						</td>
+					</tr>
+				</table>
+				<br />
+				<br />
+				<div id="switch-button"><a href="<TMPL_VAR SWURL>"><TMPL_VAR name="SWLABEL"></a></div>
+				<br />
+				<br />
+<TMPL_IF name="PKGFILES"><TMPL_INCLUDE name="pkgfiles.htm"></TMPL_IF>
+<TMPL_IF name="COUNTRIES"><TMPL_INCLUDE name="pkgcountries.htm"></TMPL_IF>
+<TMPL_IF name="MIRRORS"><TMPL_INCLUDE name="pkgmirrors.htm"></TMPL_IF>
+			<br />
+			<br />
+			</div> <!-- div content -->
+			<div id="footer">
+				<div>
+					[<a href="http://search.slackware.eu">search.slackware.eu</a> :: 2010]
+				</div>
+			</div> <!-- div footer -->
+		</div> <!-- div main -->
+	</body>
+</html>

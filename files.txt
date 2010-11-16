@@ -1,0 +1,58 @@
+~/:
+CHECKSUMS.md5 ~ md5sums of other files except themselves-like
+FILELIST.TXT ~ location of MANIFEST.bz2 -> categories
+PACKAGES.TXT ~ pkg description ;; only for pkgs in ./slackware(64)/ dir 
+
+$DIR/:
+CHECKSUMS.md5 ~ md5sums of pkgs ;; could be used for diff -> replace changed pkg
+FILE_LIST ~ pkg list ;; txz-txt-asc -> filter ;; not needed at all
+MANIFEST.bz2 ~ pkg contents ;; and likely $DIR contents
+PACKAGES.TXT ~ pkg desc ;; this is optional file !!!
+
+Ideas:
+ChangeLog.txt
+
+
+pouzit diff - nejak
+'-' -> db-pkg-remove.pl slackver pkgname
+'+' -> db-pkg-add.pl slackver pkgname
+
+* check for new && removed
+* check for modified (MD5) -> merge n&r before?
+
+maly skriptik, ktery by 1x za cas projel ftp ve stylu stareho 
+skriptu, a v pripade nove verze by spustil prepare.sh
+
+---
+FILELIST.TXT.pkgs
+
+CHECKSUMS.md5.pkgs
+
+FILELIST.TXT.md5 - pouze pro update
+
+
+WARNING:  nonstandard use of escape in a string literal
+LINE 1: INSERT INTO file (file_name) VALUES ('usr/doc/kbd-1.15/utf/â...
+                                             ^
+HINT:  Use the escape string syntax for escapes, e.g., E'\r\n'.
+WARNING:  nonstandard use of escape in a string literal
+LINE 2:  file_name = 'usr/doc/kbd-1.15/utf/â\231ªâ\231¬';
+                     ^
+HINT:  Use the escape string syntax for escapes, e.g., E'\r\n'.
+---
+
+===
+-B -a -d
+===
+# README:
+
+Files ending with .md5 aren't stored simply because there is no 
+reason why to do so. There is no md5 for them, although we could 
+generate one. Hm. Well-
+Other data files in DB serve as helpers in case something happens 
+with stored data files, yet if that happens, it means we can only 
+tell if something has changed or not. In other words, we will have 
+to dump whole Slackware version from DB and start over.
+
+## Perl and Shell scripts
+The purpose of shell scripts is to prepare field for Perl ones.

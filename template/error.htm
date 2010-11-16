@@ -1,0 +1,44 @@
+<TMPL_VAR NAME="MESSAGE">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>ERRoR! - slackware::package::search::alpha</title>
+		<meta http-equiv="Content-Language" content="en" />
+		<meta http-equiv="Content-Type"  content="text/html; charset=UTF-8" />
+		<meta name="description" content="Slackware package browser" />
+		<meta name="keywords" content="Slackware,package,search,Linux,GNU" />
+		<meta name="author" content="Zdenek Styblik" />
+		<link rel="stylesheet" type="text/css" media="screen" href="/css/layout.css" />
+		<link rel="stylesheet" type="text/css" media="screen" href="/css/search.css" />
+	</head>
+	<body>
+		<div id="main">
+			<div id="heading">
+				<h1><a href="http://search.slackware.eu">search.slackware.eu</a></h1>
+				<div>
+					<ul>
+<!--						<li><a href="#">News</a></li>
+						<li><a href="#">Changelogs</a></li> -->
+						<li><a href="/cgi-bin/search.cgi">Search</a></li>
+						<li><a href="/cgi-bin/index.cgi/links">Links</a></li>
+						<li><a href="/cgi-bin/index.cgi/about">About</a></li>
+					</ul>
+			</div>
+			</div>
+			<div id="content">
+				<fieldset id="error-fieldset">
+					<legend>Error!</legend>
+					<p><TMPL_VAR name="ERROR"></p>
+					<div style="width: 100%; text-align: center;">
+						<a href="<TMPL_VAR REDIRECT>">Continue</a>
+					</div>
+				</fieldset>
+			</div> <!-- div content -->
+			<div id="footer">
+				<div>
+					[<a href="http://search.slackware.eu">search.slackware.eu</a> :: 2010]
+				</div>
+			</div> <!-- div footer -->
+		</div> <!-- div main -->
+	</body>
+</html>

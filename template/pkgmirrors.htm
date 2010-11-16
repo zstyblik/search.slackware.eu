@@ -1,0 +1,14 @@
+				<h2>Mirrors located in <TMPL_VAR name="COUNTRY"></h2>
+				<table id="mirrors-table">
+					<tr>
+						<th>Protocol</th>
+						<th>Description</th>
+						<th></th>
+					</tr>
+					<TMPL_LOOP name="MIRRORS"><tr>
+						<td><TMPL_VAR name="MPROTO"></td>
+						<td><TMPL_VAR name="MDESC"></td>
+						<td><a href="<TMPL_VAR MURL>">Get package</a></td>
+					</tr>
+					</TMPL_LOOP>
+				</table>

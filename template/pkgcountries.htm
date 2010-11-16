@@ -1,0 +1,18 @@
+				<h2>Select country to download from:</h2>
+				<table id="countries-table">
+					<TMPL_LOOP name="COUNTRIES"><tr>
+						<td class="countries-table-tr-td-light">
+							<TMPL_IF name="CNAME1"><a href="<TMPL_VAR CLINK1>"><TMPL_VAR name="CNAME1"></a></TMPL_IF>
+						</td>
+						<td class="countries-table-tr-td-dark">
+							<TMPL_IF name="CNAME2"><a href="<TMPL_VAR CLINK2>"><TMPL_VAR name="CNAME2"></a></TMPL_IF>
+						</td>
+						<td class="countries-table-tr-td-light">
+							<TMPL_IF name="CNAME3"><a href="<TMPL_VAR CLINK3>"><TMPL_VAR name="CNAME3"></a></TMPL_IF>
+						</td>
+						<td class="countries-table-tr-td-dark">
+							<TMPL_IF name="CNAME4"><a href="<TMPL_VAR CLINK4>"><TMPL_VAR name="CNAME4"></a></TMPL_IF>
+						</td>
+					</tr>
+					</TMPL_LOOP>
+				</table>
