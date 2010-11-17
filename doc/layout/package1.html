@@ -1,0 +1,331 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>home::slackware::package::search</title>
+		<meta http-equiv="Content-Language" content="en" />
+		<meta http-equiv="Content-Type"  content="text/html; charset=UTF-8" />
+		<meta name="description" content="Slackware package search/browser" />
+		<meta name="keywords" content="Slackware,package,search,Linux,GNU,distribution,browser,packages" />
+		<meta name="author" content="Zdenek Styblik" />
+		<link rel="stylesheet" type="text/css" media="screen" href="css/layout.css" />
+		<link rel="stylesheet" type="text/css" media="screen" href="css/search.css" />
+	</head>
+	<body>
+		<div id="main">
+			<div id="heading">
+				<div id="containersearch">
+					<form id="searchform" method="get" action="/cgi-bin/search.cgi">
+						<input id="inputsearch" name="inputsearch" type="text" size="16" />
+						<select id="sver" name="sver">
+							<option value="1">Slackware64-13.1</option>
+						</select> <!--- sver -->
+						<input id="buttonsearch" name="buttonsearch" type="button" value="search" /> 
+					</form> <!--- searchform -->
+				</div> <!--- containersearch -->
+				<div id="containerlogo">
+					<h1>
+						<span class="light">search</span><span class="dark">.slackware.eu</span>
+					</h1>
+					<ul>
+						<!---
+						<li><a href="#">News</a></li>
+						<li><a href="#">Changelogs</a></li> 
+						-->
+						<li><a href="/cgi-bin/search.cgi">Search</a></li>
+						<li><a href="/cgi-bin/index.cgi/links">Links</a></li>
+						<li><a href="/cgi-bin/index.cgi/about">About</a></li>
+					</ul>
+				</div> <!--- containerlogo -->
+			</div> <!--- heading div -->
+			<div id="cframe">
+				<!---
+				<div id="menuside">
+					<ul>
+
+						<li><a href="#">Item #1</a></li>
+						<li><a href="#">Item #2</a></li>
+					</ul>
+					<div id="containernews">
+						<h4>News:</h4>
+						<div class="newsitem">
+							<div>00:01 01.01.1970 | Some title</div>
+
+							<p>
+								New UNIX era has begun! Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer lacus nibh, tempus a, luctus at, egestas sed, ante.
+							</p>
+							<div>- Franta</div>
+						</div>
+						<hr />
+						<div class="newsitem">
+							<div>00:00 01.01.1970 | Some other title which is long</div>
+
+							<p>
+								Birth! Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer lacus nibh, tempus a, luctus at, egestas sed, ante.
+							</p>
+							<div>- Franta</div>
+						</div>
+						<hr />
+					</div>
+				</div>-->
+
+				<!--- div with content -->
+				<div id="content">
+
+				<h2>Package info:</h2>
+				<br />
+				<table id="packagenfo-table">
+					<tr>
+						<td class="packagenfo-table-tr-td-left">Package name::</td>
+						<td class="packagenfo-table-tr-td-right">sudo-1.7.4p4-i486-3_slack13.1.txz</td>
+					</tr>
+
+					<tr>
+						<td class="packagenfo-table-tr-td-left">Slackware version::</td>
+						<td class="packagenfo-table-tr-td-right">slackware-13.1</td>
+					</tr>
+					<tr>
+						<td class="packagenfo-table-tr-td-left">Package category::</td>
+						<td class="packagenfo-table-tr-td-right">patches</td>
+
+					</tr>
+					<tr>
+						<td class="packagenfo-table-tr-td-left">Package serie::</td>
+						<td class="packagenfo-table-tr-td-right">packages</td>
+					</tr>
+					<tr>
+						<td class="packagenfo-table-tr-td-left">Package created::</td>
+
+						<td class="packagenfo-table-tr-td-right">2010-09-15 18:34:00</td>
+					</tr>
+					<tr>
+						<td class="packagenfo-table-tr-td-left">Package MD5::</td>
+						<td class="packagenfo-table-tr-td-right">a96494dce9a06eb51a4c26c12599c415</td>
+					</tr>
+					<tr>
+
+						<td class="packagenfo-desc" colspan="2">
+							<pre>PACKAGE SIZE (compressed):  160 K
+PACKAGE SIZE (uncompressed):  420 K
+PACKAGE DESCRIPTION:
+sudo: sudo (give limited root privileges to certain users)
+sudo:
+sudo: "sudo" is a command that allows users to execute some commands as 
+sudo: root.  The /etc/sudoers file (edited with "visudo") specifies which
+sudo: users have access to sudo and which commands they can run.  "sudo" 
+sudo: logs all its activities to /var/log/ so the system administrator
+sudo: can keep an eye on things.
+sudo:
+
+							</pre>
+						</td>
+					</tr>
+				</table>
+				<br />
+				<br />
+				<div id="switch-button"><a href="/cgi-bin/view.cgi/inspect/9961">Inspect package contents</a></div>
+
+				<br />
+				<br />
+
+				<h2>Select a location to download from:</h2>
+				<br />
+				<table>
+					<tr>
+						<td class="countries-table-tr-td-light">
+							<a href="/cgi-bin/view.cgi/download/Australia/9961">Australia</a>
+
+						</td>
+						<td class="countries-table-tr-td-dark">
+							<a href="/cgi-bin/view.cgi/download/France/9961">France</a>
+						</td>
+						<td class="countries-table-tr-td-light">
+							<a href="/cgi-bin/view.cgi/download/Latvia/9961">Latvia</a>
+						</td>
+						<td class="countries-table-tr-td-dark">
+
+							<a href="/cgi-bin/view.cgi/download/Slovakia/9961">Slovakia</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="countries-table-tr-td-light">
+							<a href="/cgi-bin/view.cgi/download/Austria/9961">Austria</a>
+						</td>
+						<td class="countries-table-tr-td-dark">
+
+							<a href="/cgi-bin/view.cgi/download/Germany/9961">Germany</a>
+						</td>
+						<td class="countries-table-tr-td-light">
+							<a href="/cgi-bin/view.cgi/download/Lithuania/9961">Lithuania</a>
+						</td>
+						<td class="countries-table-tr-td-dark">
+							<a href="/cgi-bin/view.cgi/download/South%20Africa/9961">South Africa</a>
+
+						</td>
+					</tr>
+					<tr>
+						<td class="countries-table-tr-td-light">
+							<a href="/cgi-bin/view.cgi/download/Belgium/9961">Belgium</a>
+						</td>
+						<td class="countries-table-tr-td-dark">
+							<a href="/cgi-bin/view.cgi/download/Greece/9961">Greece</a>
+
+						</td>
+						<td class="countries-table-tr-td-light">
+							<a href="/cgi-bin/view.cgi/download/Netherlands/9961">Netherlands</a>
+						</td>
+						<td class="countries-table-tr-td-dark">
+							<a href="/cgi-bin/view.cgi/download/Spain/9961">Spain</a>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="countries-table-tr-td-light">
+							<a href="/cgi-bin/view.cgi/download/Brasil/9961">Brasil</a>
+						</td>
+						<td class="countries-table-tr-td-dark">
+							<a href="/cgi-bin/view.cgi/download/Hong%20Kong/9961">Hong Kong</a>
+						</td>
+						<td class="countries-table-tr-td-light">
+
+							<a href="/cgi-bin/view.cgi/download/Norway/9961">Norway</a>
+						</td>
+						<td class="countries-table-tr-td-dark">
+							<a href="/cgi-bin/view.cgi/download/Sweden/9961">Sweden</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="countries-table-tr-td-light">
+
+							<a href="/cgi-bin/view.cgi/download/Bulgaria/9961">Bulgaria</a>
+						</td>
+						<td class="countries-table-tr-td-dark">
+							<a href="/cgi-bin/view.cgi/download/Hungary/9961">Hungary</a>
+						</td>
+						<td class="countries-table-tr-td-light">
+							<a href="/cgi-bin/view.cgi/download/Poland/9961">Poland</a>
+
+						</td>
+						<td class="countries-table-tr-td-dark">
+							<a href="/cgi-bin/view.cgi/download/Switzerland/9961">Switzerland</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="countries-table-tr-td-light">
+							<a href="/cgi-bin/view.cgi/download/Canada/9961">Canada</a>
+
+						</td>
+						<td class="countries-table-tr-td-dark">
+							<a href="/cgi-bin/view.cgi/download/Indonesia/9961">Indonesia</a>
+						</td>
+						<td class="countries-table-tr-td-light">
+							<a href="/cgi-bin/view.cgi/download/Portugal/9961">Portugal</a>
+						</td>
+						<td class="countries-table-tr-td-dark">
+
+							<a href="/cgi-bin/view.cgi/download/Taiwan/9961">Taiwan</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="countries-table-tr-td-light">
+							<a href="/cgi-bin/view.cgi/download/Croatia/9961">Croatia</a>
+						</td>
+						<td class="countries-table-tr-td-dark">
+
+							<a href="/cgi-bin/view.cgi/download/Ireland/9961">Ireland</a>
+						</td>
+						<td class="countries-table-tr-td-light">
+							<a href="/cgi-bin/view.cgi/download/Republic%20of%20Moldova/9961">Republic of Moldova</a>
+						</td>
+						<td class="countries-table-tr-td-dark">
+							<a href="/cgi-bin/view.cgi/download/Thailand/9961">Thailand</a>
+
+						</td>
+					</tr>
+					<tr>
+						<td class="countries-table-tr-td-light">
+							<a href="/cgi-bin/view.cgi/download/Czech%20Republic/9961">Czech Republic</a>
+						</td>
+						<td class="countries-table-tr-td-dark">
+							<a href="/cgi-bin/view.cgi/download/Italy/9961">Italy</a>
+
+						</td>
+						<td class="countries-table-tr-td-light">
+							<a href="/cgi-bin/view.cgi/download/Romania/9961">Romania</a>
+						</td>
+						<td class="countries-table-tr-td-dark">
+							<a href="/cgi-bin/view.cgi/download/Turkey/9961">Turkey</a>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="countries-table-tr-td-light">
+							<a href="/cgi-bin/view.cgi/download/Denmark/9961">Denmark</a>
+						</td>
+						<td class="countries-table-tr-td-dark">
+							<a href="/cgi-bin/view.cgi/download/Japan/9961">Japan</a>
+						</td>
+						<td class="countries-table-tr-td-light">
+
+							<a href="/cgi-bin/view.cgi/download/Russia/9961">Russia</a>
+						</td>
+						<td class="countries-table-tr-td-dark">
+							<a href="/cgi-bin/view.cgi/download/UK/9961">UK</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="countries-table-tr-td-light">
+
+							<a href="/cgi-bin/view.cgi/download/Finland/9961">Finland</a>
+						</td>
+						<td class="countries-table-tr-td-dark">
+							<a href="/cgi-bin/view.cgi/download/Korea/9961">Korea</a>
+						</td>
+						<td class="countries-table-tr-td-light">
+							<a href="/cgi-bin/view.cgi/download/Serbia/9961">Serbia</a>
+
+						</td>
+						<td class="countries-table-tr-td-dark">
+							<a href="/cgi-bin/view.cgi/download/USA/9961">USA</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="countries-table-tr-td-light">
+							
+						</td>
+
+						<td class="countries-table-tr-td-dark">
+							
+						</td>
+						<td class="countries-table-tr-td-light">
+							
+						</td>
+						<td class="countries-table-tr-td-dark">
+							<a href="/cgi-bin/view.cgi/download/Worldwide%20GeoDNS%20round%20robin/9961">Worldwide GeoDNS round robin</a>
+						</td>
+					</tr>
+
+					
+				</table>
+
+
+			<br />
+			<br />
+
+
+				</div> <!--- content div -->
+
+			</div> <!--- cframe -->
+
+			<div id="footer">
+				<div>
+					[<a href="http://search.slackware.eu">search.slackware.eu</a> :: 2010]<br />
+					[domain name provided by <a href="http://linuax.wordpress.com/">ax</a>]<br />
+					[supported by <a href="http://www.zeratul.org/">stybla</a>]<br />
+					[hosted by <a href="http://www.turnovfree.net/">turnovfree.net</a>]<br />
+				</div>
+				<br />
+			</div> <!--- footer -->
+		</div> <!--- main div -->
+	</body>
+</html>
+

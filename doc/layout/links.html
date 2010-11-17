@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>home::slackware::package::search</title>
+		<meta http-equiv="Content-Language" content="en" />
+		<meta http-equiv="Content-Type"  content="text/html; charset=UTF-8" />
+		<meta name="description" content="Slackware package search/browser" />
+		<meta name="keywords" content="Slackware,package,search,Linux,GNU,distribution,browser,packages" />
+		<meta name="author" content="Zdenek Styblik" />
+		<link rel="stylesheet" type="text/css" media="screen" href="css/layout.css" />
+		<link rel="stylesheet" type="text/css" media="screen" href="css/search.css" />
+	</head>
+	<body>
+		<div id="main">
+			<div id="heading">
+				<div id="containersearch">
+					<form id="searchform" method="get" action="/cgi-bin/search.cgi">
+						<input id="inputsearch" name="inputsearch" type="text" size="16" />
+						<select id="sver" name="sver">
+							<option value="1">Slackware64-13.1</option>
+						</select> <!--- sver -->
+						<input id="buttonsearch" name="buttonsearch" type="button" value="search" /> 
+					</form> <!--- searchform -->
+				</div> <!--- containersearch -->
+				<div id="containerlogo">
+					<h1>
+						<span class="light">search</span><span class="dark">.slackware.eu</span>
+					</h1>
+					<ul>
+						<!---
+						<li><a href="#">News</a></li>
+						<li><a href="#">Changelogs</a></li> 
+						-->
+						<li><a href="/cgi-bin/search.cgi">Search</a></li>
+						<li><a href="/cgi-bin/index.cgi/links">Links</a></li>
+						<li><a href="/cgi-bin/index.cgi/about">About</a></li>
+					</ul>
+				</div> <!--- containerlogo -->
+			</div> <!--- heading div -->
+			<div id="cframe">
+				<!---
+				<div id="menuside">
+					<ul>
+
+						<li><a href="#">Item #1</a></li>
+						<li><a href="#">Item #2</a></li>
+					</ul>
+					<div id="containernews">
+						<h4>News:</h4>
+						<div class="newsitem">
+							<div>00:01 01.01.1970 | Some title</div>
+
+							<p>
+								New UNIX era has begun! Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer lacus nibh, tempus a, luctus at, egestas sed, ante.
+							</p>
+							<div>- Franta</div>
+						</div>
+						<hr />
+						<div class="newsitem">
+							<div>00:00 01.01.1970 | Some other title which is long</div>
+
+							<p>
+								Birth! Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer lacus nibh, tempus a, luctus at, egestas sed, ante.
+							</p>
+							<div>- Franta</div>
+						</div>
+						<hr />
+					</div>
+				</div>-->
+
+				<!--- div with content -->
+				<div id="content">
+
+				<h2>Links</h2>
+				<h3>Slackware</h3>
+				<ul>
+					<li>
+						<a href="http://www.slackware.com/">http://www.slackware.com</a> - Official Slackware site
+					</li>
+
+				</ul>
+				<h3>Search Web UIs</h3>
+				<ul>
+					<li>
+					<a href="http://packages.slackware.it">http://packages.slackware.it</a> - deceased
+					</li>
+					<li>
+						<a href="http://packages.slackverse.org">http://packages.slackverse.org</a> - Big sister site
+					</li>
+
+					<li>
+						<a href="http://slak.homelinux.org/">http://slak.homelinux.org/</a> - very interesting search engine with many unofficial repos
+					</li>
+					<li>
+						<a href="http://www.slacky.eu/">http://www.slacky.eu</a> - Italian Slackware community including repos
+					</li>
+					<li>
+						<a href="http://www.slackbuilds.org/">http://www.slackbuilds.org</a> - SlackBuilds repo
+					</li>
+
+				</ul>
+				<h3>Slackware-GNU/Linux related webs</h3>
+				<ul>
+					<li>
+						<a href="http://linuax.wordpress.com/">http://linuax.wordpress.com/</a> - ax's blog
+					</li>
+					<li>
+						<a href="http://www.linuxquestions.org/">http://www.linuxquestions.org</a> - good place to (not only) ask GNU/Linux related questions and find some answers
+					</li>
+
+				</ul>
+				<h3>IRC</h3>
+				<ul>
+					<li><b>##slackware@freenode.net</b> - Official Slackware support channel</li>
+					<li>
+						<b>#slackverse@freenode.net</b> - fresh Slackware-related security news and things around <a href="http://www.slackverse.org/">slackverse.org</a>
+
+					</li>
+					<li><b>#slacknews@freenode.net</b> - fresh news from Slackware's ChangeLog</li>
+					<li><b>#slackware@irc.net</b> - Unofficial Slackware support channel</li>
+				</ul>
+
+
+				</div> <!--- content div -->
+
+			</div> <!--- cframe -->
+
+			<div id="footer">
+				<div>
+					[<a href="http://search.slackware.eu">search.slackware.eu</a> :: 2010]<br />
+					[domain name provided by <a href="http://linuax.wordpress.com/">ax</a>]<br />
+					[supported by <a href="http://www.zeratul.org/">stybla</a>]<br />
+					[hosted by <a href="http://www.turnovfree.net/">turnovfree.net</a>]<br />
+				</div>
+				<br />
+			</div> <!--- footer -->
+		</div> <!--- main div -->
+	</body>
+</html>
+

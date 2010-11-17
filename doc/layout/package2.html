@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>home::slackware::package::search</title>
+		<meta http-equiv="Content-Language" content="en" />
+		<meta http-equiv="Content-Type"  content="text/html; charset=UTF-8" />
+		<meta name="description" content="Slackware package search/browser" />
+		<meta name="keywords" content="Slackware,package,search,Linux,GNU,distribution,browser,packages" />
+		<meta name="author" content="Zdenek Styblik" />
+		<link rel="stylesheet" type="text/css" media="screen" href="css/layout.css" />
+		<link rel="stylesheet" type="text/css" media="screen" href="css/search.css" />
+	</head>
+	<body>
+		<div id="main">
+			<div id="heading">
+				<div id="containersearch">
+					<form id="searchform" method="get" action="/cgi-bin/search.cgi">
+						<input id="inputsearch" name="inputsearch" type="text" size="16" />
+						<select id="sver" name="sver">
+							<option value="1">Slackware64-13.1</option>
+						</select> <!--- sver -->
+						<input id="buttonsearch" name="buttonsearch" type="button" value="search" /> 
+					</form> <!--- searchform -->
+				</div> <!--- containersearch -->
+				<div id="containerlogo">
+					<h1>
+						<span class="light">search</span><span class="dark">.slackware.eu</span>
+					</h1>
+					<ul>
+						<!---
+						<li><a href="#">News</a></li>
+						<li><a href="#">Changelogs</a></li> 
+						-->
+						<li><a href="/cgi-bin/search.cgi">Search</a></li>
+						<li><a href="/cgi-bin/index.cgi/links">Links</a></li>
+						<li><a href="/cgi-bin/index.cgi/about">About</a></li>
+					</ul>
+				</div> <!--- containerlogo -->
+			</div> <!--- heading div -->
+			<div id="cframe">
+				<!---
+				<div id="menuside">
+					<ul>
+
+						<li><a href="#">Item #1</a></li>
+						<li><a href="#">Item #2</a></li>
+					</ul>
+					<div id="containernews">
+						<h4>News:</h4>
+						<div class="newsitem">
+							<div>00:01 01.01.1970 | Some title</div>
+
+							<p>
+								New UNIX era has begun! Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer lacus nibh, tempus a, luctus at, egestas sed, ante.
+							</p>
+							<div>- Franta</div>
+						</div>
+						<hr />
+						<div class="newsitem">
+							<div>00:00 01.01.1970 | Some other title which is long</div>
+
+							<p>
+								Birth! Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer lacus nibh, tempus a, luctus at, egestas sed, ante.
+							</p>
+							<div>- Franta</div>
+						</div>
+						<hr />
+					</div>
+				</div>-->
+
+				<!--- div with content -->
+				<div id="content">
+
+				<h2>Package info:</h2>
+				<br />
+				<table id="packagenfo-table">
+					<tr>
+						<td class="packagenfo-table-tr-td-left">Package name::</td>
+						<td class="packagenfo-table-tr-td-right">sudo-1.7.4p4-i486-3_slack13.1.txz</td>
+					</tr>
+
+					<tr>
+						<td class="packagenfo-table-tr-td-left">Slackware version::</td>
+						<td class="packagenfo-table-tr-td-right">slackware-13.1</td>
+					</tr>
+					<tr>
+						<td class="packagenfo-table-tr-td-left">Package category::</td>
+						<td class="packagenfo-table-tr-td-right">patches</td>
+
+					</tr>
+					<tr>
+						<td class="packagenfo-table-tr-td-left">Package serie::</td>
+						<td class="packagenfo-table-tr-td-right">packages</td>
+					</tr>
+					<tr>
+						<td class="packagenfo-table-tr-td-left">Package created::</td>
+
+						<td class="packagenfo-table-tr-td-right">2010-09-15 18:34:00</td>
+					</tr>
+					<tr>
+						<td class="packagenfo-table-tr-td-left">Package MD5::</td>
+						<td class="packagenfo-table-tr-td-right">a96494dce9a06eb51a4c26c12599c415</td>
+					</tr>
+					<tr>
+
+						<td class="packagenfo-desc" colspan="2">
+							<pre>PACKAGE SIZE (compressed):  160 K
+PACKAGE SIZE (uncompressed):  420 K
+PACKAGE DESCRIPTION:
+sudo: sudo (give limited root privileges to certain users)
+sudo:
+sudo: "sudo" is a command that allows users to execute some commands as 
+sudo: root.  The /etc/sudoers file (edited with "visudo") specifies which
+sudo: users have access to sudo and which commands they can run.  "sudo" 
+sudo: logs all its activities to /var/log/ so the system administrator
+sudo: can keep an eye on things.
+sudo:
+
+							</pre>
+						</td>
+					</tr>
+				</table>
+				<br />
+				<br />
+				<div id="switch-button"><a href="/cgi-bin/view.cgi/view/9961">Choose a location to download from</a></div>
+
+				<br />
+				<br />
+				<h2>Contents of package:</h2>
+				<br />
+				<div id="package-contents">
+					<pre>drwxr-xr-x	root/root	         0	2010-09-15 13:34	install/
+-rw-r--r--	root/root	       561	2010-09-15 13:34	install/doinst.sh
+-rw-r--r--	root/root	       869	2010-09-15 13:34	install/slack-desc
+drwxr-xr-x	root/root	         0	2010-09-15 13:34	var/
+drwxr-xr-x	root/root	         0	2010-09-15 13:34	var/lib/
+drwxr-xr-x	root/root	         0	2010-09-15 13:34	var/db/
+drwx------	root/root	         0	2010-09-15 13:34	var/db/sudo/
+drwxr-xr-x	root/root	         0	2010-09-15 13:34	etc/
+drwxr-x---	root/root	         0	2010-09-15 13:34	etc/sudoers.d/
+-r--r-----	root/root	      2849	2010-09-15 13:34	etc/sudoers.new
+drwxr-xr-x	root/root	         0	2010-09-15 13:34	usr/
+drwxr-xr-x	root/root	         0	2010-09-15 13:34	usr/sbin/
+-rwxr-xr-x	root/root	     83260	2010-09-15 13:34	usr/sbin/visudo
+drwxr-xr-x	root/root	         0	2010-09-15 13:34	usr/libexec/
+-rwxr-xr-x	root/root	      4256	2010-09-15 13:34	usr/libexec/sudo_noexec.so
+drwxr-xr-x	root/root	         0	2010-09-15 13:34	usr/doc/
+drwxr-xr-x	root/root	         0	2010-09-15 13:34	usr/doc/sudo-1.7.4p4/
+-rw-r--r--	root/root	      7116	2010-07-30 10:58	usr/doc/sudo-1.7.4p4/README.LDAP
+-rw-r--r--	root/root	      4422	2010-07-30 10:58	usr/doc/sudo-1.7.4p4/LICENSE
+-rw-r--r--	root/root	     26555	2010-09-06 07:14	usr/doc/sudo-1.7.4p4/ChangeLog
+-rw-r--r--	root/root	      8958	2010-07-30 10:58	usr/doc/sudo-1.7.4p4/TROUBLESHOOTING
+-rw-r--r--	root/root	      8088	2010-08-06 08:46	usr/doc/sudo-1.7.4p4/UPGRADE
+-rw-r--r--	root/root	      3677	2010-07-30 10:58	usr/doc/sudo-1.7.4p4/README
+-rw-r--r--	root/root	     31242	2010-07-30 10:58	usr/doc/sudo-1.7.4p4/INSTALL
+-rw-r--r--	root/root	      4463	2010-03-03 06:16	usr/doc/sudo-1.7.4p4/PORTING
+-rw-r--r--	root/root	      2632	2010-07-30 10:58	usr/doc/sudo-1.7.4p4/HISTORY
+drwxr-xr-x	root/root	         0	2010-09-15 13:34	usr/bin/
+-rws--x--x	root/root	    140764	2010-09-15 13:34	usr/bin/sudo
+---x--x--x	root/root	     27968	2010-09-15 13:34	usr/bin/sudoreplay
+drwxr-xr-x	root/root	         0	2010-09-15 13:34	usr/man/
+drwxr-xr-x	root/root	         0	2010-09-15 13:34	usr/man/man8/
+-r--r--r--	root/root	     11762	2010-09-15 13:34	usr/man/man8/sudo.8.gz
+-r--r--r--	root/root	      4955	2010-09-15 13:34	usr/man/man8/visudo.8.gz
+-r--r--r--	root/root	      5409	2010-09-15 13:34	usr/man/man8/sudoreplay.8.gz
+drwxr-xr-x	root/root	         0	2010-09-15 13:34	usr/man/man5/
+-r--r--r--	root/root	     23711	2010-09-15 13:34	usr/man/man5/sudoers.5.gz</pre>
+				</div>
+				<br />
+				<div class="link-to-top">
+					<a href="#main">Back to the top</a>
+
+				</div>
+
+
+
+			<br />
+			<br />
+
+
+
+				</div> <!--- content div -->
+
+			</div> <!--- cframe -->
+
+			<div id="footer">
+				<div>
+					[<a href="http://search.slackware.eu">search.slackware.eu</a> :: 2010]<br />
+					[domain name provided by <a href="http://linuax.wordpress.com/">ax</a>]<br />
+					[supported by <a href="http://www.zeratul.org/">stybla</a>]<br />
+					[hosted by <a href="http://www.turnovfree.net/">turnovfree.net</a>]<br />
+				</div>
+				<br />
+			</div> <!--- footer -->
+		</div> <!--- main div -->
+	</body>
+</html>
+

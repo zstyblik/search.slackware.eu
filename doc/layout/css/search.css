@@ -11,6 +11,12 @@ body {
 a { 
 	color: #000; 
 }
+input {
+	background-color: #eaeaea;
+}
+select {
+	background-color: #eaeaea;
+}
 #main {
 	background-color: #fff;
 	border-left: 2px solid #a3a3a3;
@@ -20,6 +26,7 @@ a {
 	width: 90%; 
 }
 #heading {
+	background-color: #fff;
 	background-image: url('../img/heading_bg.png');
 	background-repeat: repeat-x;
 	background-attachment: fixed;
@@ -46,39 +53,24 @@ a {
 	margin-left: 20px;
 	margin-right: 20px;
 	min-height: 25em;
-/*
-	background-image: url('../img/bgimage.png');
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	background-position: 90% 40%;
-*/
 }
 #content table {
-	background-color: #000fff; /* fixme */
+	background-color: #eaeaea;
 	border: 1px solid #000;
 	border-collapse: collapse;
 	margin-left: 40px;
 }
 #content table tr th {
-	background-color: #948C75;
 	border: 1px solid #000;
 	font-weight: bold;
 	padding: 0.25em 1em 0.25em 1em;
-	text-align: center;
 }
 #content table tr td {
-	background-color: #D9CEB2;
 	border: 1px solid #000;
 	padding: 0.25em 1em 0.25em 1em;
 }
-#content table tr td pre {
-	background-color: #fff;
-}
-#content div pre {
-	background-color: #fff;
-	margin-left: 40px;
-	max-width: 90%;
-}
+
+/* FOOTER */
 #footer {
 	border-top: 1px solid #fff;
 	font-size: 8pt;
@@ -90,6 +82,13 @@ a {
 	text-align: center;
 	vertical-align: bottom;
 }
+/* END FOOTER */
+
+/* table with slack-versions */
+#stats-table .number {
+	text-align: right;
+}
+/* END table with slack-versions */
 
 #error-fieldset {
 	background-color: #fff;
@@ -105,23 +104,39 @@ a {
 }
 
 #packagenfo-table {
-	background-color: #000fff; /* fixme */
+	background-color: #fff;
 	border: 1px solid #000;
 	border-collapse: collapse;
 	margin-left: 40px;
 }
 #packagenfo-table tr td {
-	background-color: #D9CEB2;
+	background-color: #fff;
 	border: 1px solid #000;
 	padding: 0.25em 1em 0.25em 1em;
 }
 #packagenfo-table .packagenfo-table-tr-td-left {
-	background-color: #D9CEB2;
+	background-color: #eaeaea;
+	font-weight: bold;
 	text-align: left;
 }
 #packagenfo-table .packagenfo-table-tr-td-right {
 	background-color: #fff;
 	text-align: left;
+}
+#packagenfo-table .packagenfo-desc {
+	background-color: #fff;
+	border: 1px solid #000;
+}
+
+
+#package-contents {
+	margin-left: 40px;
+	margin-right: 15px;
+}
+
+#package-contents pre {
+	background-color: #eaeaea;
+	border: 1px solid #000;
 }
 
 #searchform {
@@ -133,34 +148,13 @@ a {
 	border: 1px solid #000;
 }
 #searchform fieldset fieldset {
-	border: 1px dashed #000;
+	border: 0px dashed #000;
 }
-
 #searchoptions {
 	margin-left: 20px;
 }
 
-#stats-table {
-	border: 1px solid #000;
-	border-collapse: collapse;
-	margin-left: auto;
-	margin-right: auto;
-}
-#stats-table tr th {
-	background-color: #948C75;
-	border: 1px solid #000;
-	font-weight: bold;
-	padding: 0.25em 1em 0.25em 1em;
-	text-align: center;
-}
-#stats-table tr td {
-	background-color: #D9CEB2;
-	border: 1px solid #000;
-	padding: 0.25em 1em 0.25em 1em;
-}
-#stats-table .number {
-	text-align: right;
-}
+
 
 #switch-button {
 	margin-left: 20px;
@@ -196,49 +190,57 @@ a {
 #countries-table .countries-table-tr-td-dark {
 	background-color: #D9CEB2;
 }
-.result { 
+
+/* FOUND PKGS */
+.div-result { 
 	border: 1px solid #000;
 	margin-left: auto; 
 	margin-right: auto; 
 	padding: 0;
 	width: 90%; 
 }
-.result .pkgname { 
-	background-color: #fff;
+.div-result .pkgname { 
+	background-color: #eaeaea;
 	text-align: left;
 	padding-left: 1em;
 }
-.result .pkgdate {
-	background-color: #D9CEB2;
-	text-align: left;
+.div-result .pkgdate {
+	background-color: #eaeaea;
 	padding-left: 1em;
-}
-.result .pkgsize {
-	background-color: #D9CEB2;
 	text-align: left;
-	padding-left: 1em;
 }
-.result .pkgnfo { 
+.div-result .pkgsize {
+	padding-left: 1em;
+	text-align: left;
+}
+.div-result .pkgnfo { 
 	background-color: #fff;
 	padding-left: 1em;
 }
-.result pre {
+.div-result pre {
 	background-color: #fff;
 	padding-left: 1em;
 }
-.result div {
-	border-bottom: 1px solid #000;
+.div-result div {
+	border-bottom: 2px solid #000;
+	border-right: 2px solid #000;
 	padding: 0.25em 0.5em 0.25em 0.5em;
 }
+/* END FOUND PKGS */
 
+
+/* LINK BACK TO TOP */
 .link-to-top {
 	margin-left: 20px;
 }
 .link-to-top a {
 	padding: 0.25em 0.5em 0.25em 0.5em;
 }
+/* END LINK BACK TO TOP */
 
-/* NEW SHIT */
+/* NEW SHIT 
+ * rename to something apropriate
+ */
 #containersearch
 {
 	float: right;
@@ -249,3 +251,66 @@ a {
 	margin-right: 10px;
 	text-align: right;
 }
+
+/*
+#content table {
+	background-color: #000fff;
+	border: 1px solid #000;
+	border-collapse: collapse;
+	margin-left: 40px;
+}
+#content table tr th {
+	background-color: #948C75;
+	border: 1px solid #000;
+	font-weight: bold;
+	padding: 0.25em 1em 0.25em 1em;
+	text-align: center;
+}
+#content table tr td {
+	background-color: #D9CEB2;
+	border: 1px solid #000;
+	padding: 0.25em 1em 0.25em 1em;
+}
+#content table tr td pre {
+	background-color: #fff;
+}
+*/
+
+/*
+#stats-table {
+	border: 1px solid #000;
+	border-collapse: collapse;
+	margin-left: auto;
+	margin-right: auto;
+}
+#stats-table tr th {
+	background-color: #948C75;
+	border: 1px solid #000;
+	font-weight: bold;
+	padding: 0.25em 1em 0.25em 1em;
+	text-align: center;
+}
+#stats-table tr td {
+	background-color: #D9CEB2;
+	border: 1px solid #000;
+	padding: 0.25em 1em 0.25em 1em;
+}
+#stats-table .number {
+	text-align: right;
+}
+*/
+
+/*
+#content div pre {
+	background-color: #fff;
+	margin-left: 40px;
+	max-width: 90%;
+}
+*/
+
+/*
+	background-image: url('../img/bgimage.png');
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: 90% 40%;
+*/

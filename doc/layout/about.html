@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>home::slackware::package::search</title>
+		<meta http-equiv="Content-Language" content="en" />
+		<meta http-equiv="Content-Type"  content="text/html; charset=UTF-8" />
+		<meta name="description" content="Slackware package search/browser" />
+		<meta name="keywords" content="Slackware,package,search,Linux,GNU,distribution,browser,packages" />
+		<meta name="author" content="Zdenek Styblik" />
+		<link rel="stylesheet" type="text/css" media="screen" href="css/layout.css" />
+		<link rel="stylesheet" type="text/css" media="screen" href="css/search.css" />
+	</head>
+	<body>
+		<div id="main">
+			<div id="heading">
+				<div id="containersearch">
+					<form id="searchform" method="get" action="/cgi-bin/search.cgi">
+						<input id="inputsearch" name="inputsearch" type="text" size="16" />
+						<select id="sver" name="sver">
+							<option value="1">Slackware64-13.1</option>
+						</select> <!--- sver -->
+						<input id="buttonsearch" name="buttonsearch" type="button" value="search" /> 
+					</form> <!--- searchform -->
+				</div> <!--- containersearch -->
+				<div id="containerlogo">
+					<h1>
+						<span class="light">search</span><span class="dark">.slackware.eu</span>
+					</h1>
+					<ul>
+						<!---
+						<li><a href="#">News</a></li>
+						<li><a href="#">Changelogs</a></li> 
+						-->
+						<li><a href="/cgi-bin/search.cgi">Search</a></li>
+						<li><a href="/cgi-bin/index.cgi/links">Links</a></li>
+						<li><a href="/cgi-bin/index.cgi/about">About</a></li>
+					</ul>
+				</div> <!--- containerlogo -->
+			</div> <!--- heading div -->
+			<div id="cframe">
+				<!---
+				<div id="menuside">
+					<ul>
+
+						<li><a href="#">Item #1</a></li>
+						<li><a href="#">Item #2</a></li>
+					</ul>
+					<div id="containernews">
+						<h4>News:</h4>
+						<div class="newsitem">
+							<div>00:01 01.01.1970 | Some title</div>
+
+							<p>
+								New UNIX era has begun! Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer lacus nibh, tempus a, luctus at, egestas sed, ante.
+							</p>
+							<div>- Franta</div>
+						</div>
+						<hr />
+						<div class="newsitem">
+							<div>00:00 01.01.1970 | Some other title which is long</div>
+
+							<p>
+								Birth! Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer lacus nibh, tempus a, luctus at, egestas sed, ante.
+							</p>
+							<div>- Franta</div>
+						</div>
+						<hr />
+					</div>
+				</div>-->
+
+				<!--- div with content -->
+				<div id="content">
+
+				<h2>About</h2>
+				<p>Yet another web interface to database of packages and files from 
+				official Slackware releases. Database is loaded with packages from 
+				Slackware 8.1 and newever.
+				</p>
+
+				<p>As have been already said, this is just another "package browser" 
+				in regards to deceased site <a href="http://packages.slackware.it">http://packages.slackware.it</a> 
+				which we do (did) miss so much. 
+				<br />This site has its origins in <a href="http://packages.slackverse.org/">http://packages.slackverse.org</a> 
+				as I've been around its birth and somewhat "assisted", if one could 
+				call it like that. Since I wanted to take different approach 
+				to the problem and I've missed some features, this is the result.
+				</p>
+
+				<p>Why? Because it has been a challange - brain teaser - and I like these :)</p>
+
+				<p>I do plan to publish code and scripts, but my beloved "licensing" 
+				takes time. For now, the whole application consists of bunch of Bash and 
+				Perl scripts; web part is done by CGI (and I'd love to try mod_perl or 
+				FastCGI) and database backend is supported by PostgreSQL and SQLite.</p>
+
+				<p>I think enough said.
+				<br />Enjoy,
+				<br />Zdenek Styblik
+
+				<hr />
+				
+				<h2>Thanks</h2>
+				<p>I'd like to say thanks to <a href="http://linuax.wordpress.com/">ax</a> 
+				for providing me with subdomain in 
+				<a href="http://www.slackware.eu">slackware.eu</a>
+				</p>
+
+				<hr />
+
+				<h2>More info</h2>
+				<p>Some things that might be of your interest.
+				</p>
+				<br />
+				<h3>Mirrors</h3>
+				<p>Mirrors are synchronized every two days. Removed mirrors from main 
+				site are removed [here] after 7 resp. 8 days.
+				</p>
+
+				<h3>Search</h3>
+				<p>Currently, the searched string is matched as <abbr>%needle%</abbr>. 
+				This means the string is matched wherever that might be. However, this 
+				is likely (and hopefully) to change in the future.
+				<br />You can choose categories to narrow down the search. These are 
+				matched as: <abbr>CONDITIONS AND (cat OR cat ... OR cat)</abbr>
+				</p>
+
+				<h3>Search CLI</h3>
+
+				<p>SearchCLI can be called "feature". It's supposed to allow you query 
+				database from terminal, if you are in need to find package or which 
+				package contains file you're looking for. Look-up can be achieved via 
+				<a href="/download/slacksearch.sh">this script</a>, however you can 
+				write your very own if you want.
+				<br />Syntax is as follows: 
+				<abbr>% sh slacksearch.sh &lt;file|package&gt; &lt;needle&gt; [slackware version];</abbr>
+				<br />I must note <abbr>% slackpkg</abbr> can search for files too.
+				</p>
+
+				<h3>Slackware - new release</h3>
+				<p>Check for new release is done twice a day (= every 12 hours [still
+				not done])</p>
+
+				<h3>Slackware synchronization</h3>
+				<p>Is done every 30 minutes</p>
+
+				<h3>Would it be possible to scan other repositories?</h3>
+
+				<p>Yes, pretty much anything that has MANIFEST file. However, I haven't 
+				considered this one yet, and there are 
+				<a href="/cgi-bin/index.cgi/links">other sites</a> that do this job.
+				</p>
+
+
+				</div> <!--- content div -->
+
+			</div> <!--- cframe -->
+
+			<div id="footer">
+				<div>
+					[<a href="http://search.slackware.eu">search.slackware.eu</a> :: 2010]<br />
+					[domain name provided by <a href="http://linuax.wordpress.com/">ax</a>]<br />
+					[supported by <a href="http://www.zeratul.org/">stybla</a>]<br />
+					[hosted by <a href="http://www.turnovfree.net/">turnovfree.net</a>]<br />
+				</div>
+				<br />
+			</div> <!--- footer -->
+		</div> <!--- main div -->
+	</body>
+</html>
+

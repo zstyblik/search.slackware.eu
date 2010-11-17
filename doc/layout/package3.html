@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>home::slackware::package::search</title>
+		<meta http-equiv="Content-Language" content="en" />
+		<meta http-equiv="Content-Type"  content="text/html; charset=UTF-8" />
+		<meta name="description" content="Slackware package search/browser" />
+		<meta name="keywords" content="Slackware,package,search,Linux,GNU,distribution,browser,packages" />
+		<meta name="author" content="Zdenek Styblik" />
+		<link rel="stylesheet" type="text/css" media="screen" href="css/layout.css" />
+		<link rel="stylesheet" type="text/css" media="screen" href="css/search.css" />
+	</head>
+	<body>
+		<div id="main">
+			<div id="heading">
+				<div id="containersearch">
+					<form id="searchform" method="get" action="/cgi-bin/search.cgi">
+						<input id="inputsearch" name="inputsearch" type="text" size="16" />
+						<select id="sver" name="sver">
+							<option value="1">Slackware64-13.1</option>
+						</select> <!--- sver -->
+						<input id="buttonsearch" name="buttonsearch" type="button" value="search" /> 
+					</form> <!--- searchform -->
+				</div> <!--- containersearch -->
+				<div id="containerlogo">
+					<h1>
+						<span class="light">search</span><span class="dark">.slackware.eu</span>
+					</h1>
+					<ul>
+						<!---
+						<li><a href="#">News</a></li>
+						<li><a href="#">Changelogs</a></li> 
+						-->
+						<li><a href="/cgi-bin/search.cgi">Search</a></li>
+						<li><a href="/cgi-bin/index.cgi/links">Links</a></li>
+						<li><a href="/cgi-bin/index.cgi/about">About</a></li>
+					</ul>
+				</div> <!--- containerlogo -->
+			</div> <!--- heading div -->
+			<div id="cframe">
+				<!---
+				<div id="menuside">
+					<ul>
+
+						<li><a href="#">Item #1</a></li>
+						<li><a href="#">Item #2</a></li>
+					</ul>
+					<div id="containernews">
+						<h4>News:</h4>
+						<div class="newsitem">
+							<div>00:01 01.01.1970 | Some title</div>
+
+							<p>
+								New UNIX era has begun! Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer lacus nibh, tempus a, luctus at, egestas sed, ante.
+							</p>
+							<div>- Franta</div>
+						</div>
+						<hr />
+						<div class="newsitem">
+							<div>00:00 01.01.1970 | Some other title which is long</div>
+
+							<p>
+								Birth! Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer lacus nibh, tempus a, luctus at, egestas sed, ante.
+							</p>
+							<div>- Franta</div>
+						</div>
+						<hr />
+					</div>
+				</div>-->
+
+				<!--- div with content -->
+				<div id="content">
+
+
+				<h2>Package info:</h2>
+				<table id="packagenfo-table">
+					<tr>
+						<td class="packagenfo-table-tr-td-left">Package name::</td>
+						<td class="packagenfo-table-tr-td-right">sudo-1.7.4p4-i486-3_slack13.1.txz</td>
+					</tr>
+
+					<tr>
+						<td class="packagenfo-table-tr-td-left">Slackware version::</td>
+						<td class="packagenfo-table-tr-td-right">slackware-13.1</td>
+					</tr>
+					<tr>
+						<td class="packagenfo-table-tr-td-left">Package category::</td>
+						<td class="packagenfo-table-tr-td-right">patches</td>
+
+					</tr>
+					<tr>
+						<td class="packagenfo-table-tr-td-left">Package serie::</td>
+						<td class="packagenfo-table-tr-td-right">packages</td>
+					</tr>
+					<tr>
+						<td class="packagenfo-table-tr-td-left">Package created::</td>
+
+						<td class="packagenfo-table-tr-td-right">2010-09-15 18:34:00</td>
+					</tr>
+					<tr>
+						<td class="packagenfo-table-tr-td-left">Package MD5::</td>
+						<td class="packagenfo-table-tr-td-right">a96494dce9a06eb51a4c26c12599c415</td>
+					</tr>
+					<tr>
+
+						<td colspan="2">
+							<pre>PACKAGE SIZE (compressed):  160 K
+PACKAGE SIZE (uncompressed):  420 K
+PACKAGE DESCRIPTION:
+sudo: sudo (give limited root privileges to certain users)
+sudo:
+sudo: "sudo" is a command that allows users to execute some commands as 
+sudo: root.  The /etc/sudoers file (edited with "visudo") specifies which
+sudo: users have access to sudo and which commands they can run.  "sudo" 
+sudo: logs all its activities to /var/log/ so the system administrator
+sudo: can keep an eye on things.
+sudo:
+
+							</pre>
+						</td>
+					</tr>
+				</table>
+				<br />
+				<br />
+				<div id="switch-button"><a href="/cgi-bin/view.cgi/view/9961">Choose another location</a></div>
+
+				<br />
+				<br />
+
+
+				<h2>Mirrors located in Czech Republic</h2>
+				<table id="mirrors-table">
+					<tr>
+						<th>Protocol</th>
+						<th>Description</th>
+
+						<th></th>
+					</tr>
+					<tr>
+						<td>http</td>
+						<td>ftp.linux.cz</td>
+						<td><a href="http://ftp.linux.cz/pub/linux/slackware/slackware-13.1/patches/packages/sudo-1.7.4p4-i486-3_slack13.1.txz">Get package</a></td>
+					</tr>
+
+					<tr>
+						<td>ftp</td>
+						<td>ftp.linux.cz</td>
+						<td><a href="ftp://ftp.linux.cz/pub/linux/slackware/slackware-13.1/patches/packages/sudo-1.7.4p4-i486-3_slack13.1.txz">Get package</a></td>
+					</tr>
+					<tr>
+						<td>ftp</td>
+
+						<td>ftp.sh.cvut.cz</td>
+						<td><a href="ftp://ftp.sh.cvut.cz/MIRRORS/slackware/slackware-13.1/patches/packages/sudo-1.7.4p4-i486-3_slack13.1.txz">Get package</a></td>
+					</tr>
+					<tr>
+						<td>ftp</td>
+						<td>ftp.slackware.cz</td>
+						<td><a href="ftp://ftp.slackware.cz/slackware//slackware-13.1/patches/packages/sudo-1.7.4p4-i486-3_slack13.1.txz">Get package</a></td>
+
+					</tr>
+					<tr>
+						<td>http</td>
+						<td>ftp.slackware.cz</td>
+						<td><a href="http://ftp.slackware.cz/slackware//slackware-13.1/patches/packages/sudo-1.7.4p4-i486-3_slack13.1.txz">Get package</a></td>
+					</tr>
+					<tr>
+
+						<td>ftp</td>
+						<td>slackware:@ftp.unob.cz</td>
+						<td><a href="ftp://slackware:@ftp.unob.cz//slackware-13.1/patches/packages/sudo-1.7.4p4-i486-3_slack13.1.txz">Get package</a></td>
+					</tr>
+					
+				</table>
+
+			<br />
+			<br />
+
+
+
+				</div> <!--- content div -->
+
+			</div> <!--- cframe -->
+
+			<div id="footer">
+				<div>
+					[<a href="http://search.slackware.eu">search.slackware.eu</a> :: 2010]<br />
+					[domain name provided by <a href="http://linuax.wordpress.com/">ax</a>]<br />
+					[supported by <a href="http://www.zeratul.org/">stybla</a>]<br />
+					[hosted by <a href="http://www.turnovfree.net/">turnovfree.net</a>]<br />
+				</div>
+				<br />
+			</div> <!--- footer -->
+		</div> <!--- main div -->
+	</body>
+</html>
+

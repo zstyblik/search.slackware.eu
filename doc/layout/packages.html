@@ -1,0 +1,289 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>home::slackware::package::search</title>
+		<meta http-equiv="Content-Language" content="en" />
+		<meta http-equiv="Content-Type"  content="text/html; charset=UTF-8" />
+		<meta name="description" content="Slackware package search/browser" />
+		<meta name="keywords" content="Slackware,package,search,Linux,GNU,distribution,browser,packages" />
+		<meta name="author" content="Zdenek Styblik" />
+		<link rel="stylesheet" type="text/css" media="screen" href="css/layout.css" />
+		<link rel="stylesheet" type="text/css" media="screen" href="css/search.css" />
+	</head>
+	<body>
+		<div id="main">
+			<div id="heading">
+				<div id="containersearch">
+					<form id="searchform" method="get" action="/cgi-bin/search.cgi">
+						<input id="inputsearch" name="inputsearch" type="text" size="16" />
+						<select id="sver" name="sver">
+							<option value="1">Slackware64-13.1</option>
+						</select> <!--- sver -->
+						<input id="buttonsearch" name="buttonsearch" type="button" value="search" /> 
+					</form> <!--- searchform -->
+				</div> <!--- containersearch -->
+				<div id="containerlogo">
+					<h1>
+						<span class="light">search</span><span class="dark">.slackware.eu</span>
+					</h1>
+					<ul>
+						<!---
+						<li><a href="#">News</a></li>
+						<li><a href="#">Changelogs</a></li> 
+						-->
+						<li><a href="/cgi-bin/search.cgi">Search</a></li>
+						<li><a href="/cgi-bin/index.cgi/links">Links</a></li>
+						<li><a href="/cgi-bin/index.cgi/about">About</a></li>
+					</ul>
+				</div> <!--- containerlogo -->
+			</div> <!--- heading div -->
+			<div id="cframe">
+				<!---
+				<div id="menuside">
+					<ul>
+
+						<li><a href="#">Item #1</a></li>
+						<li><a href="#">Item #2</a></li>
+					</ul>
+					<div id="containernews">
+						<h4>News:</h4>
+						<div class="newsitem">
+							<div>00:01 01.01.1970 | Some title</div>
+
+							<p>
+								New UNIX era has begun! Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer lacus nibh, tempus a, luctus at, egestas sed, ante.
+							</p>
+							<div>- Franta</div>
+						</div>
+						<hr />
+						<div class="newsitem">
+							<div>00:00 01.01.1970 | Some other title which is long</div>
+
+							<p>
+								Birth! Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer lacus nibh, tempus a, luctus at, egestas sed, ante.
+							</p>
+							<div>- Franta</div>
+						</div>
+						<hr />
+					</div>
+				</div>-->
+
+				<!--- div with content -->
+				<div id="content">
+
+				<form id="searchform" method="get" action="/cgi-bin/search.cgi">
+					<fieldset>
+						<legend>search</legend>
+						<input id="rm" name="rm" type="hidden" value="search" />
+						<input id="needle" name="needle" type="text" value="sudo" />
+						<select id="haystack" name="haystack">
+							<option value="1">files</option>
+
+							<option value="2" selected="selected">packages</option>
+						</select>
+						<select id="sver" name="sver">
+							
+							<option value="16">
+								slackware64-current
+							</option>
+							
+							<option value="15">
+								slackware-current
+							</option>
+
+							
+							<option value="14">
+								slackware64-13.1
+							</option>
+							
+							<option value="12" selected="selected">
+								slackware-13.1
+							</option>
+							
+							<option value="13">
+								slackware64-13.0
+							</option>
+							
+							<option value="11">
+
+								slackware-13.0
+							</option>
+							
+							<option value="10">
+								slackware-12.2
+							</option>
+							
+							<option value="9">
+								slackware-12.1
+							</option>
+							
+							<option value="8">
+								slackware-12.0
+							</option>
+
+							
+							<option value="7">
+								slackware-11.0
+							</option>
+							
+							<option value="6">
+								slackware-10.2
+							</option>
+							
+							<option value="5">
+								slackware-10.1
+							</option>
+							
+							<option value="4">
+
+								slackware-10.0
+							</option>
+							
+							<option value="3">
+								slackware-9.1
+							</option>
+							
+							<option value="2">
+								slackware-9.0
+							</option>
+							
+							<option value="1">
+								slackware-8.1
+							</option>
+
+							
+						</select>
+						<input id="button-search" name="button-search" type="submit" value="Search" />
+						<br />
+						<!--
+						<br />
+						<fieldset>
+							<legend>categories</legend>
+						-->
+							<h5>Categories</h5>
+							<label for="cat_1">extra</label>
+							
+							<input id="cat_1" name="cat_1" type="checkbox" value="on" />
+
+							<label for="cat_2">pasture</label>
+							
+							<input id="cat_2" name="cat_2" type="checkbox" value="on" />
+							
+							
+							<label for="cat_3">patches</label>
+							
+							<input id="cat_3" name="cat_3" type="checkbox" value="on" />
+							
+							
+							<label for="cat_4">slackware</label>
+							
+							<input id="cat_4" name="cat_4" type="checkbox" value="on" />
+							
+							
+							<label for="cat_5">testing</label>
+
+							
+							<input id="cat_5" name="cat_5" type="checkbox" value="on" />
+							
+							
+							<label for="cat_6">slackware64</label>
+							
+							<input id="cat_6" name="cat_6" type="checkbox" value="on" />
+							
+					<!--		
+						</fieldset>
+					-->
+					</fieldset>
+				</form>
+				<br />
+
+					<h3>Search parameters:</h3>
+					<ul>
+					<li>Slackware version :: <b>slackware-13.1</b></li>
+					<li>Categories :: <b>ANY</b></li>
+					<li>Search for :: <b>packages</b></li>
+					<li>Results found :: <b>2</b></li>
+					<li>Search took :: <b>0 sec</b></li>
+					</ul>
+				<br />
+				
+				
+				<h3>Search results:</h3>
+				<br />
+				<div class="div-result">
+					<div class="pkgname">
+						<a href="">slackware</a>/<a href="">ap</a>/<a href="/cgi-bin/view.cgi/view/10125"><b>sudo-1.7.2p6-i486-1.txz</b></a> :: package name and location
+					</div>
+					<div class="pkgdate">
+
+						2010-04-20 14:23:00 :: package created
+					</div>
+					
+					<div class="pkgnfo">
+						<pre>PACKAGE SIZE (compressed):  136 K
+PACKAGE SIZE (uncompressed):  370 K
+PACKAGE DESCRIPTION:
+sudo: sudo (give limited root privileges to certain users)
+sudo:
+sudo: "sudo" is a command that allows users to execute some commands as 
+sudo: root.  The /etc/sudoers file (edited with "visudo") specifies which
+sudo: users have access to sudo and which commands they can run.  "sudo" 
+sudo: logs all its activities to /var/log/ so the system administrator
+sudo: can keep an eye on things.
+sudo:
+</pre>
+						
+					</div>
+				</div>
+				<br />
+				
+				<div class="div-result">
+					<div class="pkgname">
+
+						<a href="/cgi-bin/view.cgi/view/9961">patches/packages/<b>sudo-1.7.4p4-i486-3_slack13.1.txz</b></a> :: package name and location
+					</div>
+					<div class="pkgdate">
+						2010-09-15 18:34:00 :: package created
+					</div>
+					
+					<div class="pkgnfo">
+						<pre>PACKAGE SIZE (compressed):  160 K
+PACKAGE SIZE (uncompressed):  420 K
+PACKAGE DESCRIPTION:
+sudo: sudo (give limited root privileges to certain users)
+sudo:
+sudo: "sudo" is a command that allows users to execute some commands as 
+sudo: root.  The /etc/sudoers file (edited with "visudo") specifies which
+sudo: users have access to sudo and which commands they can run.  "sudo" 
+sudo: logs all its activities to /var/log/ so the system administrator
+sudo: can keep an eye on things.
+sudo:
+
+</pre>
+						
+					</div>
+				</div>
+				<br />
+				
+				<div class="link-to-top">
+					<a href="#main">Back to the top</a>
+				</div>
+				<br />
+
+				</div> <!--- content div -->
+
+			</div> <!--- cframe -->
+
+			<div id="footer">
+				<div>
+					[<a href="http://search.slackware.eu">search.slackware.eu</a> :: 2010]<br />
+					[domain name provided by <a href="http://linuax.wordpress.com/">ax</a>]<br />
+					[supported by <a href="http://www.zeratul.org/">stybla</a>]<br />
+					[hosted by <a href="http://www.turnovfree.net/">turnovfree.net</a>]<br />
+				</div>
+				<br />
+			</div> <!--- footer -->
+		</div> <!--- main div -->
+	</body>
+</html>
+
