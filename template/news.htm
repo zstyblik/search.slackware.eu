@@ -1,3 +1,4 @@
+<!-- TODO ~ rename to tmpl_stats.html -->
 				<TMPL_IF name="SVERNFO">
 				<table id="stats-table">
 					<tr>
@@ -5,13 +6,19 @@
 						<th>Packages</th>
 						<th>Files</th>
 						<th>Changed</th>
+						<th></th>
 					</tr>
 					<TMPL_LOOP name="SVERNFO">
 					<tr>
-						<td><TMPL_VAR name="SVER"></td>
+						<td>
+							<a href="/cgi-bin/browser.cgi/{SVER}"><TMPL_VAR name="SVER"></a>
+						</td>
 						<td class="number"><TMPL_VAR name="NOPKGS"></td>
 						<td class="number"><TMPL_VAR name="NOFILES"></td>
 						<td><TMPL_VAR name="LUPDATE"></td>
+						<td>
+							<a href="/cgi-bin/changelog.cgi/{SVER}">Changelog</a>
+						</td>
 					</tr>
 					</TMPL_LOOP>
 				</table>

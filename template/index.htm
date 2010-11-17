@@ -1,11 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 	<head>
-		<title><TMPL_VAR name="TITLE"> - slackware::package::search::alpha</title>
+		<title<TMPL_VAR name="TITLE">::slackware::package::search</title>
 		<meta http-equiv="Content-Language" content="en" />
 		<meta http-equiv="Content-Type"  content="text/html; charset=UTF-8" />
-		<meta name="description" content="Slackware package browser" />
-		<meta name="keywords" content="Slackware,package,search,Linux,GNU" />
+		<meta name="description" content="Slackware package search/browser" />
+		<meta name="keywords" content="Slackware,package,search,Linux,GNU,distribution,browser,packages" />
 		<meta name="author" content="Zdenek Styblik" />
 		<link rel="stylesheet" type="text/css" media="screen" href="/css/layout.css" />
 		<link rel="stylesheet" type="text/css" media="screen" href="/css/search.css" />
@@ -13,26 +13,58 @@
 	<body>
 		<div id="main">
 			<div id="heading">
-				<h1><a href="http://search.slackware.eu/">search.slackware.eu</a></h1>
-				<div>
+				<div id="containersearch">
+					<form id="searchform" method="get" action="/cgi-bin/search.cgi">
+						<input id="inputsearch" name="inputsearch" type="text" size="16" />
+						<select id="sver" name="sver">
+							<!-- TODO -->
+							<option value="1">Slackware64-13.1</option>
+						</select> <!--- sver -->
+						<input id="buttonsearch" name="buttonsearch" type="button" value="search" /> 
+					</form> <!--- searchform -->
+				</div> <!--- containersearch -->
+				<div id="containerlogo">
+					<h1>
+						<span class="light">search</span><span class="dark">.slackware.eu</span>
+					</h1>
 					<ul>
-<!--						<li><a href="#">News</a></li>
-						<li><a href="#">Changelogs</a></li> -->
+						<!---
+						<li><a href="#">News</a></li>
+						<li><a href="#">Changelogs</a></li> 
+						-->
 						<li><a href="/cgi-bin/search.cgi">Search</a></li>
 						<li><a href="/cgi-bin/index.cgi/links">Links</a></li>
 						<li><a href="/cgi-bin/index.cgi/about">About</a></li>
 					</ul>
-				</div>
-			</div> <!-- div heading -->
-			<div id="content">
+				</div> <!--- containerlogo -->
+			</div> <!--- heading div -->
+			<div id="cframe">
+				<!--- div with content -->
+				<div id="content">
+
 <TMPL_IF NAME="LINKS"><TMPL_INCLUDE NAME="links.htm"></TMPL_IF>
 <TMPL_IF NAME="ABOUT"><TMPL_INCLUDE NAME="about.htm"></TMPL_IF>
-			</div> <!-- div content -->
+
+				</div> <!--- content div -->
+<!-- TODO ~ add IF here? -->
+				<div class="link-to-top">
+					<a href="#main" title="Back to top">
+						<img src="img/arrow_up.png" alt="Back to top" />
+					</a>
+				</div>
+
+			</div> <!--- cframe -->
+
 			<div id="footer">
 				<div>
-					[<a href="http://search.slackware.eu">search.slackware.eu</a> :: 2010]
+					[<a href="http://search.slackware.eu/">search.slackware.eu</a> :: 2010]<br />
+					[domain name provided by <a href="http://linuax.wordpress.com/">ax</a>]<br />
+					[supported by <a href="http://www.zeratul.org/">stybla</a>]<br />
+					[hosted by <a href="http://www.turnovfree.net/">turnovfree.net</a>]<br />
 				</div>
-			</div> <!-- div footer -->
-		</div> <!-- div main -->
+				<br />
+			</div> <!--- footer -->
+		</div> <!--- main div -->
 	</body>
 </html>
+
