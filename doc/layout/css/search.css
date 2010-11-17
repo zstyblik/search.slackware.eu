@@ -30,7 +30,7 @@ select {
 	background-image: url('../img/heading_bg.png');
 	background-repeat: repeat-x;
 	background-attachment: fixed;
-	background-position: top left;
+	background-position: 0 0;
 }
 #heading h1 {
 	margin-left: 30px;
@@ -155,15 +155,23 @@ select {
 }
 
 
-
+/* RENAME ~ download, back etc. */
 #switch-button {
-	margin-left: 20px;
+	margin-left: 40px;
+	position: relative;
+	top: +0.25em;
 }
 #switch-button a {
-	background-color: #99B2B7;
-	border: 2px dashed #fff;
-	color: #fff;
-	padding: 0.5em 1em 0.5em 1em;
+	border-bottom: 1px solid #000;
+	border-left: 1px solid #000;
+	border-right: 1px solid #000;
+	padding: 0.25em 1em 0.25em 1em;
+}
+#switch-button div {
+	display: inline;
+	max-width: 25px;
+	min-width: 25px;
+	width: 25px;
 }
 
 #countries-table {
@@ -230,11 +238,17 @@ select {
 
 
 /* LINK BACK TO TOP */
+/* RENAME !!! */
 .link-to-top {
-	margin-left: 20px;
+	left: 0;
+	position: relative;
 }
 .link-to-top a {
-	padding: 0.25em 0.5em 0.25em 0.5em;
+}
+.link-to-top a img {
+	border: 0;
+	width: 20px;
+	height: 96px;
 }
 /* END LINK BACK TO TOP */
 
