@@ -148,14 +148,17 @@ select {
 	border: 1px solid #000;
 }
 #searchform fieldset fieldset {
-	border: 0px dashed #000;
-}
-#searchoptions {
-	margin-left: 20px;
+	border: 0px solid #000;
 }
 
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 /* RENAME ~ download, back etc. */
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 #switch-button {
 	margin-left: 40px;
 	position: relative;
@@ -328,3 +331,10 @@ select {
 	background-attachment: fixed;
 	background-position: 90% 40%;
 */
+
+/*
+#searchoptions {
+	margin-left: 20px;
+}
+*/
+
