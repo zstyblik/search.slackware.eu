@@ -3,3 +3,4 @@
  specific distro can be created; no updates/deletes - whole file
 * debug, may be global debug option
 * force update - compare each package, update each package, whatever
+* replace all COUNT(*) with something more apropriate

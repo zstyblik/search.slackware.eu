@@ -1,0 +1,1 @@
+* MD5 and PKG desc are missing if/when PKG is rebuilt

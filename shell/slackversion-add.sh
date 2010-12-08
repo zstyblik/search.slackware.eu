@@ -10,30 +10,35 @@ TMPDIR='/mnt/tmp/search.slack/'
 BATCHDIR='/tmp/search.slack/'
 SCRIPTDIR='/home/search.slackware.eu/shell/'
 
-if [ -z $1 ]; then
+set -e
+set -u
+
+ARG1=${1:-""}
+
+if [ -z "${ARG1}" ]; then
 	echo "Parameter is the name of Slackware version eg. slackware-13.0" \
 	1>&2
 	exit 1
 fi
 
-echo "${1}" | \
-grep -q -i -E '^slackware(64)?-(current|[0-9]+\.[0-9]+){1}$'
-if [ $? != 0 ]; then
+echo "${ARG1}" | \
+grep -q -i -E '^slackware(64)?-(current|[0-9]+\.[0-9]+){1}$' || \
+{
 	echo "Parameter doesn't look like Slackware version to me." \
 	1>&2
 	exit 1;
-fi
+}
 
 # CWD to appropriate directory and do stuff
 cd ${TMPDIR} || exit 32
-mkdir ${1}
-cd ${1} || exit 33
+mkdir "${ARG1}" || true
+cd "${ARG1}" || exit 33
 
-if ! [ -d $BATCHDIR ]; then
-	mkdir $BATCHDIR || exit 34;
+if ! [ -d "${BATCHDIR}" ]; then
+	mkdir "${BATCHDIR}" || exit 34;
 fi
 
-SVER=${1}
+SVER="${ARG1}"
 
 rm -f ./FILELIST.TXT
 rm -f ./FILELIST.TXT.files
@@ -43,18 +48,19 @@ rm -f ./CHECKSUMS.md5
 rm -f ./CHECKSUMS.md5.files
 rm -f ./CHECKSUMS.md5.pkgs
 
-wget -q ${LINK}/${SVER}/FILELIST.TXT
-if [ $? != 0 ]; then
+wget -q "${LINK}/${SVER}/FILELIST.TXT" || \
+{
 	echo "Download of FILELIST.TXT has failed." \
 	1>&2
 	exit 2
-fi
-wget -q ${LINK}/${SVER}/CHECKSUMS.md5
-if [ $? != 0 ]; then
+}
+
+wget -q ${LINK}/${SVER}/CHECKSUMS.md5 || \
+{
 	echo "Download of CHECKSUMS.md5 has failed." \
 	1>&2
 	exit 2
-fi
+}
 
 if [ ! -e './FILELIST.TXT' ]; then
 	echo "FILELIST.TXT doesn't exist." \
@@ -116,77 +122,73 @@ if [ -z './CHECKSUMS.md5.pkgs' ]; then
 	exit 2
 fi
 
-FLISTMD51=`md5sum ./FILELIST.TXT | awk '{print $1}'`
-FLISTMD52=`cat ./FILELIST.TXT.md5 | awk '{print $1}'`
+FLISTMD51=$(md5sum ./FILELIST.TXT | awk '{print $1}')
+FLISTMD52=$(cat ./FILELIST.TXT.md5 | awk '{print $1}')
 
-if [ $FLISTMD51 != $FLISTMD52 ]; then
-	echo "FILELIST.TXT md5sum mismatch :: $FLISTMD51 X $FLISTMD52." \
+if [ "${FLISTMD51}" != "${FLISTMD52}" ]; then
+	echo "FILELIST.TXT md5sum mismatch :: ${FLISTMD51} X ${FLISTMD52}." \
 	1>&2
 	exit 2;
 fi
 
-for FILE in `cat FILELIST.TXT.files | awk '{ print $8 '} | \
+for FILE in $(cat FILELIST.TXT.files | awk '{ print $8 '} | \
 	awk '{ print substr($1, 3) }' | \
-	grep -E '\/(PACKAGES.TXT|MANIFEST.bz2)$'`; do
-	TODIR=`echo "${FILE}" | \
-	perl -p -e 's/(MANIFEST.bz2|PACKAGES.TXT)//g'`;
-	mkdir ${TODIR}
-	wget -q ${LINK}/${SVER}/${FILE} -O ${FILE}
-	if [ $? != 0 ]; then
+	grep -E '\/(PACKAGES.TXT|MANIFEST.bz2)$'); do
+	TODIR=$(echo "${FILE}" | \
+	perl -p -e 's/(MANIFEST.bz2|PACKAGES.TXT)//g')
+	mkdir "${TODIR}"
+	wget -q "${LINK}/${SVER}/${FILE}" -O "${FILE}" || \
+	{
 		echo "Download of ${FILE} has failed." 1>&2
 		exit 2
-	fi
+	}
 done
 
-PSTART=`date`
+PSTART=$(date)
 
-# ToDo - lsof here?
+# TODO - lsof here?
 # actually, this file shouldn't exist at all!
 rm -f "${BATCHDIR}/SQLBATCH-${SVER}"
 
-perl ${SCRIPTDIR}./db-slackver-add.pl ${SVER}
-
-if [ $? != 0 ]; then
+perl "${SCRIPTDIR}./db-slackver-add.pl" "${SVER}" || \
+{
 	echo "Adding of new Slackware version has failed." 1>&2
 	exit 2;
-fi
+}
 
 echo "[start---stop]: ${PSTART} ---`date`"
 
 rm -f ${STORDIR}/db/${SVER}.sq3
 
+DATEFAIL=$(date '+%H-%M-%S')
 sqlite3 -init "${BATCHDIR}/SQLBATCH-${SVER}" \
-${STORDIR}/db/${SVER}.sq3 '.q' | grep -q 'Error'
-
-# ToDo - add $? check here
-if [ $? -eq 0 ]; then
+"${STORDIR}/db/${SVER}.sq3" '.q' | grep -q 'Error' && \
+{
 	echo "Failed to create SQLite file for ${SVER}" 1>&2
-	mv ${BATCHDIR}/SQLBATCH-${SVER} \
-	${BATCHDIR}/SQLBATCH-${SVER}.`date '+%H-%M-%S'`
-else 
-	perl ${SCRIPTDIR}./db-files-count.pl ${SVER}
-	if [ $? == 0 ]; then
-		rm -f "${BATCHDIR}/SQLBATCH-${SVER}"
-	else
+	mv "${BATCHDIR}/SQLBATCH-${SVER}" \
+	"${BATCHDIR}/SQLBATCH-${SVER}.${DATEFAIL}"
+} || {
+	perl ${SCRIPTDIR}./db-files-count.pl "${SVER}" && \
+		rm -f "${BATCHDIR}/SQLBATCH-${SVER}" || \
 		echo "Failed to sync files count for ${SVER}"
-	fi
+}
+
+if ! [ -d "${STORDIR}/distdata/" ]; then
+	mkdir "${STORDIR}/distdata"
 fi
 
-if ! [ -d ${STORDIR}/distdata/ ]; then
-	mkdir ${STORDIR}/distdata
-fi
-
-mkdir ${STORDIR}/distdata/${SVER}
-
-if [ $? -ne 0 ]; then
+mkdir "${STORDIR}/distdata/${SVER}" || \
+{
 	echo "Failed to create '${STORDIR}/distdata/${SVER}'. Terminating."
 	exit 3;
-fi
+}
 
-mv ./FILELIST.TXT* ${STORDIR}/distdata/${SVER}/
-mv ./CHECKSUMS.md5* ${STORDIR}/distdata/${SVER}/
-cd ${TMPDIR}
-rm -Rf ./${SVER}/
+# TODO ~ do no copy files ending with number!
+mv ./FILELIST.TXT.* "${STORDIR}/distdata/${SVER}/"
+mv ./CHECKSUMS.md5.* "${STORDIR}/distdata/${SVER}/"
+cd "${TMPDIR}"
+# TODO - cmd review
+rm -Rf "./${SVER}/"
 
 exit 0
 

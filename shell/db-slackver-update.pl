@@ -379,6 +379,7 @@ id_slackversion = $idSlackVer;";
 $dbh->do($sql888);
 
 ### Update pkgs count ;;; No. files is being updated from ex.script;
+# TODO - this "needs" to be rewritten
 my $sql999 = "UPDATE slackversion SET no_pkgs = (SELECT COUNT(*) \
 FROM view_packages WHERE id_slackversion = $idSlackVer) WHERE \
 id_slackversion = $idSlackVer;";
@@ -387,4 +388,3 @@ $dbh->do($sql999);
 $dbh->commit;
 $dbh->disconnect;
 
-1;

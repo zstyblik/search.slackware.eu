@@ -64,4 +64,3 @@ $dbh->disconnect;
 
 exit 0;
 
-1;

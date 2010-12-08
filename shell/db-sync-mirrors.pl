@@ -4,7 +4,8 @@
 # Desc: get Slackware mirrors and insert them into DB
 # Desc: wipe out old (removed) mirrors
 #
-
+# TODO - and where is strict, hm?
+use strict;
 use warnings;
 use DBI;
 
@@ -75,4 +76,3 @@ $dbh->do($sql2) or die("Unable to clean up in mirrors table.");
 $dbh->commit;
 $dbh->disconnect;
 
-1;

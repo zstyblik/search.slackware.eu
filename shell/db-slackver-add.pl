@@ -231,6 +231,7 @@ while (my $lineDF5 = <DFILE5>) {
 close(DFILE5);
 
 ### Update pkgs count ;;; No. files is being updated from ex.script;
+# TODO - this needs to be rewritten
 my $sql999 = "UPDATE slackversion SET no_pkgs = (SELECT COUNT(*) \
 FROM view_packages WHERE id_slackversion = $idSlackVer) WHERE \
 id_slackversion = $idSlackVer;";
@@ -239,4 +240,4 @@ $dbh->do($sql999);
 $dbh->commit;
 $dbh->disconnect;
 print "\n";
-1;
+
