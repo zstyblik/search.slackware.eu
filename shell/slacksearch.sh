@@ -2,12 +2,11 @@
 # 2010/Nov/18 @ Zdenek Styblik
 # 2010/Mar/26 @ Zdenek Styblik
 # 
+set -e
+set -u
 # default Slackware version 
 SLACKVER=${SLACKVER:-'slackware64-current'}
 SEARCHSITE=${SEARCHSITE:-'http://search.slackware.eu/cgi-bin/search-cli.cgi/find'}
-
-set -e
-set -u
 
 # desc: just print some help non-sense
 # @return: 0

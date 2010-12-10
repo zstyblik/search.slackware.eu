@@ -1,13 +1,25 @@
 #!/bin/bash
 # 2010/Mar/01 @ Zdenek Styblik
 # desc: synchronize slackware version
+set -e
+set -u
 
-LINK='ftp://ftp.sh.cvut.cz/storage/1/slackware'
+CFG="/srv/httpd/search.slackware.eu/conf/config.sh"
+
+if [ ! -e "${CFG}" ]; then
+	echo "Config file '${CFG}' not found."
+	exit 254;
+fi
+
+source "${CFG}"
+
+# TODO ~ Clean up!!!
+#LINK='ftp://ftp.sh.cvut.cz/storage/1/slackware'
 #LINK='ftp://10.117.5.4/'
-STORDIR='/home/search.slackware.eu/'
-TMPDIR='/mnt/tmp/search.slack/'
-BATCHDIR='/tmp/search.slack/'
-SCRIPTDIR='/home/search.slackware.eu/shell/'
+#STORDIR='/home/search.slackware.eu/'
+#TMPDIR='/mnt/tmp/search.slack/'
+#BATCHDIR='/tmp/search.slack/'
+#SCRIPTDIR='/home/search.slackware.eu/shell/'
 
 function dlFiles() {
 	for FILE in $(cat ./$1); do
@@ -25,9 +37,6 @@ function dlFiles() {
 }
 
 ### MAIN ###
-set -e
-set -u
-
 ARG1=${1:-""}
 
 if [ -z "${ARG1}" ]; then

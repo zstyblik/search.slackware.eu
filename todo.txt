@@ -4,3 +4,7 @@
 * debug, may be global debug option
 * force update - compare each package, update each package, whatever
 * replace all COUNT(*) with something more apropriate
+* unified config(s) for all scripts and what-not
+* diffs like in % diff; for each change in changelog
+* PKG availability at mirror
+* Slackversion browser; slackvers -> cats -> pkgs

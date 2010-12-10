@@ -9,7 +9,7 @@ use strict;
 use warnings;
 use DBI;
 
-require '/home/search.slackware.eu/conf/config.pl';
+require '/srv/httpd/search.slackware.eu/conf/config.pl';
 
 my $slacksite = 'http://www.slackware.com/getslack/';
 my $startMatch = '<TD><B>max. users</B></TD>';

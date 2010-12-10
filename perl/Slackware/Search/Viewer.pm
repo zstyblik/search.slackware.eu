@@ -17,13 +17,21 @@ sub setup {
 	# routes_root optionally is used to prepend a URI part to 
 	# every route
 	$self->routes_root('/'); 
+# OLD ROUTES
+#	$self->routes([
+#		'' => 'view' ,
+#		'/download/:country/:idpkgs' => 'download',
+#		'/inspect/:idpkgs' => 'inspect',
+#		'/view/:idpkgs'  => 'view',
+#	]);
 	$self->routes([
-		'' => 'view' ,
-		'/download/:country/:idpkgs' => 'download',
-		'/inspect/:idpkgs' => 'inspect',
-		'/view/:idpkgs'  => 'view',
+		'' => 'view',
+		'/download/:slackver/:category/:package/:country' => download,
+		'/inspect/:slackver/:category/:package' => inspect,
+		'/view/:slackver/:category/:package' => view,
 	]);
-}
+
+} # sub setup
 
 sub cgiapp_init {
 	my $self = shift;
@@ -56,18 +64,50 @@ sub error {
 	return $template->output();
 } # sub error
 
+# desc: choose mirror in specified country where to download from
 sub download {
 	my $self = shift;
 	my $q = $self->query();
+
+	# get params
+	my $slackver = $q->param('slackver');
+	my $category = $q->param('category');
+	my $package = $q->param('package');
 	my $country = $q->param('country');
+	# validate/sanitize input
+	if ($slackver !~ /^[A-Za-z0-9\-\.]+$/) {
+		return $self->error("Slackware version is garbage.", 'search.cgi');
+	}
+	if ($category !~ /^[A-Za-z0-9]+$/) {
+		return $self->error("Category is garbage.", 'search.cgi');
+	}
+	if ($package !~ /^[A-Za-z0-9\-\.]+$/) {
+		return $self->error("Package is garbage.", 'search.cgi');
+	}
 	$country =~ s/\%([A-Fa-f0-9]{2})/pack('C', hex($1))/seg;
-	my $idPkgs = $q->param('idpkgs');
 	unless ($country =~ /^[A-Za-z\ ]+$/) {
 		return $self->error("Wrong country.".$country, 'search.cgi');
 	}
-	unless ($idPkgs =~ /^[0-9]+$/) {
-		return $self->error("Opps! Wrong parameter.", 'search.cgi');
+	# does slackver exist? fast lookup
+	my $idSlackver = $self->_get_slackver_id($slackver) 
+	if ($idSlackver == -1) {
+		return $self->erorr("Slackware version is not in DB.", 'search.cgi');
 	}
+  # does category exist? fast lookup
+	my $idCategory = $self->_get_category_id($category, $idSlackver);
+	if ($idCategory == -1) {
+		return $self->error("Category is not in DB.", 'search.cgi');
+	}
+	# does pkg exist? slow lookup
+	my $idPkgs = $self->_get_packages_id($package, $idCategory, $idSlackver);
+	if ($idPkgs == -1) {
+		return $self->error("Package is not in DB.", 'search.cgi');
+	}
+
+#	my $idPkgs = $q->param('idpkgs');
+#	unless ($idPkgs =~ /^[0-9]+$/) {
+#		return $self->error("Opps! Wrong parameter.", 'search.cgi');
+#	}
 
 	my $pkgDetail = $self->_get_pkg_details($idPkgs);
 	unless ($pkgDetail) {
@@ -95,6 +135,7 @@ sub download {
 	return $template->output();
 } # sub download
 
+# '/inspect/:slackver/:category/:package'
 sub inspect {
 	my $self = shift;
 	my $q = $self->query();
@@ -131,6 +172,7 @@ sub inspect {
 	return $template->output();
 } # sub inspect
 
+# '/view/:slackver/:category/:package' => view,
 sub view {
 	my $self = shift;
 	my $q = $self->query();
@@ -162,6 +204,23 @@ sub view {
 
 	return $template->output();
 } # sub view
+
+sub _get_category_id {
+	my $self = shift;
+	my $category = shift || '';
+	if ($category !~ /^[A-Za-z0-9]+$/) {
+		return -1;
+	}
+	my $sql1 = sprintf("SELECT id_category FROM category WHERE 
+		category = '%s';", $category);
+	# TODO - verify!
+	my $result1 = $dbh->select_rowarray($sql1);
+	if ($result1->rows != 1) {
+		return -1;
+	}
+	return $result1;
+} # sub _get_category_id
+
 # desc: return formated list of locations
 # $idPkgs: int;
 # @return: array;
@@ -286,7 +345,7 @@ sub _get_mirrors {
 	}
 
 	return @mirrors;
-}
+} # sub _get_mirrors
 # desc: return details of specific package
 # $idPkgs: int;
 # @return: hash ref;
@@ -322,6 +381,41 @@ sub _get_pkg_details {
 	}
 	return \%pkgDetails;
 } # sub _get_pkg_details
+
+sub _get_packages_id {
+	my $self = shift;
+	my $package = shift;
+	my $idCategory = shift;
+	my $idSlackver = shift;
+
+	if ($package != /^[A-Za-z0-9\-\.]+$/) {
+		return -1;
+	}
+	if ($idCategory != /^[0-9]+$/) {
+		return -1;
+	}
+	if ($idSlackver != /^[0-9]+$/) {
+		return -1;
+	}
+
+	# TODO ~ verify
+	my $sql1 = sprintf("SELECT id_package FROM package WHERE 
+		package_name = '%s';", $package);
+	my $result1 = $dbh->select_rowarray($sql1);
+	if ($result1->rows != 1) {
+		return -1;
+	}
+
+	my $sql2 = sprintf("SELECT id_packages FROM packages WHERE 
+		id_package = %i AND id_category = %i AND id_slackversion = %i;", 
+		$result1, $idCategory, $idSlackver);
+	my $result2 = $dbh->select_rowarray($sql2);
+	if ($result2->rows != 1) {
+		return -1;
+	}
+	return $result2;
+} # sub _get_packages_id
+
 # desc: return formated list of files associated with package
 # $idPkgs: int;
 # $slackver: string;
@@ -376,5 +470,21 @@ sub _get_pkg_files {
 
 	return @filesFound;
 } # sub _get_pkg_details
+
+sub _get_slackver_id {
+	my $self = shift;
+	my $slackver = shift || '';
+	if ($slackver != /^[A-Za-z0-9\-\.]+$/) {
+		return -1;
+	}
+	my $sql1 = sprintf("SELECT id_slackversion FROM slackversion WHERE 
+		slackversion = '%s';", $slackver);
+	# TODO ~ verify
+	my $result1 = $dbh->select_rowarray($sql1);
+	if ($result1->rows != 1) {
+		return -1;
+	}
+	return $result1;
+} # sub _get_slackver_id
 
 1;

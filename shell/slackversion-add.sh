@@ -2,16 +2,25 @@
 # 2010/Mar/01 @ Zdenek Styblik
 # desc: this script prepares, or pre-parses, data prior adding 
 # new Slackware version into DB.
-
-LINK='ftp://ftp.sh.cvut.cz/storage/1/slackware'
-#LINK='ftp://10.117.5.4/'
-STORDIR='/home/search.slackware.eu/'
-TMPDIR='/mnt/tmp/search.slack/'
-BATCHDIR='/tmp/search.slack/'
-SCRIPTDIR='/home/search.slackware.eu/shell/'
-
 set -e
 set -u
+
+CFG="/srv/httpd/search.slackware.eu/conf/config.sh"
+
+if [ ! -e "${CFG}" ]; then
+	echo "Config file '${CFG}' not found."
+	exit 254;
+fi
+
+source "${CFG}"
+
+# TODO ~ CLEAN UP!
+#LINK='ftp://ftp.sh.cvut.cz/storage/1/slackware'
+#LINK='ftp://10.117.5.4/'
+#STORDIR='/home/search.slackware.eu/'
+#TMPDIR='/mnt/tmp/search.slack/'
+#BATCHDIR='/tmp/search.slack/'
+#SCRIPTDIR='/home/search.slackware.eu/shell/'
 
 ARG1=${1:-""}
 

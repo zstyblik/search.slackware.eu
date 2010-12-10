@@ -2,7 +2,7 @@
 # 2009/Mar/01 @ Zdenek Styblik
 # Desc: add new version of Slackware into DB and everything 
 # that belongs to it.
-use lib "/home/search.slackware.eu/perl/";
+use lib "/srv/httpd/search.slackware.eu/perl/";
 use Slackware::Search::SupportLib qw(:T1);
 
 use DBI;

@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # 2010/Mar/16 @ Zdenek Styblik
 # desc: Update Slackware packages, descriptions, files and whatever
-use lib "/home/search.slackware.eu/perl/";
+use lib "/srv/httpd/search.slackware.eu/perl/";
 use Slackware::Search::SupportLib qw(:T1);
 
 use DBI;
