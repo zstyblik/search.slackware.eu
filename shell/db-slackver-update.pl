@@ -2,6 +2,7 @@
 # 2010/Mar/16 @ Zdenek Styblik
 # desc: Update Slackware packages, descriptions, files and whatever
 use lib "/srv/httpd/search.slackware.eu/perl/";
+use Slackware::Search::ConfigParser;
 use Slackware::Search::SupportLib qw(:T1);
 
 use DBI;
@@ -9,8 +10,8 @@ use strict;
 use warnings;
 
 my $idSlackVer = -1;
-my $dbHost = '/home/search.slackware.eu/var/run/postgres/';
-my $dbPort = 21000;
+my $dbHost = '/tmp/';
+my $dbPort = 5432;
 my $dbName = 'pkgs';
 my $dbUser = 'pkgs';
 my $dbPass = 'swarePkgs';

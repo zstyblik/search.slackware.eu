@@ -4,7 +4,9 @@
 # Desc: get Slackware mirrors and insert them into DB
 # Desc: wipe out old (removed) mirrors
 #
-# TODO - and where is strict, hm?
+use lib "/srv/httpd/search.slackware.eu/perl/";
+use Slackware::Search::ConfigParser;
+
 use strict;
 use warnings;
 use DBI;

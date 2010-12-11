@@ -1,14 +1,16 @@
 #!/usr/bin/perl
 # 2010/Mar/18 @ Zdenek Styblik
+use lib "/srv/httpd/search.slackware.eu/perl/";
+use Slackware::Search::ConfigParser;
 
 use DBI;
 use strict;
 use warnings;
 
 my $idSlackVer = -1;
-my $sqLitePath = '/home/search.slackware.eu/db/';
-my $dbHost = '/home/search.slackware.eu/var/run/postgres/';
-my $dbPort = 21000;
+my $sqLitePath = '/srv/httpd/search.slackware.eu/db/';
+my $dbHost = '/tmp/';
+my $dbPort = 5432;
 my $dbName = 'pkgs';
 my $dbUser = 'pkgs';
 my $dbPass = 'swarePkgs';
