@@ -26,7 +26,7 @@ function dlFiles() {
 		echo "${FILE}";
 		TODIR=$(echo "${FILE}" | sed 's/^\.\///' | \
 		awk '{ print substr($1, 0, index($1, "/")) }')
-		mkdir "${TODIR}" 2>/dev/null
+		mkdir "${TODIR}" 2>/dev/null || true
 		wget -q "${LINK}/${SVER}/${FILE}" -O "${FILE}" || \
 		{
 			echo "Download of ${FILE} has failed." 1>&2

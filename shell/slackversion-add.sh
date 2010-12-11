@@ -148,7 +148,7 @@ for FILE in $(cat FILELIST.TXT.files | awk '{ print $8 '} | \
 	grep -E '\/(PACKAGES.TXT|MANIFEST.bz2)$'); do
 	TODIR=$(echo "${FILE}" | \
 	perl -p -e 's/(MANIFEST.bz2|PACKAGES.TXT)//g')
-	mkdir "${TODIR}"
+	mkdir "${TODIR}" || true
 	wget -q "${LINK}/${SVER}/${FILE}" -O "${FILE}" || \
 	{
 		echo "Download of ${FILE} has failed." 1>&2
