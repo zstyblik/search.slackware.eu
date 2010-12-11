@@ -53,6 +53,9 @@ grep -q -i -E '^slackware(64)?-(current|[0-9]+\.[0-9]+){1}$' || \
 }
 
 # CWD to appropriate directory and do stuff
+if ! [ -d "${TMPDIR}" ]; then
+	mkdir "${TMPDIR}" || exit 31;
+fi
 cd ${TMPDIR} || exit 32
 mkdir "${ARG1}" 2>/dev/null
 cd "${ARG1}" || exit 33
