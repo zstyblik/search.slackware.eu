@@ -26,9 +26,9 @@ sub setup {
 #	]);
 	$self->routes([
 		'' => 'view',
-		'/download/:slackver/:category/:package/:country' => download,
-		'/inspect/:slackver/:category/:package' => inspect,
-		'/view/:slackver/:category/:package' => view,
+		'/download/:slackver/:category/:package/:country' => 'download',
+		'/inspect/:slackver/:category/:package' => 'inspect',
+		'/view/:slackver/:category/:package' => 'view',
 	]);
 
 } # sub setup
