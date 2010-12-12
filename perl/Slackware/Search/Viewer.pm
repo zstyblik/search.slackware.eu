@@ -288,7 +288,7 @@ sub _get_category_id {
 	}
 	my $dbh = $self->dbh;
 	my $sql1 = sprintf("SELECT id_category FROM category WHERE 
-		category = '%s';", $category);
+		category_name = '%s';", $category);
 	my $result1 = $dbh->selectrow_array($sql1);
 	return -1 unless $result1;
 	return $result1;
