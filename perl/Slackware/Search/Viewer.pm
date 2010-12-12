@@ -76,48 +76,50 @@ sub download {
 	my $country = $q->param('country');
 	# validate/sanitize input
 	if ($slackver !~ /^[A-Za-z0-9\-\.]+$/) {
-		return $self->error("Slackware version is garbage.", 'search.cgi');
+		return $self->error("Slackware version is garbage.", 
+			'/cgi-bin/search.cgi');
 	}
 	if ($category !~ /^[A-Za-z0-9]+$/) {
-		return $self->error("Category is garbage.", 'search.cgi');
+		return $self->error("Category is garbage.", '/cgi-bin/search.cgi');
 	}
 	if ($package !~ /^[A-Za-z0-9\-\.]+$/) {
-		return $self->error("Package is garbage.", 'search.cgi');
+		return $self->error("Package is garbage.", '/cgi-bin/search.cgi');
 	}
 	$country =~ s/\%([A-Fa-f0-9]{2})/pack('C', hex($1))/seg;
 	unless ($country =~ /^[A-Za-z\ ]+$/) {
-		return $self->error("Wrong country.".$country, 'search.cgi');
+		return $self->error("Wrong country.".$country, '/cgi-bin/search.cgi');
 	}
 	# does slackver exist? fast lookup
 	my $idSlackver = $self->_get_slackver_id($slackver);
 	if ($idSlackver == -1) {
-		return $self->error("Slackware version is not in DB.", 'search.cgi');
+		return $self->error("Slackware version is not in DB.", 
+			'/cgi-bin/search.cgi');
 	}
   # does category exist? fast lookup
 	my $idCategory = $self->_get_category_id($category, $idSlackver);
 	if ($idCategory == -1) {
-		return $self->error("Category is not in DB.", 'search.cgi');
+		return $self->error("Category is not in DB.", '/cgi-bin/search.cgi');
 	}
 	# does country exists?
 	my $idCountry = $self->_get_country_id($country);
 	if ($idCountry == -1) {
-		return $self->error("Country is not in DB.", 'search.cgi');
+		return $self->error("Country is not in DB.", '/cgi-bin/search.cgi');
 	}
 	# does pkg exist? slow lookup
 	my $idPkgs = $self->_get_packages_id($package, $idCategory, $idSlackver);
 	if ($idPkgs == -1) {
-		return $self->error("Package is not in DB.", 'search.cgi');
+		return $self->error("Package is not in DB.", '/cgi-bin/search.cgi');
 	}
 
 #	my $idPkgs = $q->param('idpkgs');
 #	unless ($idPkgs =~ /^[0-9]+$/) {
-#		return $self->error("Opps! Wrong parameter.", 'search.cgi');
+#		return $self->error("Opps! Wrong parameter.", '/cgi-bin/search.cgi');
 #	}
 
 	my $pkgDetail = $self->_get_pkg_details($idPkgs);
 	unless ($pkgDetail) {
 		return $self->error("It looks like this package doesn't \
-			exist.", 'search.cgi');
+			exist.", '/cgi-bin/search.cgi');
 	}
 
 	my $template = $self->load_tmpl('view.htm');
@@ -151,41 +153,43 @@ sub inspect {
 	my $package = $q->param('package');
 	# validate/sanitize input
 	if ($slackver !~ /^[A-Za-z0-9\-\.]+$/) {
-		return $self->error("Slackware version is garbage.", 'search.cgi');
+		return $self->error("Slackware version is garbage.", 
+			'/cgi-bin/search.cgi');
 	}
 	if ($category !~ /^[A-Za-z0-9]+$/) {
-		return $self->error("Category is garbage.", 'search.cgi');
+		return $self->error("Category is garbage.", '/cgi-bin/search.cgi');
 	}
 	if ($package !~ /^[A-Za-z0-9\-\.]+$/) {
-		return $self->error("Package is garbage.", 'search.cgi');
+		return $self->error("Package is garbage.", '/cgi-bin/search.cgi');
 	}
 	# does slackver exist? fast lookup
 	my $idSlackver = $self->_get_slackver_id($slackver);
 	if ($idSlackver == -1) {
-		return $self->error("Slackware version is not in DB.", 'search.cgi');
+		return $self->error("Slackware version is not in DB.", 
+			'/cgi-bin/search.cgi');
 	}
   # does category exist? fast lookup
 	my $idCategory = $self->_get_category_id($category, $idSlackver);
 	if ($idCategory == -1) {
-		return $self->error("Category is not in DB.", 'search.cgi');
+		return $self->error("Category is not in DB.", '/cgi-bin/search.cgi');
 	}
 	# does pkg exist? slow lookup
 	my $idPkgs = $self->_get_packages_id($package, $idCategory, $idSlackver);
 	if ($idPkgs == -1) {
-		return $self->error("Package is not in DB.", 'search.cgi');
+		return $self->error("Package is not in DB.", '/cgi-bin/search.cgi');
 	}
 
 
 #	my $idPkgs = $q->param('idpkgs');
 
 #	unless ($idPkgs =~ /^[0-9]+$/) {
-#		return $self->error("Opps! Wrong parameter.", 'search.cgi');
+#		return $self->error("Opps! Wrong parameter.", '/cgi-bin/search.cgi');
 #	}
 
 	my $pkgDetail = $self->_get_pkg_details($idPkgs);
 	unless ($pkgDetail) {
 		return $self->error("It looks like this package doesn't \
-			exist.", 'search.cgi');
+			exist.", '/cgi-bin/search.cgi');
 	}
 
 	my $template = $self->load_tmpl('view.htm');
@@ -216,7 +220,7 @@ sub view {
 # TODO ~ delete
 #	my $idPkgs = $q->param('idpkgs');
 #	unless ($idPkgs =~ /^[0-9]+$/) {
-#		return $self->error("Opps! Wrong parameter.", 'search.cgi');
+#		return $self->error("Opps! Wrong parameter.", '/cgi-bin/search.cgi');
 #	}
 
 
@@ -226,35 +230,37 @@ sub view {
 	my $package = $q->param('package');
 	# validate/sanitize input
 	if ($slackver !~ /^[A-Za-z0-9\-\.]+$/) {
-		return $self->error("Slackware version is garbage.", 'search.cgi');
+		return $self->error("Slackware version is garbage.", 
+			'/cgi-bin/search.cgi');
 	}
 	if ($category !~ /^[A-Za-z0-9]+$/) {
-		return $self->error("Category is garbage.", 'search.cgi');
+		return $self->error("Category is garbage.", '/cgi-bin/search.cgi');
 	}
 	if ($package !~ /^[A-Za-z0-9\-\.]+$/) {
-		return $self->error("Package is garbage.", 'search.cgi');
+		return $self->error("Package is garbage.", '/cgi-bin/search.cgi');
 	}
 	# does slackver exist? fast lookup
 	my $idSlackver = $self->_get_slackver_id($slackver);
 	if ($idSlackver == -1) {
-		return $self->error("Slackware version is not in DB.", 'search.cgi');
+		return $self->error("Slackware version is not in DB.", 
+			'/cgi-bin/search.cgi');
 	}
   # does category exist? fast lookup
 	my $idCategory = $self->_get_category_id($category, $idSlackver);
 	if ($idCategory == -1) {
-		return $self->error("Category is not in DB.", 'search.cgi');
+		return $self->error("Category is not in DB.", '/cgi-bin/search.cgi');
 	}
 	# does pkg exist? slow lookup
 	my $idPkgs = $self->_get_packages_id($package, $idCategory, $idSlackver);
 	if ($idPkgs == -1) {
-		return $self->error("Package is not in DB.", 'search.cgi');
+		return $self->error("Package is not in DB.", '/cgi-bin/search.cgi');
 	}
 
 
 	my $pkgDetail = $self->_get_pkg_details($idPkgs);
 	unless ($pkgDetail) {
 		return $self->error("It looks like this package doesn't \
-			exist.", 'search.cgi');
+			exist.", '/cgi-bin/search.cgi');
 	}
 
 	my $template = $self->load_tmpl('view.htm');
