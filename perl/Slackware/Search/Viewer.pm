@@ -98,6 +98,12 @@ sub download {
 	if ($idCategory == -1) {
 		return $self->error("Category is not in DB.", 'search.cgi');
 	}
+	# does country exists?
+	# ~~~ TODO ~~~
+	my $idCountry = $self->_get_country_id($country);
+	if ($idCountry == -1) {
+		return $self->error("Country is not in DB.", 'search.cgi');
+	}
 	# does pkg exist? slow lookup
 	my $idPkgs = $self->_get_packages_id($package, $idCategory, $idSlackver);
 	if ($idPkgs == -1) {
@@ -139,11 +145,43 @@ sub download {
 sub inspect {
 	my $self = shift;
 	my $q = $self->query();
-	my $idPkgs = $q->param('idpkgs');
 
-	unless ($idPkgs =~ /^[0-9]+$/) {
-		return $self->error("Opps! Wrong parameter.", 'search.cgi');
+	# get params
+	my $slackver = $q->param('slackver');
+	my $category = $q->param('category');
+	my $package = $q->param('package');
+	# validate/sanitize input
+	if ($slackver !~ /^[A-Za-z0-9\-\.]+$/) {
+		return $self->error("Slackware version is garbage.", 'search.cgi');
 	}
+	if ($category !~ /^[A-Za-z0-9]+$/) {
+		return $self->error("Category is garbage.", 'search.cgi');
+	}
+	if ($package !~ /^[A-Za-z0-9\-\.]+$/) {
+		return $self->error("Package is garbage.", 'search.cgi');
+	}
+	# does slackver exist? fast lookup
+	my $idSlackver = $self->_get_slackver_id($slackver);
+	if ($idSlackver == -1) {
+		return $self->erorr("Slackware version is not in DB.", 'search.cgi');
+	}
+  # does category exist? fast lookup
+	my $idCategory = $self->_get_category_id($category, $idSlackver);
+	if ($idCategory == -1) {
+		return $self->error("Category is not in DB.", 'search.cgi');
+	}
+	# does pkg exist? slow lookup
+	my $idPkgs = $self->_get_packages_id($package, $idCategory, $idSlackver);
+	if ($idPkgs == -1) {
+		return $self->error("Package is not in DB.", 'search.cgi');
+	}
+
+
+#	my $idPkgs = $q->param('idpkgs');
+
+#	unless ($idPkgs =~ /^[0-9]+$/) {
+#		return $self->error("Opps! Wrong parameter.", 'search.cgi');
+#	}
 
 	my $pkgDetail = $self->_get_pkg_details($idPkgs);
 	unless ($pkgDetail) {
@@ -176,11 +214,43 @@ sub inspect {
 sub view {
 	my $self = shift;
 	my $q = $self->query();
-	my $idPkgs = $q->param('idpkgs');
+# TODO ~ delete
+#	my $idPkgs = $q->param('idpkgs');
+#	unless ($idPkgs =~ /^[0-9]+$/) {
+#		return $self->error("Opps! Wrong parameter.", 'search.cgi');
+#	}
 
-	unless ($idPkgs =~ /^[0-9]+$/) {
-		return $self->error("Opps! Wrong parameter.", 'search.cgi');
+
+	# get params
+	my $slackver = $q->param('slackver');
+	my $category = $q->param('category');
+	my $package = $q->param('package');
+	# validate/sanitize input
+	if ($slackver !~ /^[A-Za-z0-9\-\.]+$/) {
+		return $self->error("Slackware version is garbage.", 'search.cgi');
 	}
+	if ($category !~ /^[A-Za-z0-9]+$/) {
+		return $self->error("Category is garbage.", 'search.cgi');
+	}
+	if ($package !~ /^[A-Za-z0-9\-\.]+$/) {
+		return $self->error("Package is garbage.", 'search.cgi');
+	}
+	# does slackver exist? fast lookup
+	my $idSlackver = $self->_get_slackver_id($slackver);
+	if ($idSlackver == -1) {
+		return $self->erorr("Slackware version is not in DB.", 'search.cgi');
+	}
+  # does category exist? fast lookup
+	my $idCategory = $self->_get_category_id($category, $idSlackver);
+	if ($idCategory == -1) {
+		return $self->error("Category is not in DB.", 'search.cgi');
+	}
+	# does pkg exist? slow lookup
+	my $idPkgs = $self->_get_packages_id($package, $idCategory, $idSlackver);
+	if ($idPkgs == -1) {
+		return $self->error("Package is not in DB.", 'search.cgi');
+	}
+
 
 	my $pkgDetail = $self->_get_pkg_details($idPkgs);
 	unless ($pkgDetail) {
@@ -221,6 +291,17 @@ sub _get_category_id {
 	}
 	return $result1;
 } # sub _get_category_id
+
+# desc: look up if country exists in DB
+# $country: string;
+# @return: int;
+sub _get_country_id {
+	# ~~~ TODO ~~~
+	my $country = 'crap';
+	my $sql1 = sprintf("SELECT id_country FROM countries WHERE 
+		country = '%s';", $country);
+	return 1
+}
 
 # desc: return formated list of locations
 # $idPkgs: int;
