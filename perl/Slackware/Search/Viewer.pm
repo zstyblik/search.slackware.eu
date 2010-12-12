@@ -91,7 +91,7 @@ sub download {
 	# does slackver exist? fast lookup
 	my $idSlackver = $self->_get_slackver_id($slackver);
 	if ($idSlackver == -1) {
-		return $self->erorr("Slackware version is not in DB.", 'search.cgi');
+		return $self->error("Slackware version is not in DB.", 'search.cgi');
 	}
   # does category exist? fast lookup
 	my $idCategory = $self->_get_category_id($category, $idSlackver);
@@ -99,7 +99,6 @@ sub download {
 		return $self->error("Category is not in DB.", 'search.cgi');
 	}
 	# does country exists?
-	# ~~~ TODO ~~~
 	my $idCountry = $self->_get_country_id($country);
 	if ($idCountry == -1) {
 		return $self->error("Country is not in DB.", 'search.cgi');
@@ -163,7 +162,7 @@ sub inspect {
 	# does slackver exist? fast lookup
 	my $idSlackver = $self->_get_slackver_id($slackver);
 	if ($idSlackver == -1) {
-		return $self->erorr("Slackware version is not in DB.", 'search.cgi');
+		return $self->error("Slackware version is not in DB.", 'search.cgi');
 	}
   # does category exist? fast lookup
 	my $idCategory = $self->_get_category_id($category, $idSlackver);
@@ -238,7 +237,7 @@ sub view {
 	# does slackver exist? fast lookup
 	my $idSlackver = $self->_get_slackver_id($slackver);
 	if ($idSlackver == -1) {
-		return $self->erorr("Slackware version is not in DB.", 'search.cgi');
+		return $self->error("Slackware version is not in DB.", 'search.cgi');
 	}
   # does category exist? fast lookup
 	my $idCategory = $self->_get_category_id($category, $idSlackver);
@@ -286,7 +285,7 @@ sub _get_category_id {
 		category = '%s';", $category);
 	# TODO - verify!
 	my $result1 = $dbh->selectrow_array($sql1);
-	if (!$result1 || $result1->rows != 1) {
+	if (!$result1 || $dbh->rows != 1) {
 		return -1;
 	}
 	return $result1;
@@ -493,7 +492,7 @@ sub _get_packages_id {
 	my $sql1 = sprintf("SELECT id_package FROM package WHERE 
 		package_name = '%s';", $package);
 	my $result1 = $dbh->selectrow_array($sql1);
-	if (!$result1 || $result1->rows != 1) {
+	if (!$result1 || $dbh->rows != 1) {
 		return -1;
 	}
 
@@ -501,7 +500,7 @@ sub _get_packages_id {
 		id_package = %i AND id_category = %i AND id_slackversion = %i;", 
 		$result1, $idCategory, $idSlackver);
 	my $result2 = $dbh->selectrow_array($sql2);
-	if (!$result2 || $result2->rows != 1) {
+	if (!$result2 || $dbh->rows != 1) {
 		return -1;
 	}
 	return $result2;
@@ -572,8 +571,7 @@ sub _get_slackver_id {
 	my $sql1 = sprintf("SELECT id_slackversion FROM slackversion WHERE 
 		slackversion_name = '%s';", $slackver);
 	my $result1 = $dbh->selectrow_array($sql1);
-	return -1 unless ($result1);
-	if ($result1->rows != 1) {
+	if (!$result1 || $dbh->rows != 1) {
 		return -1;
 	}
 	return $result1;
