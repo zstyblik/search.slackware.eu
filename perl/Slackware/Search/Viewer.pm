@@ -28,7 +28,7 @@ sub setup {
 # TODO ~ encode/decode URL params :s
 #		'/view/:slackver/:category/:serie/:package' => 'view',
 	$self->routes([
-		'' => 'view',
+		'' => 'noview',
 		'/download/:slackver/:category/:serie/:package/:country' => 'download',
 		'/inspect/:slackver/:category/:serie/:package' => 'inspect',
 		'/view/:slackver/:category/:serie/:package' => 'view',
@@ -235,6 +235,13 @@ sub inspect {
 
 	return $template->output();
 } # sub inspect
+
+# desc: view sink hole
+sub noview {
+	my $self = shift;
+	return $self->error("Some of parameters are missing.", 
+		'/cgi-bin/search.cgi');
+}
 
 # '/view/:slackver/:category/:package' => view,
 sub view {
