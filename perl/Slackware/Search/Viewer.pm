@@ -24,6 +24,9 @@ sub setup {
 #		'/inspect/:idpkgs' => 'inspect',
 #		'/view/:idpkgs'  => 'view',
 #	]);
+#
+# TODO ~ encode/decode URL params :s
+#		'/view/:slackver/:category/:serie/:package' => 'view',
 	$self->routes([
 		'' => 'view',
 		'/download/:slackver/:category/:package/:country' => 'download',
@@ -478,13 +481,13 @@ sub _get_packages_id {
 	my $idCategory = shift;
 	my $idSlackver = shift;
 
-	if ($package != /^[A-Za-z0-9\-\.]+$/) {
+	if ($package !~ /^[A-Za-z0-9\-\.]+$/) {
 		return -1;
 	}
-	if ($idCategory != /^[0-9]+$/) {
+	if ($idCategory !~ /^[0-9]+$/) {
 		return -1;
 	}
-	if ($idSlackver != /^[0-9]+$/) {
+	if ($idSlackver !~ /^[0-9]+$/) {
 		return -1;
 	}
 	my $dbh = $self->dbh;
@@ -561,7 +564,7 @@ sub _get_pkg_files {
 sub _get_slackver_id {
 	my $self = shift;
 	my $slackver = shift || '';
-	if ($slackver != /^[A-Za-z0-9\-\.]+$/) {
+	if ($slackver !~ /^[A-Za-z0-9\-\.]+$/) {
 		return -1;
 	}
 	my $dbh = $self->dbh;
