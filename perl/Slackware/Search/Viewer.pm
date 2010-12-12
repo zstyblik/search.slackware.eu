@@ -89,7 +89,7 @@ sub download {
 		return $self->error("Wrong country.".$country, 'search.cgi');
 	}
 	# does slackver exist? fast lookup
-	my $idSlackver = $self->_get_slackver_id($slackver) 
+	my $idSlackver = $self->_get_slackver_id($slackver);
 	if ($idSlackver == -1) {
 		return $self->erorr("Slackware version is not in DB.", 'search.cgi');
 	}
