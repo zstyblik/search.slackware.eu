@@ -603,7 +603,7 @@ sub _get_serie_id {
 	my $dbh = $self->dbh;
 	my $sql1 = sprintf("SELECT id_serie FROM serie WHERE 
 		serie_name = '%s';", $serie);
-	my $result1 = $dbh->selectrow_array($result1);
+	my $result1 = $dbh->selectrow_array($sql1);
 	return -1 unless $result1;
 	return $result1;
 }
