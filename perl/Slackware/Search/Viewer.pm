@@ -492,7 +492,7 @@ sub _get_packages_id {
 	}
 	my $dbh = $self->dbh;
 	my $sql1 = sprintf("SELECT id_package FROM package WHERE 
-		package_name = '%s';", $package);
+		package_name LIKE '%s.\%';", $package);
 	my $result1 = $dbh->selectrow_array($sql1);
 	return -1 unless $result1;
 
