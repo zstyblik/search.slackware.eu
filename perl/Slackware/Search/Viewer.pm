@@ -285,7 +285,7 @@ sub _get_category_id {
 	my $sql1 = sprintf("SELECT id_category FROM category WHERE 
 		category = '%s';", $category);
 	# TODO - verify!
-	my $result1 = $dbh->select_rowarray($sql1);
+	my $result1 = $dbh->selectrow_array($sql1);
 	if ($result1->rows != 1) {
 		return -1;
 	}
@@ -483,7 +483,7 @@ sub _get_packages_id {
 	# TODO ~ verify
 	my $sql1 = sprintf("SELECT id_package FROM package WHERE 
 		package_name = '%s';", $package);
-	my $result1 = $dbh->select_rowarray($sql1);
+	my $result1 = $dbh->selectrow_array($sql1);
 	if ($result1->rows != 1) {
 		return -1;
 	}
@@ -491,7 +491,7 @@ sub _get_packages_id {
 	my $sql2 = sprintf("SELECT id_packages FROM packages WHERE 
 		id_package = %i AND id_category = %i AND id_slackversion = %i;", 
 		$result1, $idCategory, $idSlackver);
-	my $result2 = $dbh->select_rowarray($sql2);
+	my $result2 = $dbh->selectrow_array($sql2);
 	if ($result2->rows != 1) {
 		return -1;
 	}
@@ -563,7 +563,7 @@ sub _get_slackver_id {
 	my $sql1 = sprintf("SELECT id_slackversion FROM slackversion WHERE 
 		slackversion = '%s';", $slackver);
 	# TODO ~ verify
-	my $result1 = $dbh->select_rowarray($sql1);
+	my $result1 = $dbh->selectrow_array($sql1);
 	if ($result1->rows != 1) {
 		return -1;
 	}
