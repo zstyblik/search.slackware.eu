@@ -211,6 +211,7 @@ sub _get_category_id {
 	if ($category !~ /^[A-Za-z0-9]+$/) {
 		return -1;
 	}
+	my $dbh = $self->dbh;
 	my $sql1 = sprintf("SELECT id_category FROM category WHERE 
 		category = '%s';", $category);
 	# TODO - verify!
@@ -397,7 +398,7 @@ sub _get_packages_id {
 	if ($idSlackver != /^[0-9]+$/) {
 		return -1;
 	}
-
+	my $dbh = $self->dbh;
 	# TODO ~ verify
 	my $sql1 = sprintf("SELECT id_package FROM package WHERE 
 		package_name = '%s';", $package);
@@ -477,6 +478,7 @@ sub _get_slackver_id {
 	if ($slackver != /^[A-Za-z0-9\-\.]+$/) {
 		return -1;
 	}
+	my $dbh = $self->dbh;
 	my $sql1 = sprintf("SELECT id_slackversion FROM slackversion WHERE 
 		slackversion = '%s';", $slackver);
 	# TODO ~ verify
