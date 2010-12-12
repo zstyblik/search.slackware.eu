@@ -289,11 +289,8 @@ sub _get_category_id {
 	my $dbh = $self->dbh;
 	my $sql1 = sprintf("SELECT id_category FROM category WHERE 
 		category = '%s';", $category);
-	# TODO - verify!
 	my $result1 = $dbh->selectrow_array($sql1);
-	if (!$result1 || $dbh->rows != 1) {
-		return -1;
-	}
+	return -1 unless $result1;
 	return $result1;
 } # sub _get_category_id
 
@@ -310,10 +307,7 @@ sub _get_country_id {
 	my $sql1 = sprintf("SELECT id_mirror FROM mirror WHERE 
 		mirror_location = '%s';", $country);
 	my $result1 = $dbh->selectrow_array($sql1);
-	if (!$result1 || $result1->row == 0) {
-		return -1;
-	}
-	# we don't care how many mirrors got in SELECT
+	return -1 unless $result1;
 	return 1;
 }
 
@@ -494,21 +488,18 @@ sub _get_packages_id {
 		return -1;
 	}
 	my $dbh = $self->dbh;
-	# TODO ~ verify
 	my $sql1 = sprintf("SELECT id_package FROM package WHERE 
 		package_name = '%s';", $package);
 	my $result1 = $dbh->selectrow_array($sql1);
-	if (!$result1 || $dbh->rows != 1) {
-		return -1;
-	}
+	return -1 unless $result1;
 
 	my $sql2 = sprintf("SELECT id_packages FROM packages WHERE 
 		id_package = %i AND id_category = %i AND id_slackversion = %i;", 
 		$result1, $idCategory, $idSlackver);
+	# TODO ~ this probably should be selectall_arrayref and check whether 
+	# only one package got returned ... right?
 	my $result2 = $dbh->selectrow_array($sql2);
-	if (!$result2 || $dbh->rows != 1) {
-		return -1;
-	}
+	return -1 unless $result2;
 	return $result2;
 } # sub _get_packages_id
 
@@ -577,9 +568,7 @@ sub _get_slackver_id {
 	my $sql1 = sprintf("SELECT id_slackversion FROM slackversion WHERE 
 		slackversion_name = '%s';", $slackver);
 	my $result1 = $dbh->selectrow_array($sql1);
-	if (!$result1 || $dbh->rows != 1) {
-		return -1;
-	}
+	return -1 unless $result1;
 	return $result1;
 } # sub _get_slackver_id
 
