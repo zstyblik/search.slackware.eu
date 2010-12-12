@@ -572,7 +572,8 @@ sub _get_slackver_id {
 	my $sql1 = sprintf("SELECT id_slackversion FROM slackversion WHERE 
 		slackversion_name = '%s';", $slackver);
 	my $result1 = $dbh->selectrow_array($sql1);
-	if (!$result1 || $result1->rows != 1) {
+	return -1 unless ($result1);
+	if ($result1->rows != 1) {
 		return -1;
 	}
 	return $result1;
