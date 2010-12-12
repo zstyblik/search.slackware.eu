@@ -29,9 +29,9 @@ sub setup {
 #		'/view/:slackver/:category/:serie/:package' => 'view',
 	$self->routes([
 		'' => 'view',
-		'/download/:slackver/:category/:package/:country' => 'download',
-		'/inspect/:slackver/:category/:package' => 'inspect',
-		'/view/:slackver/:category/:package' => 'view',
+		'/download/:slackver/:category/:serie/:package/:country' => 'download',
+		'/inspect/:slackver/:category/:serie/:package' => 'inspect',
+		'/view/:slackver/:category/:serie/:package' => 'view',
 	]);
 
 } # sub setup
@@ -75,6 +75,7 @@ sub download {
 	# get params
 	my $slackver = $q->param('slackver');
 	my $category = $q->param('category');
+	my $serie = $q->param('serie');
 	my $package = $q->param('package');
 	my $country = $q->param('country');
 	# validate/sanitize input
@@ -84,6 +85,10 @@ sub download {
 	}
 	if ($category !~ /^[A-Za-z0-9]+$/) {
 		return $self->error("Category is garbage.", '/cgi-bin/search.cgi');
+	}
+	# TODO ~ decode
+	if ($serie !~ /^[A-Za-z0-9\-\.]+$/) {
+		return $self->error("Serie is garbage.", '/cgi-bin/search.cgi');
 	}
 	if ($package !~ /^[A-Za-z0-9\-\.]+$/) {
 		return $self->error("Package is garbage.", '/cgi-bin/search.cgi');
@@ -102,6 +107,11 @@ sub download {
 	my $idCategory = $self->_get_category_id($category, $idSlackver);
 	if ($idCategory == -1) {
 		return $self->error("Category is not in DB.", '/cgi-bin/search.cgi');
+	}
+	# does serie exist? fast lookup
+	my $idSerie = $self->_get_serie_id($serie);
+	if ($idSerie == -1) {
+		return $self->error("Serie is not in DB.", '/cgi-bin/search.cgi');
 	}
 	# does country exists?
 	my $idCountry = $self->_get_country_id($country);
@@ -153,6 +163,7 @@ sub inspect {
 	# get params
 	my $slackver = $q->param('slackver');
 	my $category = $q->param('category');
+	my $serie = $q->param('serie');
 	my $package = $q->param('package');
 	# validate/sanitize input
 	if ($slackver !~ /^[A-Za-z0-9\-\.]+$/) {
@@ -161,6 +172,10 @@ sub inspect {
 	}
 	if ($category !~ /^[A-Za-z0-9]+$/) {
 		return $self->error("Category is garbage.", '/cgi-bin/search.cgi');
+	}
+	# TODO - decode
+	if ($serie !~ /^[A-Za-z0-9\-\.]+$/) {
+		return $self->error("Serie is garbage.", '/cgi-bin/search.cgi');
 	}
 	if ($package !~ /^[A-Za-z0-9\-\.]+$/) {
 		return $self->error("Package is garbage.", '/cgi-bin/search.cgi');
@@ -175,6 +190,11 @@ sub inspect {
 	my $idCategory = $self->_get_category_id($category, $idSlackver);
 	if ($idCategory == -1) {
 		return $self->error("Category is not in DB.", '/cgi-bin/search.cgi');
+	}
+	# does serie exist? fast lookup
+	my $idSerie = $self->_get_serie_id($serie);
+	if ($idSerie == -1) {
+		return $self->error("Serie is not in DB.", '/cgi-bin/search.cgi');
 	}
 	# does pkg exist? slow lookup
 	my $idPkgs = $self->_get_packages_id($package, $idCategory, $idSlackver);
@@ -230,6 +250,7 @@ sub view {
 	# get params
 	my $slackver = $q->param('slackver');
 	my $category = $q->param('category');
+	my $serie = $q->param('serie');
 	my $package = $q->param('package');
 	# validate/sanitize input
 	if ($slackver !~ /^[A-Za-z0-9\-\.]+$/) {
@@ -238,6 +259,10 @@ sub view {
 	}
 	if ($category !~ /^[A-Za-z0-9]+$/) {
 		return $self->error("Category is garbage.", '/cgi-bin/search.cgi');
+	}
+	# TODO ~ decode
+	if ($serie !~ /^[A-Za-z0-9\-\.]+$/) {
+		return $self->error("Serie is garbage.", '/cgi-bin/search.cgi');
 	}
 	if ($package !~ /^[A-Za-z0-9\-\.]+$/) {
 		return $self->error("Package is garbage.", '/cgi-bin/search.cgi');
@@ -252,6 +277,11 @@ sub view {
 	my $idCategory = $self->_get_category_id($category, $idSlackver);
 	if ($idCategory == -1) {
 		return $self->error("Category is not in DB.", '/cgi-bin/search.cgi');
+	}
+	# does serie exist? fast lookup
+	my $idSerie = $self->_get_serie_id($serie);
+	if ($idSerie == -1) {
+		return $self->error("Serie is not in DB.", '/cgi-bin/search.cgi');
 	}
 	# does pkg exist? slow lookup
 	my $idPkgs = $self->_get_packages_id($package, $idCategory, $idSlackver);
@@ -561,6 +591,26 @@ sub _get_pkg_files {
 	return @filesFound;
 } # sub _get_pkg_details
 
+# desc: look up serie ID
+# $serie: string;
+# @return: int
+sub _get_serie_id {
+	my $self = shift;
+	my $serie = shift || '';
+	if ($serie !~ /^[A-Za-z0-9\-\.]+$/) {
+		return -1;
+	}
+	my $dbh = $self->dbh;
+	my $sql1 = sprintf("SELECT id_serie FROM serie WHERE 
+		serie_name = '%s';", $serie);
+	my $result1 = $dbh->selectrow_array($result1);
+	return -1 unless $result1;
+	return $result1;
+}
+
+# desc: look up slackware version ID
+# $slackver: string;
+# @return: int;
 sub _get_slackver_id {
 	my $self = shift;
 	my $slackver = shift || '';
