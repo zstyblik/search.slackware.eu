@@ -17,7 +17,7 @@ sub setup {
 	# routes_root optionally is used to prepend a URI part to 
 	# every route
 	$self->routes_root('/'); 
-# OLD ROUTES
+# OLD ROUTES ~ TODO ~ delete
 #	$self->routes([
 #		'' => 'view' ,
 #		'/download/:country/:idpkgs' => 'download',
@@ -286,7 +286,7 @@ sub _get_category_id {
 		category = '%s';", $category);
 	# TODO - verify!
 	my $result1 = $dbh->selectrow_array($sql1);
-	if ($result1->rows != 1) {
+	if (!$result1 || $result1->rows != 1) {
 		return -1;
 	}
 	return $result1;
@@ -296,11 +296,20 @@ sub _get_category_id {
 # $country: string;
 # @return: int;
 sub _get_country_id {
-	# ~~~ TODO ~~~
-	my $country = 'crap';
-	my $sql1 = sprintf("SELECT id_country FROM countries WHERE 
-		country = '%s';", $country);
-	return 1
+	my $self = shift;
+	my $country = shift || '';
+	unless ($country =~ /^[A-Za-z\ ]+$/) {
+		return -1;
+	}
+	my $dbh = $self->dbh;
+	my $sql1 = sprintf("SELECT id_mirror FROM mirror WHERE 
+		mirror_location = '%s';", $country);
+	my $result1 = $dbh->selectrow_array($sql1);
+	if (!$result1 || $result1->row == 0) {
+		return -1;
+	}
+	# we don't care how many mirrors got in SELECT
+	return 1;
 }
 
 # desc: return formated list of locations
@@ -484,7 +493,7 @@ sub _get_packages_id {
 	my $sql1 = sprintf("SELECT id_package FROM package WHERE 
 		package_name = '%s';", $package);
 	my $result1 = $dbh->selectrow_array($sql1);
-	if ($result1->rows != 1) {
+	if (!$result1 || $result1->rows != 1) {
 		return -1;
 	}
 
@@ -492,7 +501,7 @@ sub _get_packages_id {
 		id_package = %i AND id_category = %i AND id_slackversion = %i;", 
 		$result1, $idCategory, $idSlackver);
 	my $result2 = $dbh->selectrow_array($sql2);
-	if ($result2->rows != 1) {
+	if (!$result2 || $result2->rows != 1) {
 		return -1;
 	}
 	return $result2;
@@ -561,10 +570,9 @@ sub _get_slackver_id {
 	}
 	my $dbh = $self->dbh;
 	my $sql1 = sprintf("SELECT id_slackversion FROM slackversion WHERE 
-		slackversion = '%s';", $slackver);
-	# TODO ~ verify
+		slackversion_name = '%s';", $slackver);
 	my $result1 = $dbh->selectrow_array($sql1);
-	if ($result1->rows != 1) {
+	if (!$result1 || $result1->rows != 1) {
 		return -1;
 	}
 	return $result1;
