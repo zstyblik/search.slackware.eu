@@ -313,12 +313,8 @@ sub view {
 		$template->param($value => $pkgDetail->{$value});
 	}
 
-	my $pkgNameURL = $pkgDetail->{PKGNAME};
-	$pkgNameURL =~ s/\.t(g|x)z//;
-	my $pkgURLPath = sprintf("%s/inspect/%s/%s/%s/%s", 
-		$ENV{SCRIPT_NAME}, $pkgDetail->{PKGSVER}, 
-		$pkgDetail->{PKGCAT}, $pkgDetail->{PKGSER}, $pkgNameURL);
-	$pkgURLPath =~  s/\/\//\//so;
+	my $pkgURLPath = sprintf("%s/inspect/%s", $ENV{SCRIPT_NAME},
+		$pkgDetail->{PKGURLPATH});
 
 	$template->param(SWURL => $pkgURLPath);
 	$template->param(SWLABEL => "Files");
@@ -518,6 +514,16 @@ sub _get_pkg_details {
 	if ($hashPkg->{serie_name}) {
 		$pkgDetails{PKGSER} = $hashPkg->{serie_name};
 	}
+
+	my $pkgNameURL = $pkgDetail->{PKGNAME};
+	$pkgNameURL =~ s/\.t(g|x)z//;
+	my $pkgURLPath = sprintf("%s/%s/%s/%s", 
+		$pkgDetail->{PKGSVER}, 
+		$pkgDetail->{PKGCAT}, $pkgDetail->{PKGSER}, $pkgNameURL);
+	$pkgURLPath =~  s/\/\//\//so;
+
+	$pkgDetails{PKGURLPATH} =  $pkgURLPath;
+
 	return \%pkgDetails;
 } # sub _get_pkg_details
 
