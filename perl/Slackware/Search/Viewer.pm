@@ -149,9 +149,14 @@ sub download {
 	my @mirrors = $self->_get_mirrors($country, $pkgPath);
 	$template->param(MIRRORS => \@mirrors);
 
-	my $pkgDetail->{PKGURLPATH}= sprintf("%s/view/%s", $ENV{SCRIPT_NAME},
-		$pkgDetail->{PKGURLPATH});
+	my $pkgNameURL = $pkgDetail->{PKGNAME};
+	$pkgNameURL =~ s/\.t(g|x)z//;
+	my $pkgURLPath = sprintf("%s/view/%s/%s/%s/%s", $ENV{SCRIPT_NAME}, 
+		$pkgDetail->{PKGSVER}, 
+		$pkgDetail->{PKGCAT}, $pkgDetail->{PKGSER}, $pkgNameURL);
+	$pkgURLPath =~  s/\/\//\//so;
 
+	$template->param(SWURL => $pkgURLPath);
 	$template->param(SWLABEL => "Back");
 
 	return $template->output();
@@ -231,10 +236,15 @@ sub inspect {
 	unless (@pkgFiles == 0) {
 		$template->param(PKGFILES => \@pkgFiles);
 	}
-	
-	my $pkgDetail->{PKGURLPATH} = sprintf("%s/view/%s", $ENV{SCRIPT_NAME},
-		$pkgDetail->{PKGURLPATH});
 
+	my $pkgNameURL = $pkgDetail->{PKGNAME};
+	$pkgNameURL =~ s/\.t(g|x)z//;
+	my $pkgURLPath = sprintf("%s/view/%s/%s/%s/%s", $ENV{SCRIPT_NAME}, 
+		$pkgDetail->{PKGSVER}, 
+		$pkgDetail->{PKGCAT}, $pkgDetail->{PKGSER}, $pkgNameURL);
+	$pkgURLPath =~  s/\/\//\//so;
+
+	$template->param(SWURL => $pkgURLPath);
 	$template->param(SWLABEL => "Download");
 
 	return $template->output();
@@ -315,9 +325,14 @@ sub view {
 		$template->param($value => $pkgDetail->{$value});
 	}
 
-	my $pkgDetail->{PKGURLPATH} = sprintf("%s/inspect/%s", $ENV{SCRIPT_NAME},
-		$pkgDetail->{PKGURLPATH});
+	my $pkgNameURL = $pkgDetail->{PKGNAME};
+	$pkgNameURL =~ s/\.t(g|x)z//;
+	my $pkgURLPath = sprintf("%s/inspect/%s/%s/%s/%s", $ENV{SCRIPT_NAME}, 
+		$pkgDetail->{PKGSVER}, 
+		$pkgDetail->{PKGCAT}, $pkgDetail->{PKGSER}, $pkgNameURL);
+	$pkgURLPath =~  s/\/\//\//so;
 
+	$template->param(SWURL => $pkgURLPath);
 	$template->param(SWLABEL => "Files");
 
 	my @countries = $self->_get_mirror_locations($idPkgs);
@@ -517,16 +532,6 @@ sub _get_pkg_details {
 		$pkgDetails{PKGSER} = $hashPkg->{serie_name};
 		$serie = $hashPkg->{serie_name};
 	}
-
-	my $pkgNameURL = $hashPkg->{package_name};
-	$pkgNameURL =~ s/\.t(g|x)z//;
-	my $pkgURLPath = sprintf("%s/%s/%s/%s", 
-		$hashPkg->{slackversion_name}, 
-		$hashPkg->{category_name}, $serie, $pkgNameURL);
-	$pkgURLPath =~  s/\/\//\//so;
-
-	$pkgDetails{PKGURLPATH} =  $pkgURLPath;
-
 	return \%pkgDetails;
 } # sub _get_pkg_details
 
