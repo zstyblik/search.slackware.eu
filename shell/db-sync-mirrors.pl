@@ -11,7 +11,7 @@ use strict;
 use warnings;
 use DBI;
 
-use constant CFGFILE = '/srv/httpd/search.slackware.eu/conf/config.pl';
+use constant CFGFILE => '/srv/httpd/search.slackware.eu/conf/config.pl';
 
 my $slacksite = 'http://www.slackware.com/getslack/';
 my $startMatch = '<TD><B>max. users</B></TD>';
