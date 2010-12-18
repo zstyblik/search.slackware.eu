@@ -18,21 +18,20 @@
 						<!-- TODO ~ browser path here slackware/a/ ... -->
 						<TMPL_VAR	name="PKGLOCATION">/
 						<b><a href="<TMPL_VAR PKGURL>"><TMPL_VAR name="PKGNAME"></a></b> 
-						:: package name and location
 					</div>
 					<div class="pkgdate">
-						<TMPL_VAR name="PKGDATE"> :: package created
+						created on <TMPL_VAR name="PKGDATE">
 					</div>
 					<TMPL_IF name="PKGSIZE"><div class="pkgsize">
-						<TMPL_VAR name="PKGSIZE"> :: package size
+						of size <TMPL_VAR name="PKGSIZE">
 					</div></TMPL_IF>
 					<div class="pkgnfo">
 						<pre><TMPL_VAR name="PKGTEXT"></pre>
-						<TMPL_IF name="PKGFILES"><pre><TMPL_VAR name="PKGFILES"> total in this package</pre></TMPL_IF>
+						<TMPL_IF name="PKGFILES"><pre>times found in package: <TMPL_VAR name="PKGFILES"></pre></TMPL_IF>
 					</div>
 				</div>
 				<br />
 				</TMPL_LOOP>
 				<br />
-				<TMPL_ELSE><p><b>Nothing found; no match.</b></p>
+				<TMPL_ELSE><p><b>Nothing found, no match, we are sorry!</b></p>
 				</TMPL_IF>
