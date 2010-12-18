@@ -511,15 +511,17 @@ sub _get_pkg_details {
 	$pkgDetails{PKGCAT} = $hashPkg->{category_name};
 	$pkgDetails{PKGSVER} = $hashPkg->{slackversion_name};
 	$pkgDetails{PKGSER} = '';
+	my $serie = '';
 	if ($hashPkg->{serie_name}) {
 		$pkgDetails{PKGSER} = $hashPkg->{serie_name};
+		$serie = $hashPkg->{serie_name};
 	}
 
-	my $pkgNameURL = $pkgDetail->{PKGNAME};
+	my $pkgNameURL = $hashPkg->{PKGNAME};
 	$pkgNameURL =~ s/\.t(g|x)z//;
 	my $pkgURLPath = sprintf("%s/%s/%s/%s", 
-		$pkgDetail->{PKGSVER}, 
-		$pkgDetail->{PKGCAT}, $pkgDetail->{PKGSER}, $pkgNameURL);
+		$hashPkg->{slackversion_name}, 
+		$hashPkg->{category_name}, $serie, $pkgNameURL);
 	$pkgURLPath =~  s/\/\//\//so;
 
 	$pkgDetails{PKGURLPATH} =  $pkgURLPath;
