@@ -313,8 +313,14 @@ sub view {
 		$template->param($value => $pkgDetail->{$value});
 	}
 
-	my $dlLink = $ENV{SCRIPT_NAME}."/inspect/".$idPkgs;
-	$template->param(SWURL => $dlLink);
+	my $pkgNameURL = $pkgDetail->{PKGNAME};
+	$pkgNameURL =~ s/\.t(g|x)z//;
+	my $pkgURLPath = sprintf("%sview.cgi/inspect/%s/%s/%s/%s", 
+		$ENV{SCRIPT_NAME}, $findParams->{SLACKVERNAME}, 
+		$pkgDetail->{PKGCAT}, $pkgDetail->{PKGSER}, $pkgNameURL);
+	$pkgURLPath =~  s/\/\//\//so;
+
+	$template->param(SWURL => $pkgURLPath);
 	$template->param(SWLABEL => "Files");
 
 	my @countries = $self->_get_mirror_locations($idPkgs);
