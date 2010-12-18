@@ -210,24 +210,30 @@ sub _get_categories  {
 # @return: array;
 sub _find_files {
 	my $self = shift;
-	my $needle = shift;
-	my $idSlackver = shift;
-	my $slackver = shift;
+	my $findParams = shift;
+
+#	my $needle = shift;
+#	my $idSlackver = shift;
+#	my $slackver = shift;
+
 	my $catsToCheck = shift; # unused ATM
 	my @pkgsFound;
-	unless ($needle) {
+	unless ($findParams) {
 		return @pkgsFound;
 	}
-	unless ($idSlackver) {
+	unless ($findParams->{NEEDLE}) {
 		return @pkgsFound;
 	}
-	unless ($idSlackver =~ /^[0-9]+$/) {
+	unless ($findParams->{IDSLACKVER}) {
 		return @pkgsFound;
 	}
-	unless ($slackver) {
+	unless ($findParams->{IDSLACKVER} =~ /^[0-9]+$/) {
 		return @pkgsFound;
 	}
-	unless ($slackver =~ /^[A-Za-z0-9\.\-]+$/) {
+	unless ($findParams->{SLACKVERNAME}) {
+		return @pkgsFound;
+	}
+	unless ($findParams->{SLACKVERNAME} =~ /^[A-Za-z0-9\.\-]+$/) {
 		return @pkgsFound;
 	}
 	unless ($catsToCheck) {
@@ -235,7 +241,7 @@ sub _find_files {
 	}	
 	
 	my $sqlitePath = $self->cfg('SQLITE_PATH');
-	my $sqLiteFile = $sqlitePath."/".$slackver.".sq3";
+	my $sqLiteFile = $sqlitePath."/".$findParams->{SLACKVERNAME}.".sq3";
 	unless ( -e $sqLiteFile ) {
 		return @pkgsFound;
 	}
@@ -254,7 +260,7 @@ sub _find_files {
 	my $dbh = $self->dbh;
 
 	my $sql1 = "SELECT id_packages FROM files WHERE \
-	file_name LIKE '%".$needle."%' GROUP BY id_packages;";
+	file_name LIKE '%".$findParams->{NEEDLE}."%' GROUP BY id_packages;";
 	my $result1 = $dbhLite->selectall_arrayref($sql1, { Slice => {}});
 	
 	my @idPkgs;
@@ -279,7 +285,7 @@ sub _find_files {
  	FROM view_packages FULL JOIN category ON \
 	category.id_category = view_packages.id_category \
 	FULL JOIN serie ON serie.id_serie = view_packages.id_serie \
-	WHERE id_slackversion = ".$idSlackver." AND \
+	WHERE id_slackversion = ".$findParams->{IDSLACKVER}." AND \
 	id_packages IN (".$idPkgsSQL.")".$sqlCats
 	." ORDER BY package_name;";
 
@@ -294,9 +300,14 @@ sub _find_files {
 
 	my %packagesFiltered;
 	for my $row2 (@$result2) {
-		my $pkgLocation = $row2->{category_name}."/"
-		.$row2->{serie_name};
+		my $pkgLocation = sprintf("%s/%s", $row->{category_name},
+			$row->{serie_name});
 		$pkgLocation =~ s/\/\//\//so;
+		my $pkgNameURL = $row->{package_name};
+		$pkgNameURL =~ s/\.t(g|x)z//;
+		my $pkgURLPath = sprintf("%sview.cgi/view/%s/%s/%s", $scriptPath, 
+			$findParams->{SLACKVERNAME}, $pkgLocation, $pkgNameURL);
+		$pkgURLPath =~  s/\/\//\//so;
 		my $pkgSize = sprintf("%.0f kB", $row2->{package_size}/1000);
 		my %item = ( PKGNAME => $row2->{package_name},
 			PKGSIZE => $pkgSize,
@@ -304,7 +315,7 @@ sub _find_files {
 			PKGTEXT => "",
 			PKGFILES => 0,
 			PKGLOCATION => $pkgLocation,
-			PKGURL => $scriptPath.'view.cgi/view/'.$row2->{id_packages},
+			PKGURL => $pkgURLPath,
 		);
 		my $key2 = $row2->{id_packages};
 		$packagesFiltered{$key2} = \%item;
@@ -312,7 +323,7 @@ sub _find_files {
 	
 	my $idPkgsFilt = join(", ", keys(%packagesFiltered));
 	my $sql3 = "SELECT id_packages, file_name FROM files WHERE \
-	file_name LIKE '%".$needle."%' AND id_packages IN ("
+	file_name LIKE '%".$findParams->{NEEDLE}."%' AND id_packages IN ("
 	.$idPkgsFilt.");";
 	my $result3 = $dbhLite->selectall_arrayref($sql3, { Slice => {}});
 
