@@ -25,8 +25,11 @@ sub _getConfig {
 		chomp($line);
 		next unless ($line =~ /^\$CFG{[A-Za-z0-9\_\-]+}.+=*;$/);
 		my $left = substr($line, 0, index($line, '=')-1);
-		my $right = substr($line, index($line, '=')+1);
+		$left =~ s/^\s+//g;
+		$left =~ s/\s+$//g;
 		my $key = substr($left, index($left, '{')+1, index($left, '}')-1);
+
+		my $right = substr($line, index($line, '=')+1, rindex($line, ';')-1);
 		$right =~ s/^\s+//g;
 		$right =~ s/\s+$//g;
 		my $value;
