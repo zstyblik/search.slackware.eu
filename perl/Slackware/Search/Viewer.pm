@@ -135,8 +135,9 @@ sub download {
 			exist.", '/cgi-bin/search.cgi');
 	}
 
-	my $template = $self->load_tmpl('view.htm');
+	my $template = $self->load_tmpl('index.htm');
 	$template->param(TITLE => $pkgDetail->{PKGNAME});
+	$template->param(PKG => 1);
 	$template->param(COUNTRY => $country);
 
 	for my $value (keys(%$pkgDetail)) {
@@ -215,8 +216,9 @@ sub inspect {
 			exist.", '/cgi-bin/search.cgi');
 	}
 
-	my $template = $self->load_tmpl('view.htm');
+	my $template = $self->load_tmpl('index.htm');
 	$template->param(TITLE => $pkgDetail->{PKGNAME});
+	$template->param(PKG => 1);
 
 	for my $value (keys(%$pkgDetail)) {
 		$template->param($value => $pkgDetail->{$value});
@@ -303,8 +305,9 @@ sub view {
 			exist.", '/cgi-bin/search.cgi');
 	}
 
-	my $template = $self->load_tmpl('view.htm');
+	my $template = $self->load_tmpl('index.htm');
 	$template->param(TITLE => $pkgDetail->{PKGNAME});
+	$template->param(PKG => 1);
 
 	for my $value (keys(%$pkgDetail)) {
 		$template->param($value => $pkgDetail->{$value});
