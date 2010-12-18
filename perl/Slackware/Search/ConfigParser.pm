@@ -27,15 +27,16 @@ sub _getConfig {
 		my $left = substr($line, 0, index($line, '=')-1);
 		$left =~ s/^\s+//g;
 		$left =~ s/\s+$//g;
-		my $key = substr($left, index($left, '{')+1, index($left, '}')-1);
+		my $key = substr($left, index($left, '{')+1, -1);
 
-		my $right = substr($line, index($line, '=')+1, rindex($line, ';')-1);
+		my $right = substr($line, index($line, '=')+1, rindex($line, ';'));
+		$right = substr($right, 0, rindex($right, ';'));
 		$right =~ s/^\s+//g;
 		$right =~ s/\s+$//g;
 		my $value;
 		if ($right =~ /^'.*'$/ || $right =~ /^".*"$/) {
-			$right = substr($right, 1, length($right));
-			$value = chomp($right);
+			$value = substr($right, 1, length($right));
+			chop($value);
 		} else {
 			$value = $right;
 		}
