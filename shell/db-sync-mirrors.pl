@@ -5,18 +5,26 @@
 # Desc: wipe out old (removed) mirrors
 #
 use lib "/srv/httpd/search.slackware.eu/perl/";
-use Slackware::Search::ConfigParser;
+use Slackware::Search::ConfigParser qw(_getConfig);
 
 use strict;
 use warnings;
 use DBI;
 
-require '/srv/httpd/search.slackware.eu/conf/config.pl';
+use constant CFGFILE = '/srv/httpd/search.slackware.eu/conf/config.pl';
 
 my $slacksite = 'http://www.slackware.com/getslack/';
 my $startMatch = '<TD><B>max. users</B></TD>';
 my $stopMatch = '</TABLE>';
 my $lineMatch = 'A HREF=\"(ftp|http):\/\/';
+
+my $cfgParser = 'Slackware::Search::ConfigParser';
+my %CFG = $cfgParser->_getConfig(CFGFILE);
+
+unless (%CFG || keys(%CFG)) {
+	printf("Parsing of config file has failed.\n");
+	exit 2;
+}
 
 my $dbh = DBI->connect($CFG{DB_DSN},
 $CFG{DB_USER},
