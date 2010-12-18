@@ -485,7 +485,6 @@ sub _get_haystacks {
 # desc: return slackversions in db
 # $idSlackver: integer;
 # @return: array;
-# TODO ~ DEBUG ME!
 sub _get_slackversions {
 	my $self = shift;
 	my $idSlackver = shift || -1;
