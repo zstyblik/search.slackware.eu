@@ -316,7 +316,7 @@ sub view {
 	my $pkgNameURL = $pkgDetail->{PKGNAME};
 	$pkgNameURL =~ s/\.t(g|x)z//;
 	my $pkgURLPath = sprintf("%sview.cgi/inspect/%s/%s/%s/%s", 
-		$ENV{SCRIPT_NAME}, $findParams->{SLACKVERNAME}, 
+		$ENV{SCRIPT_NAME}, $pkgDetail->{PKGSVER}, 
 		$pkgDetail->{PKGCAT}, $pkgDetail->{PKGSER}, $pkgNameURL);
 	$pkgURLPath =~  s/\/\//\//so;
 
