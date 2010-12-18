@@ -42,8 +42,11 @@
 				<!--- div with content -->
 				<div id="content">
 
-<TMPL_IF NAME="LINKS"><TMPL_INCLUDE NAME="links.htm"></TMPL_IF>
-<TMPL_IF NAME="ABOUT"><TMPL_INCLUDE NAME="about.htm"></TMPL_IF>
+<TMPL_IF NAME="ABOUT"><TMPL_INCLUDE NAME="tmpl_about.htm"></TMPL_IF>
+<TMPL_IF NAME="ERROR"><TMPL_INCLUDE NAME="tmpl_error.htm"></TMPL_IF>
+<TMPL_IF NAME="LINKS"><TMPL_INCLUDE NAME="tmpl_links.htm"></TMPL_IF>
+<TMPL_IF NAME="PKG"><TMPL_INCLUDE NAME="tmpl_pkg.htm"></TMPL_IF>
+<TMPL_IF NAME="SEARCH"><TMPL_INCLUDE NAME="tmpl_search.htm"></TMPL_IF>
 
 				</div> <!--- content div -->
 <!-- TODO ~ add IF here? -->
@@ -56,7 +59,7 @@
 			</div> <!--- cframe -->
 
 			<div id="footer">
-				<TMPL_INCLUDE NAME="footer.htm">
+<TMPL_INCLUDE NAME="tmpl_footer.htm">
 				<br />
 			</div> <!--- footer -->
 		</div> <!--- main div -->
