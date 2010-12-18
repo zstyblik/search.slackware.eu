@@ -518,7 +518,7 @@ sub _get_pkg_details {
 		$serie = $hashPkg->{serie_name};
 	}
 
-	my $pkgNameURL = $hashPkg->{PKGNAME};
+	my $pkgNameURL = $hashPkg->{package_name};
 	$pkgNameURL =~ s/\.t(g|x)z//;
 	my $pkgURLPath = sprintf("%s/%s/%s/%s", 
 		$hashPkg->{slackversion_name}, 
