@@ -14,7 +14,7 @@ use constant NEEDLEMINLENGTH => 2;
 
 sub setup {
 	my $self = shift;
-	$self->start_mode('news');
+	$self->start_mode('searchform');
 	$self->error_mode('error');
 	$self->mode_param(
 		path_info => 1,
@@ -22,7 +22,7 @@ sub setup {
 	);
 	$self->header_props(-type => 'text/html', -charset => 'UTF-8');
 	$self->run_modes(
-		'news' => 'search_news',
+		'searchform' => 'search_form',
 		'search' => 'search_fetch',
 	);
 } # sub setup 
@@ -59,10 +59,11 @@ sub error: ErrorRunmode {
 	return $template->output();
 } # sub error
 
-sub search_news: Runmode {
+sub search_form: Runmode {
 	my $self = shift;
-	my $template = $self->load_tmpl("search.htm");
+	my $template = $self->load_tmpl("index.htm");
 	$template->param(TITLE => "Search");
+	$template->param(SEARCH => 1);
 
 	my @slackVersions = $self->_get_slackversions;
 	my @categories = $self->_get_categories;
@@ -74,7 +75,7 @@ sub search_news: Runmode {
 	$template->param(CATS => \@categories);
 	$template->param(NEEDLE => '');
 	return $template->output();
-} # sub search_news
+} # sub search_form
 
 sub search_fetch: Runmode {
 	my $self = shift;
@@ -121,10 +122,11 @@ sub search_fetch: Runmode {
 			to be in DB.");
 	}
 
-	my $template = $self->load_tmpl("search.htm");
+	my $template = $self->load_tmpl("index.htm");
 	$template->param(TITLE => "Search results");
 	$template->param(SLACKVER => $slackVerName);
 	$template->param(SEARCH => 1);
+	$template->param(SEARCHRESULTS => 1);
 	$template->param(NEEDLE => $needle);
 
 	my @slackVersions = $self->_get_slackversions($idSlackver, 
