@@ -397,8 +397,10 @@ sub _find_packages {
 		my $pkgLocation = sprintf("%s/%s", $row->{category_name},
 			$row->{serie_name});
 		$pkgLocation =~ s/\/\//\//so;
+		my $pkgNameURL = $row->{package_name};
+		$pkgNameURL =~ s/\.t(g|x)z//;
 		my $pkgURLPath = sprintf("%sview.cgi/view/%s/%s/%s", $scriptPath, 
-			$findParams->{SLACKVERNAME}, $pkgLocation, $row->{package_name});
+			$findParams->{SLACKVERNAME}, $pkgLocation, $pkgNameURL);
 		$pkgURLPath =~  s/\/\//\//so;
 		my %item = ( PKGNAME => $row->{package_name},
 #			PKGSIZE => $row->{package_size},
