@@ -152,12 +152,14 @@ sub search_fetch: Runmode {
 	$template->param(CATS => \@categories);
 
 	my @results;
+	my %finParams = (NEEDLE => $needle,
+		IDSLACKVER => $idSlackver,
+		SLACKVERNAME => $slackVerName,
+	);
 	if ($haystack == 2) {
-		@results = $self->_find_packages($needle, $idSlackver, 
-			\@catsToCheck);
+		@results = $self->_find_packages(\%findParams, \@catsToCheck);
 	} else {
-		@results = $self->_find_files($needle, $idSlackver, 
-			$slackVerName, \@catsToCheck);
+		@results = $self->_find_files(\%findParams, \@catsToCheck);
 	}
 	unless (@results == 0) {
 		$template->param(RESULTS => \@results);
@@ -339,17 +341,24 @@ sub _find_files {
 # @return: array;
 sub _find_packages {
 	my $self = shift;
-	my $needle = shift;
-	my $idSlackver = shift;
+	my $findParams = shift;
+#	my $needle = shift;
+#	my $idSlackver = shift;
 	my $catsToCheck = shift;
 	my @pkgsFound;
-	unless ($needle) {
+	unless ($findParams) {
 		return @pkgsFound;
 	}
-	unless ($idSlackver) {
+	unless ($findParams->{NEEDLE}) {
 		return @pkgsFound;
 	}
-	if ($idSlackver !~ /^[0-9]+$/) {
+	unless ($findParams->{IDSLACKVER}) {
+		return @pkgsFound;
+	}
+	unless ($findParams->{SLACKVERNAME}) {
+		return @pkgsFound;
+	}
+	if ($findParams->{IDSLACKVER} !~ /^[0-9]+$/) {
 		return @pkgsFound;
 	}
 	unless ($catsToCheck) {
@@ -364,14 +373,19 @@ sub _find_packages {
 			join(",", @$catsToCheck));
 	}
 
-	my $sql1 = "SELECT id_packages, package_name, package_size, 
+	my $sql1 = "SELECT \
+	id_packages, 
+	package_name, \
+	package_size, \
 	package_created, \
-	package_desc, category.category_name, serie.serie_name \
- 	FROM view_packages FULL JOIN category ON \
-	category.id_category = view_packages.id_category \
+	package_desc, \
+	category.category_name, \
+	serie.serie_name \
+ 	FROM view_packages 
+	FULL JOIN category ON category.id_category = view_packages.id_category \
 	FULL JOIN serie ON serie.id_serie = view_packages.id_serie \
-	WHERE id_slackversion = ".$idSlackver." AND \
-	package_name LIKE '%".$needle."%'".$sqlCats
+	WHERE id_slackversion = ".$findParams->{IDSLACKVER}." AND \
+	package_name LIKE '%".$findParams->{NEEDLE}."%'".$sqlCats
 	." ORDER BY package_name;";
 
 	my $result1 = $dbh->selectall_arrayref($sql1, { Slice => {} });
@@ -380,15 +394,18 @@ sub _find_packages {
 		rindex($ENV{SCRIPT_NAME}, "/")+1);
 
 	for my $row (@$result1) {
-		my $pkgLocation = $row->{category_name}."/"
-		.$row->{serie_name};
+		my $pkgLocation = sprintf("%s/%s", $row->{category_name},
+			$row->{serie_name});
 		$pkgLocation =~ s/\/\//\//so;
+		my $pkgURLPath = sprintf("%sview.cgi/view/%s/%s/%s", $scriptPath, 
+			$findParams->{SLACKVERNAME}, $pkgLocation, $row->{package_name});
+		$pkgURLPath =~  s/\/\//\//so;
 		my %item = ( PKGNAME => $row->{package_name},
 #			PKGSIZE => $row->{package_size},
 			PKGDATE => $row->{package_created},
 			PKGTEXT => $row->{package_desc},
 			PKGLOCATION => $pkgLocation,
-			PKGURL => $scriptPath.'view.cgi/view/'.$row->{id_packages},
+			PKGURL => , # MARK
 		);
 		push(@pkgsFound, \%item);
 	}
