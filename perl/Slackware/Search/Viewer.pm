@@ -149,8 +149,11 @@ sub download {
 	my @mirrors = $self->_get_mirrors($country, $pkgPath);
 	$template->param(MIRRORS => \@mirrors);
 
-	my $dlLink = $ENV{SCRIPT_NAME}."/view/".$idPkgs;
-	$template->param(SWURL => $dlLink);
+	my $pkgURLPath = sprintf("%s/view/%s", $ENV{SCRIPT_NAME},
+		$pkgDetail->{PKGURLPATH});
+	undef($pkgDetail->{PKGURLPATH});
+
+	$template->param(SWURL => $pkgURLPath);
 	$template->param(SWLABEL => "Back");
 
 	return $template->output();
@@ -231,8 +234,11 @@ sub inspect {
 		$template->param(PKGFILES => \@pkgFiles);
 	}
 	
-	my $dlLink = $ENV{SCRIPT_NAME}."/view/".$idPkgs;
-	$template->param(SWURL => $dlLink);
+	my $pkgURLPath = sprintf("%s/view/%s", $ENV{SCRIPT_NAME},
+		$pkgDetail->{PKGURLPATH});
+	undef($pkgDetail->{PKGURLPATH});
+
+	$template->param(SWURL => $pkgURLPath);
 	$template->param(SWLABEL => "Download");
 
 	return $template->output();
@@ -315,6 +321,7 @@ sub view {
 
 	my $pkgURLPath = sprintf("%s/inspect/%s", $ENV{SCRIPT_NAME},
 		$pkgDetail->{PKGURLPATH});
+	undef($pkgDetail->{PKGURLPATH});
 
 	$template->param(SWURL => $pkgURLPath);
 	$template->param(SWLABEL => "Files");
