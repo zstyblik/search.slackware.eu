@@ -14,14 +14,6 @@ fi
 
 source "${CFG}"
 
-# TODO ~ CLEAN UP!
-#LINK='ftp://ftp.sh.cvut.cz/storage/1/slackware'
-#LINK='ftp://10.117.5.4/'
-#STORDIR='/home/search.slackware.eu/'
-#TMPDIR='/mnt/tmp/search.slack/'
-#BATCHDIR='/tmp/search.slack/'
-#SCRIPTDIR='/home/search.slackware.eu/shell/'
-
 ARG1=${1:-""}
 
 if [ -z "${ARG1}" ]; then
