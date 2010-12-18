@@ -74,6 +74,8 @@ sub search_form: Runmode {
 	$template->param(SVERS => \@slackVersions);
 	$template->param(CATS => \@categories);
 	$template->param(NEEDLE => '');
+	$template->param(HSTACKSELFILES=>'');
+	$template->param(HSTACKSELPKGS=>' selected="selected"');
 	return $template->output();
 } # sub search_form
 
@@ -128,6 +130,8 @@ sub search_fetch: Runmode {
 	$template->param(SEARCH => 1);
 	$template->param(SEARCHRESULTS => 1);
 	$template->param(NEEDLE => $needle);
+	$template->param(HSTACKSELFILES=>'');
+	$template->param(HSTACKSELPKGS=>'');
 
 	my @slackVersions = $self->_get_slackversions($idSlackver, 
 		$slackVerName);
@@ -156,9 +160,12 @@ sub search_fetch: Runmode {
 		IDSLACKVER => $idSlackver,
 		SLACKVERNAME => $slackVerName,
 	);
+	
 	if ($haystack == 2) {
+		$template->param(HSTACKSELPKGS=>' selected="selected"');
 		@results = $self->_find_packages(\%findParams, \@catsToCheck);
 	} else {
+		$template->param(HSTACKSELFILES=>' selected="selected"');
 		@results = $self->_find_files(\%findParams, \@catsToCheck);
 	}
 	unless (@results == 0) {
@@ -185,24 +192,6 @@ sub search_fetch: Runmode {
 	$template->param(TIMETAKEN => $timeTaken);
 	return $template->output();
 } # sub search_fetch
-# desc: return categories of slackversion;
-# @return: array;
-sub _get_categories  {
-	my $self = shift;
-# future
-#	my $idSlackVer = shift;
-	my $dbh = $self->dbh;
-	my $sql1 = "SELECT id_category, category_name FROM category;";
-	my $result1 = $dbh->selectall_arrayref($sql1, { Slice => {} });
-	my @cats;
-	for my $row (@$result1) {
-		my %item = (IDCAT => $row->{id_category}, 
-			CATNAME => $row->{category_name}, 
-		);
-		push(@cats, \%item);
-	}
-	return @cats;
-} # sub _get_categories
 # desc: find packages->files matching $needle in SQLite
 # $needle: string;
 # $slackver: string;
@@ -425,6 +414,25 @@ sub _find_packages {
 
 	return @pkgsFound;
 } # sub _find_packages
+# desc: return categories of slackversion;
+# $idSlackVer: integer;
+# @return: array;
+sub _get_categories  {
+	my $self = shift;
+# future
+#	my $idSlackVer = shift;
+	my $dbh = $self->dbh;
+	my $sql1 = "SELECT id_category, category_name FROM category;";
+	my $result1 = $dbh->selectall_arrayref($sql1, { Slice => {} });
+	my @cats;
+	for my $row (@$result1) {
+		my %item = (IDCAT => $row->{id_category}, 
+			CATNAME => $row->{category_name}, 
+		);
+		push(@cats, \%item);
+	}
+	return @cats;
+} # sub _get_categories
 # desc: return slackversion name (string)
 # $idSlackversion: int;
 # @return: string/undef;
@@ -447,8 +455,37 @@ sub _get_slackversion_name {
 	my $slackversion = $dbh->selectrow_array($sql2);
 	return $slackversion;
 } # sub _get_slackversion_name
-# desc: return slackversions in db
+# desc: return haystacks
+# $idHaystack: integer;
 # @return: array;
+sub _get_haystacks {
+	my $self = shift;
+	my $idHaystack = shift || -1;
+	my @haystacks;
+	unless ($idHaystack =~ /^[0-9]+$/) {
+		return @haystacks;
+	}
+	my %files = (IDHAYSTACK => 1,
+		HAYDESC => 'files',
+		SELECTED => '',
+	);
+	my %pkgs = (IDHAYSTACK => 2,
+		HAYDESC => 'packages',
+		SELECTED => '',
+	);
+	if ($idHaystack == 1) {
+		$files->{SELECTED} = ' selected="selected"';
+	} else {
+		$pkgs->{SELECTED} = ' selected="selected"';
+	}
+	push(@haystacks, \%files);
+	push(@haystacks, \%pkgs);
+	return @haystacks;
+}
+# desc: return slackversions in db
+# $idSlackver: integer;
+# @return: array;
+# TODO ~ DEBUG ME!
 sub _get_slackversions {
 	my $self = shift;
 	my $idSlackver = shift || -1;
