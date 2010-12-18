@@ -300,10 +300,10 @@ sub _find_files {
 
 	my %packagesFiltered;
 	for my $row2 (@$result2) {
-		my $pkgLocation = sprintf("%s/%s", $row->{category_name},
-			$row->{serie_name});
+		my $pkgLocation = sprintf("%s/%s", $row2->{category_name},
+			$row2->{serie_name});
 		$pkgLocation =~ s/\/\//\//so;
-		my $pkgNameURL = $row->{package_name};
+		my $pkgNameURL = $row2->{package_name};
 		$pkgNameURL =~ s/\.t(g|x)z//;
 		my $pkgURLPath = sprintf("%sview.cgi/view/%s/%s/%s", $scriptPath, 
 			$findParams->{SLACKVERNAME}, $pkgLocation, $pkgNameURL);
