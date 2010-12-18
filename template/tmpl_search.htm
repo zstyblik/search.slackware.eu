@@ -5,8 +5,8 @@
 						<input id="rm" name="rm" type="hidden" value="search" />
 						<input id="needle" name="needle" type="text" value="<TMPL_VAR NEEDLE>" />
 						<select id="haystack" name="haystack">
-							<option value="1">files</option>
-							<option value="2" selected="selected">packages</option>
+							<option value="1"<TMPL_VAR NAME="HSTACKSELFILES">>files</option>
+							<option value="2"<TMPL_VAR NAME="HSTACKSELPKGS">>packages</option>
 						</select>
 						<select id="sver" name="sver">
 							<TMPL_LOOP NAME="SVERS">
