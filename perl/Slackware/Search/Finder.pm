@@ -474,9 +474,9 @@ sub _get_haystacks {
 		SELECTED => '',
 	);
 	if ($idHaystack == 1) {
-		$files->{SELECTED} = ' selected="selected"';
+		$files{SELECTED} = ' selected="selected"';
 	} else {
-		$pkgs->{SELECTED} = ' selected="selected"';
+		$pkgs{SELECTED} = ' selected="selected"';
 	}
 	push(@haystacks, \%files);
 	push(@haystacks, \%pkgs);
