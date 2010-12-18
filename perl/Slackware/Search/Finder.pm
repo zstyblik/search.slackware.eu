@@ -152,7 +152,7 @@ sub search_fetch: Runmode {
 	$template->param(CATS => \@categories);
 
 	my @results;
-	my %finParams = (NEEDLE => $needle,
+	my %findParams = (NEEDLE => $needle,
 		IDSLACKVER => $idSlackver,
 		SLACKVERNAME => $slackVerName,
 	);
@@ -405,7 +405,7 @@ sub _find_packages {
 			PKGDATE => $row->{package_created},
 			PKGTEXT => $row->{package_desc},
 			PKGLOCATION => $pkgLocation,
-			PKGURL => , # MARK
+			PKGURL => $pkgURLPath,
 		);
 		push(@pkgsFound, \%item);
 	}
