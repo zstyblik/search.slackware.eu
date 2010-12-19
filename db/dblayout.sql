@@ -30,7 +30,7 @@ CREATE OR REPLACE RULE "ctgry_insert_ignore" AS ON INSERT TO category WHERE EXIS
 CREATE TABLE country (
 	id_country SERIAL NOT NULL PRIMARY KEY UNIQUE,
 	name VARCHAR NOT NULL,
-	flag TEXT NOT NULL DEFAULT '/img/flag-icons/png/none.png'
+	flag_url TEXT NOT NULL DEFAULT '/img/flag-icons/png/none.png'
 );
 
 CREATE TABLE mirror (
