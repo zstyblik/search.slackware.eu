@@ -1,19 +1,28 @@
 <!-- TODO ~ rename to tmpl_ -->
 				<h2>Select a location to download from:</h2>
-				<table id="countries-table">
+				<TMPL_LOOP name="COUNTRIES">
+				<div style="display: table-cell;">
+					<a href="<TMPL_VAR LINKCOUNTRY>">
+						<img src="<TMPL_VAR LINKFLAGPICT>" /><TMPL_VAR NAME="COUNTRY">
+					</a>
+				</div>
+				</TMPL_LOOP>
+						<!--
+				<table>
 					<TMPL_LOOP name="COUNTRIES"><tr>
-						<td class="countries-table-tr-td-light">
-							<TMPL_IF name="CNAME1"><a href="<TMPL_VAR CLINK1>"><TMPL_VAR name="CNAME1"></a></TMPL_IF>
+						<td>
+							<TMPL_IF name="CNAME1"><img src="<TMPL_VAR FLAGLINK1>" /><a href="<TMPL_VAR CLINK1>"><TMPL_VAR name="CNAME1"></a></TMPL_IF>
 						</td>
-						<td class="countries-table-tr-td-dark">
-							<TMPL_IF name="CNAME2"><a href="<TMPL_VAR CLINK2>"><TMPL_VAR name="CNAME2"></a></TMPL_IF>
+						<td>
+							<TMPL_IF name="CNAME2"><img src="<TMPL_VAR FLAGLINK2>" /><a href="<TMPL_VAR CLINK2>"><TMPL_VAR name="CNAME2"></a></TMPL_IF>
 						</td>
-						<td class="countries-table-tr-td-light">
-							<TMPL_IF name="CNAME3"><a href="<TMPL_VAR CLINK3>"><TMPL_VAR name="CNAME3"></a></TMPL_IF>
+						<td>
+							<TMPL_IF name="CNAME3"><img src="<TMPL_VAR FLAGLINK3>" /><a href="<TMPL_VAR CLINK3>"><TMPL_VAR name="CNAME3"></a></TMPL_IF>
 						</td>
-						<td class="countries-table-tr-td-dark">
-							<TMPL_IF name="CNAME4"><a href="<TMPL_VAR CLINK4>"><TMPL_VAR name="CNAME4"></a></TMPL_IF>
+						<td>
+							<TMPL_IF name="CNAME4"><img src="<TMPL_VAR FLAGLINK4>" /><a href="<TMPL_VAR CLINK4>"><TMPL_VAR name="CNAME4"></a></TMPL_IF>
 						</td>
 					</tr>
 					</TMPL_LOOP>
 				</table>
+--!>
