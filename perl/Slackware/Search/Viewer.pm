@@ -393,9 +393,6 @@ sub _get_mirror_locations {
 	}
 
 	# TODO ~ stuff it ... to the function, for . sake!
-	my $pkgPath = "/".$pkgDetail->{PKGSVER}."/".$pkgDetail->{PKGCAT}
-	."/".$pkgDetail->{PKGSER}."/".$pkgDetail->{PKGNAME};
-
 	my $pkgNameURL = $pkgDetail->{PKGNAME};
 	$pkgNameURL =~ s/\.t(g|x)z//;
 	my $link = sprintf("%s/download/%s/%s/%s/%s", $ENV{SCRIPT_NAME}, 
@@ -408,7 +405,7 @@ sub _get_mirror_locations {
 		$countryEnc =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
 		my $countryURL = sprintf("%s/%s", $link, $countryEnc);
 		my %item = (COUNTRY => $country->{name},
-			LINKCOUNTRY => $country->{flag_url},
+			LINKFLAG => $country->{flag_url},
 			LINKCOUNTRY => $countryURL,
 		);
 		push(@countries, \%item);
