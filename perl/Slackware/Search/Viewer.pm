@@ -351,9 +351,8 @@ sub _get_country_id {
 		name = '%s';", $country);
 	my $result1 = $dbh->selectrow_array($sql1);
 	return -1 unless $result1;
-	return 1;
+	return $result1;
 }
-
 # desc: return formated list of locations
 # $idPkgs: int;
 # @return: array;
