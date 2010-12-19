@@ -2,28 +2,30 @@
 # 2010/Mar/16 @ Zdenek Styblik
 # desc: Update Slackware packages, descriptions, files and whatever
 use lib "/srv/httpd/search.slackware.eu/perl/";
-use Slackware::Search::ConfigParser;
+use Slackware::Search::ConfigParser qw(_getConfig);
 use Slackware::Search::SupportLib qw(:T1);
 
 use DBI;
 use strict;
 use warnings;
 
-my $idSlackVer = -1;
-my $dbHost = '/tmp/';
-my $dbPort = 5432;
-my $dbName = 'pkgs';
-my $dbUser = 'pkgs';
-my $dbPass = 'swarePkgs';
+use constant CFGFILE => '/srv/httpd/search.slackware.eu/conf/config.pl';
 
-my $dbh = DBI->connect("DBI:Pg:dbname=$dbName;
-	host=$dbHost;port=$dbPort;",
-	$dbUser,
-	$dbPass,
+my $cfgParser = 'Slackware::Search::ConfigParser';
+my %CFG = $cfgParser->_getConfig(CFGFILE);
+
+unless (%CFG || keys(%CFG)) {
+	printf("Parsing of config file has failed.\n");
+	exit 2;
+}
+
+my $dbh = DBI->connect($CFG{DB_DSN},
+$CFG{DB_USER},
+$CFG{DB_PASS},
 	{
-			AutoCommit => 0, 
-			RaiseError => 0, 
-			PrintError => 1
+		AutoCommit => 0, 
+		RaiseError => 1, 
+		PrintError => 1
 	}
 );
 
@@ -62,6 +64,7 @@ if ($sverExists == 0) {
 	print "Please use add script.\n";
 	exit 1;
 }
+my $idSlackVer = -1;
 $idSlackVer = $slib->getSlackVerId($ARGV[0]);
 $slib->_set_sverName($ARGV[0]);
 
