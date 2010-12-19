@@ -1,8 +1,17 @@
 				<h2>Select a location to download from:</h2>
-				<TMPL_LOOP name="COUNTRIES">
-				<div class="country">
-					<a href="<TMPL_VAR LINKCOUNTRY>">
-						<img src="<TMPL_VAR LINKFLAG>" alt="<TMPL_VAR COUNTRY>" /><TMPL_VAR NAME="COUNTRY">
-					</a>
-				</div>
-				</TMPL_LOOP>
+				<table>
+					<TMPL_LOOP name="COUNTRIES"><tr>
+						<td class="country">
+							<a href="<TMPL_VAR LINKCOUNTRY>">
+								<img src="<TMPL_VAR LINKFLAG>" alt="<TMPL_VAR COUNTRY>" /><TMPL_VAR NAME="COUNTRY">
+							</a>
+						</td>
+						<td class="country">
+						</td>
+						<td class="country">
+						</td>
+						<td class="country">
+						</td>
+					</tr>
+					</TMPL_LOOP>
+				</table>
