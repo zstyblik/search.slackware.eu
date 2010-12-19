@@ -1,28 +1,29 @@
 #!/usr/bin/perl
 # 2010/Mar/18 @ Zdenek Styblik
 use lib "/srv/httpd/search.slackware.eu/perl/";
-use Slackware::Search::ConfigParser;
+use Slackware::Search::ConfigParser qw(_getConfig);
 
 use DBI;
 use strict;
 use warnings;
 
-my $idSlackVer = -1;
-my $sqLitePath = '/srv/httpd/search.slackware.eu/db/';
-my $dbHost = '/tmp/';
-my $dbPort = 5432;
-my $dbName = 'pkgs';
-my $dbUser = 'pkgs';
-my $dbPass = 'swarePkgs';
+use constant CFGFILE => '/srv/httpd/search.slackware.eu/conf/config.pl';
 
-my $dbh = DBI->connect("DBI:Pg:dbname=$dbName;
-	host=$dbHost;port=$dbPort;",
-	$dbUser,
-	$dbPass,
+my $cfgParser = 'Slackware::Search::ConfigParser';
+my %CFG = $cfgParser->_getConfig(CFGFILE);
+
+unless (%CFG || keys(%CFG)) {
+	printf("Parsing of config file has failed.\n");
+	exit 2;
+}
+
+my $dbh = DBI->connect($CFG{DB_DSN},
+$CFG{DB_USER},
+$CFG{DB_PASS},
 	{
-			AutoCommit => 0, 
-			RaiseError => 0, 
-			PrintError => 1
+		AutoCommit => 0, 
+		RaiseError => 0, 
+		PrintError => 1
 	}
 );
 
@@ -42,7 +43,7 @@ if ($ARGV[0] !~ /^slackware(64)?-([0-9]+\.[0-9]+|current){1}$/i) {
 	exit 1;
 }
 
-my $sqLiteFile = $sqLitePath."/".$ARGV[0].".sq3";
+my $sqLiteFile = $CFG{SQLITE_PATH}."/".$ARGV[0].".sq3";
 my $dbhLite = DBI->connect("dbi:SQLite:dbname=".$sqLiteFile, 
 	"","", 
 	{ AutoCommit => 1,
