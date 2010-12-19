@@ -432,7 +432,7 @@ sub _get_mirror_locations {
 		if ($country1) {
 			my $cEnc1 = $country1;
 			$cEnc1 =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
-			$cLink1 = $link.$cEnc1."/".$idPkgs;
+			$cLink1 = $link.$cEnc1;
 		}
 
 		my $country2 = shift(@arrTwo);
@@ -440,7 +440,7 @@ sub _get_mirror_locations {
 		if ($country2) {
 			my $cEnc2 = $country2;
 			$cEnc2 =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
-			$cLink2 = $link.$cEnc2."/".$idPkgs;
+			$cLink2 = $link.$cEnc2;
 		}
 		
 		my $country3 = shift(@arrThree);
@@ -448,7 +448,7 @@ sub _get_mirror_locations {
 		if ($country3) {
 			my $cEnc3 = $country3;
 			$cEnc3 =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
-			$cLink3 = $link.$cEnc3."/".$idPkgs;
+			$cLink3 = $link.$cEnc3;
 		}
 
 		my $country4 = shift(@arrFour);
@@ -456,7 +456,7 @@ sub _get_mirror_locations {
 		if ($country4) {
 			my $cEnc4 = $country4;
 			$cEnc4 =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
-			$cLink4 = $link.$cEnc4."/".$idPkgs;
+			$cLink4 = $link.$cEnc4;
 		}
 
 		my %item = (CNAME1 => $country1,
