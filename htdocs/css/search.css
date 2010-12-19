@@ -151,14 +151,7 @@ select {
 	border: 0px solid #000;
 }
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-
 /* RENAME ~ download, back etc. */
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 #switch-button {
 	margin-left: 40px;
 	position: relative;
@@ -176,9 +169,9 @@ select {
 	min-width: 25px;
 	width: 25px;
 }
-
+/*
 #countries-table {
-	background-color: #000fff; /* fixme */
+	background-color: #000fff;
 	border: 1px solid #000;
 	border-collapse: collapse;
 	margin-left: 40px;
@@ -201,7 +194,7 @@ select {
 #countries-table .countries-table-tr-td-dark {
 	background-color: #D9CEB2;
 }
-
+*/
 /* FOUND PKGS */
 .div-result { 
 	border: 1px solid #000;
@@ -239,6 +232,19 @@ select {
 }
 /* END FOUND PKGS */
 
+/* COUNTRY LIST */
+.country {
+}
+.country img {
+	border: 0px solid #000;
+	height: 11px;
+	min-height: 11px;
+	min-width: 16px;
+	max-height: 11px;
+	max-width: 16px;
+	width: 16px;
+}
+/* END COUNTRY LIST */
 
 /* LINK BACK TO TOP */
 /* RENAME !!! */
@@ -268,6 +274,9 @@ select {
 	margin-right: 10px;
 	text-align: right;
 }
+
+/* OLD SHIT ??? */
+/* REMOVE ??? */
 
 /*
 #content table {
