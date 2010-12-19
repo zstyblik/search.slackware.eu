@@ -124,11 +124,6 @@ sub download {
 		return $self->error("Package is not in DB.", '/cgi-bin/search.cgi');
 	}
 
-#	my $idPkgs = $q->param('idpkgs');
-#	unless ($idPkgs =~ /^[0-9]+$/) {
-#		return $self->error("Opps! Wrong parameter.", '/cgi-bin/search.cgi');
-#	}
-
 	my $pkgDetail = $self->_get_pkg_details($idPkgs);
 	unless ($pkgDetail) {
 		return $self->error("It looks like this package doesn't \
@@ -209,13 +204,6 @@ sub inspect {
 		return $self->error("Package is not in DB.", '/cgi-bin/search.cgi');
 	}
 
-
-#	my $idPkgs = $q->param('idpkgs');
-
-#	unless ($idPkgs =~ /^[0-9]+$/) {
-#		return $self->error("Opps! Wrong parameter.", '/cgi-bin/search.cgi');
-#	}
-
 	my $pkgDetail = $self->_get_pkg_details($idPkgs);
 	unless ($pkgDetail) {
 		return $self->error("It looks like this package doesn't \
@@ -261,12 +249,6 @@ sub noview {
 sub view {
 	my $self = shift;
 	my $q = $self->query();
-# TODO ~ delete
-#	my $idPkgs = $q->param('idpkgs');
-#	unless ($idPkgs =~ /^[0-9]+$/) {
-#		return $self->error("Opps! Wrong parameter.", '/cgi-bin/search.cgi');
-#	}
-
 
 	# get params
 	my $slackver = $q->param('slackver');
@@ -365,8 +347,8 @@ sub _get_country_id {
 		return -1;
 	}
 	my $dbh = $self->dbh;
-	my $sql1 = sprintf("SELECT id_mirror FROM mirror WHERE 
-		mirror_location = '%s';", $country);
+	my $sql1 = sprintf("SELECT id_country FROM country WHERE 
+		name = '%s';", $country);
 	my $result1 = $dbh->selectrow_array($sql1);
 	return -1 unless $result1;
 	return 1;
