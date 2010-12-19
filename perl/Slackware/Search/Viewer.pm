@@ -385,33 +385,11 @@ sub _get_mirror_locations {
 	}
 
 	my $dbh = $self->dbh;
-	my $sql1 = "SELECT mirror_location FROM mirror \
-	GROUP BY mirror_location ORDER BY mirror_location;";
+	my $sql1 = "SELECT name, flag_url FROM country ORDER BY name;";
 	my $result1 = $dbh->selectall_arrayref($sql1, { Slice => {}});
 
 	unless ($result1) {
 		return @countries;
-	}
-
-	my (@arrOne, @arrTwo, @arrThree, @arrFour);
-	my $ctrCount = @$result1;
-	
-	my $counter = 0;
-	while (my $country = shift(@$result1)) {
-		$counter++;
-		if ($counter <= ($ctrCount*(1/4))) {
-			push(@arrOne, $country->{mirror_location});
-			next;
-		}
-		if ($counter <= ($ctrCount*(2/4))) {
-			push(@arrTwo, $country->{mirror_location});
-			next;
-		}
-		if ($counter <= ($ctrCount*(3/4))) {
-			push(@arrThree, $country->{mirror_location});
-			next;
-		}
-		push(@arrFour, $country->{mirror_location});
 	}
 
 	# TODO ~ stuff it ... to the function, for . sake!
@@ -425,51 +403,15 @@ sub _get_mirror_locations {
 		$pkgDetail->{PKGCAT}, $pkgDetail->{PKGSER}, $pkgNameURL);
 	$link =~  s/\/\//\//so;
 
-	$counter = 0;
-	while ($counter < ($ctrCount/4)) {
-		my $country1 = shift(@arrOne);
-		my $cLink1;
-		if ($country1) {
-			my $cEnc1 = $country1;
-			$cEnc1 =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
-			$cLink1 = sprintf("%s/%s", $link, $cEnc1);
-		}
-
-		my $country2 = shift(@arrTwo);
-		my $cLink2;
-		if ($country2) {
-			my $cEnc2 = $country2;
-			$cEnc2 =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
-			$cLink2 = sprintf("%s/%s", $link, $cEnc2);
-		}
-		
-		my $country3 = shift(@arrThree);
-		my $cLink3;
-		if ($country3) {
-			my $cEnc3 = $country3;
-			$cEnc3 =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
-			$cLink3 = sprintf("%s/%s", $link, $cEnc3);
-		}
-
-		my $country4 = shift(@arrFour);
-		my $cLink4;
-		if ($country4) {
-			my $cEnc4 = $country4;
-			$cEnc4 =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
-			$cLink4 = sprintf("%s/%s", $link, $cEnc4);
-		}
-
-		my %item = (CNAME1 => $country1,
-			CLINK1 => $cLink1,
-			CNAME2 => $country2,
-			CLINK2 => $cLink2,
-			CNAME3 => $country3,
-			CLINK3 => $cLink3,
-			CNAME4 => $country4,
-			CLINK4 => $cLink4,
+	while (my $country = shift(@$result1)) {
+		my $countryEnc = $country->{name};
+		$countryEnc =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
+		my $countryURL = sprintf("%s/%s", $link, $countryEnc);
+		my %item = (COUNTRY => $country->{name},
+			LINKCOUNTRY => $country->{flag_url},
+			LINKCOUNTRY => $countryURL,
 		);
 		push(@countries, \%item);
-		$counter++;
 	}
 
 	return @countries;
