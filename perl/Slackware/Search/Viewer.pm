@@ -335,7 +335,7 @@ sub view {
 	$template->param(SWURL => $pkgURLPath);
 	$template->param(SWLABEL => "Files");
 
-	my @countries = $self->_get_mirror_locations($idPkgs);
+	my @countries = $self->_get_mirror_locations($pkgDetail);
 	$template->param(COUNTRIES => \@countries);
 
 	return $template->output();
@@ -377,9 +377,10 @@ sub _get_country_id {
 # @return: array;
 sub _get_mirror_locations {
 	my $self = shift;
-	my $idPkgs = shift; # later later later...
+	my $pkgDetail = shift;
 	my @countries;
-	unless ($idPkgs =~ /^[0-9]+$/) {
+	# TODO ~ more checking?
+	unless ($pkgDetail) {
 		return @countries;
 	}
 
@@ -413,8 +414,18 @@ sub _get_mirror_locations {
 		push(@arrFour, $country->{mirror_location});
 	}
 
+	# TODO ~ stuff it ... to the function, for . sake!
+	my $pkgPath = "/".$pkgDetail->{PKGSVER}."/".$pkgDetail->{PKGCAT}
+	."/".$pkgDetail->{PKGSER}."/".$pkgDetail->{PKGNAME};
+
+	my $pkgNameURL = $pkgDetail->{PKGNAME};
+	$pkgNameURL =~ s/\.t(g|x)z//;
+	my $link = sprintf("%s/download/%s/%s/%s/%s", $ENV{SCRIPT_NAME}, 
+		$pkgDetail->{PKGSVER}, 
+		$pkgDetail->{PKGCAT}, $pkgDetail->{PKGSER}, $pkgNameURL);
+	$link =~  s/\/\//\//so;
+
 	$counter = 0;
-	my $link = $ENV{SCRIPT_NAME}."/download/";
 	while ($counter < ($ctrCount/4)) {
 		my $country1 = shift(@arrOne);
 		my $cLink1;
