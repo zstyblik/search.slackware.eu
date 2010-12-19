@@ -53,6 +53,16 @@ for my $line1 (`curl -s '$slacksite'| grep 'list\.php\?country='`)
 		next if ($char !~ /[A-Za-z0-9\ ]+/);
 		$country.= $char;
 	}
+	my $sql100 = sprintf("SELECT id_country FROM country WHERE 
+	name = '%s';", $country);
+	my $idCountry = $dbh->selectrow_array($sql100);
+	# evaluate
+	if (!$idCountry) {
+		my $sql101 = sprintf("INSERT INTO country (name) VALUES ('%s');", 
+			$country);
+		$dbh->do($sql101);
+		$idCountry = $dbh->selectrow_array($sql100);
+	}
 	for my $line2 (`curl -s '$link'`) {
 		chomp($line2);
 		if ($line2 =~ /$startMatch/i) {
@@ -70,9 +80,9 @@ for my $line1 (`curl -s '$slacksite'| grep 'list\.php\?country='`)
 			my @arr2 = split(/"/, $line2);
 			my @arr3 = split(/:\/\//, $arr2[1]);
 			my $desc = substr($arr3[1], 0, index($arr3[1], '/'));
-			my $sql1 = "INSERT INTO mirror (mirror_url, mirror_location, \
-			mirror_desc, mirror_proto) VALUES ('".$arr2[1]
-			."', '$country', '$desc', '".$arr3[0]."');";
+			my $sql1 = sprintf("INSERT INTO mirror (mirror_url, id_country, \
+			mirror_desc, mirror_proto) VALUES ('%s', %i, '%s', '%s');", 
+			$arr2[1], $idCountry, $desc, $arr3[0]);
 #			printf("%s\n", $sql1);
 			$dbh->do($sql1) or die("Unable to insert mirror");
 		}
