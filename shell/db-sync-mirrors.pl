@@ -36,6 +36,8 @@ $CFG{DB_PASS},
 	}
 );
 
+die("Unable to connect to DB.") unless ($dbh);
+
 ### MAIN ###
 $ENV{PATH} = '/usr/bin/';
 for my $line1 (`curl -s '$slacksite'| grep 'list\.php\?country='`) 
