@@ -1,33 +1,32 @@
-<!-- TODO ~ rename to tmpl_ -->
 				<h2>Package info:</h2>
 				<br />
-				<table id="packagenfo-table">
+				<table id="packagenfo">
 					<tr>
-						<td class="packagenfo-table-tr-td-left">Package name::</td>
-						<td class="packagenfo-table-tr-td-right"><TMPL_VAR name="PKGNAME"></td>
+						<td class="attr">Package name::</td>
+						<td class="value"><TMPL_VAR name="PKGNAME"></td>
 					</tr>
 					<tr>
-						<td class="packagenfo-table-tr-td-left">Slackware version::</td>
-						<td class="packagenfo-table-tr-td-right"><TMPL_VAR name="PKGSVER"></td>
+						<td class="attr">Slackware version::</td>
+						<td class="value"><TMPL_VAR name="PKGSVER"></td>
 					</tr>
 					<tr>
-						<td class="packagenfo-table-tr-td-left">Package category::</td>
-						<td class="packagenfo-table-tr-td-right"><TMPL_VAR name="PKGCAT"></td>
+						<td class="attr">Package category::</td>
+						<td class="value"><TMPL_VAR name="PKGCAT"></td>
 					</tr>
 					<tr>
-						<td class="packagenfo-table-tr-td-left">Package serie::</td>
-						<td class="packagenfo-table-tr-td-right"><TMPL_VAR name="PKGSER"></td>
+						<td class="attr">Package serie::</td>
+						<td class="value"><TMPL_VAR name="PKGSER"></td>
 					</tr>
 					<tr>
-						<td class="packagenfo-table-tr-td-left">Package created::</td>
-						<td class="packagenfo-table-tr-td-right"><TMPL_VAR name="PKGDATE"></td>
+						<td class="attr">Package created::</td>
+						<td class="value"><TMPL_VAR name="PKGDATE"></td>
 					</tr>
 					<tr>
-						<td class="packagenfo-table-tr-td-left">Package MD5::</td>
-						<td class="packagenfo-table-tr-td-right"><TMPL_VAR name="PKGMD5"></td>
+						<td class="attr">Package MD5::</td>
+						<td class="value"><TMPL_VAR name="PKGMD5"></td>
 					</tr>
 					<tr>
-						<td class="packagenfo-desc" colspan="2">
+						<td class="description" colspan="2">
 							<pre><TMPL_VAR name="PKGDESC">
 							</pre>
 						</td>
@@ -45,5 +44,5 @@
 <TMPL_IF name="COUNTRIES"><TMPL_INCLUDE name="tmpl_pkgcountries.htm"></TMPL_IF>
 <TMPL_IF name="MIRRORS"><TMPL_INCLUDE name="tmpl_pkgmirrors.htm"></TMPL_IF>
 
-			<br />
-			<br />
+				<br />
+				<br />
