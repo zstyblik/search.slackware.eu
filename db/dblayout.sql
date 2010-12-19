@@ -27,10 +27,16 @@ CREATE TABLE category (
 );
 CREATE OR REPLACE RULE "ctgry_insert_ignore" AS ON INSERT TO category WHERE EXISTS(SELECT true FROM category WHERE category_name = NEW.category_name) DO INSTEAD NOTHING;
 
+CREATE TABLE mirror_location (
+	id_mirror_location SERIAL NOT NULL PRIMARY KEY UNIQUE,
+	mirror_location VARCHAR NOT NULL UNIQUE,
+	mirror_location_flag TEXT NOT NULL DEFAULT '/img/flag-icons/png/none.png'
+);
+
 CREATE TABLE mirror (
 	id_mirror SERIAL NOT NULL PRIMARY KEY UNIQUE,
 	mirror_url VARCHAR NOT NULL UNIQUE,
-	mirror_location VARCHAR NOT NULL,
+	id_mirror_location INTEGER REFERENCES mirror_location(id_mirror_location),
 	mirror_updated TIMESTAMP NOT NULL DEFAULT NOW(),
 	mirror_desc VARCHAR NOT NULL,
 	mirror_proto VARCHAR(4) NOT NULL
