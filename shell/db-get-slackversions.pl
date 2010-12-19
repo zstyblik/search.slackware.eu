@@ -1,33 +1,33 @@
 #!/usr/bin/perl
 # 2010/Mar/19 @ Zdenek Styblik
 use lib "/srv/httpd/search.slackware.eu/perl/";
-use Slackware::Search::ConfigParser;
+use Slackware::Search::ConfigParser qw(_getConfig);
 
 use DBI;
 use strict;
 use warnings;
 
-my $dbHost = '/tmp/';
-my $dbPort = 5432;
-my $dbName = 'pkgs';
-my $dbUser = 'pkgs';
-my $dbPass = 'swarePkgs';
+use constant CFGFILE => '/srv/httpd/search.slackware.eu/conf/config.pl';
 
-my $dbh = DBI->connect("DBI:Pg:dbname=$dbName;
-host=$dbHost;port=$dbPort;",
-$dbUser,
-$dbPass,
+my $cfgParser = 'Slackware::Search::ConfigParser';
+my %CFG = $cfgParser->_getConfig(CFGFILE);
+
+unless (%CFG || keys(%CFG)) {
+	printf("Parsing of config file has failed.\n");
+	exit 2;
+}
+
+my $dbh = DBI->connect($CFG{DB_DSN},
+$CFG{DB_USER},
+$CFG{DB_PASS},
 	{
 		AutoCommit => 0, 
-		RaiseError => 0, 
+		RaiseError => 1, 
 		PrintError => 1
 	}
 );
 
-unless ($dbh) {
-	print "Unable to connect to DB.";
-	exit 1;
-}
+die ("Unable to connect to DB.") unless ($dbh);
 
 my $sql1 = "SELECT slackversion_name FROM slackversion;";
 my $result1 = $dbh->selectall_arrayref($sql1, { Slice => {} });
