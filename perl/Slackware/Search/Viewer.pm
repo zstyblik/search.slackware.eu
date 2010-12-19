@@ -141,7 +141,7 @@ sub download {
 
 	my $pkgPath = "/".$pkgDetail->{PKGSVER}."/".$pkgDetail->{PKGCAT}
 	."/".$pkgDetail->{PKGSER}."/".$pkgDetail->{PKGNAME};
-	my @mirrors = $self->_get_mirrors($country, $pkgPath);
+	my @mirrors = $self->_get_mirrors($idCountry, $pkgPath);
 	$template->param(MIRRORS => \@mirrors);
 
 	my $pkgNameURL = $pkgDetail->{PKGNAME};
@@ -396,23 +396,23 @@ sub _get_mirror_locations {
 	return @countries;
 } # sub _get_mirror_locations
 # desc: return formated list of mirrors for specified location
-# $country: string;
+# $idCountry: integer;
 # $pkgPath: string;
 # @return: array;
 sub _get_mirrors {
 	my $self = shift;
-	my $country = shift;
+	my $idCountry = shift;
 	my $pkgPath = shift || undef; 
 	my @mirrors;
-	unless ($country =~ /^[A-Za-z0-9\ ]+$/) {
+	unless ($idCountry =~ /^[0-9]+$/) {
 		return @mirrors;
 	}
 	unless ($pkgPath) {
 		return @mirrors;
 	}
 	my $dbh = $self->dbh;
-	my $sql1 = "SELECT * FROM mirror WHERE \
-	mirror_location = '$country';";
+	my $sql1 = sprintf("SELECT * FROM mirror WHERE \
+	id_country = %i;", $idCountry);
 	my $result1 = $dbh->selectall_arrayref($sql1, { Slice => {}});
 	
 	unless ($result1) {
