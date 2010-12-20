@@ -290,14 +290,16 @@ sub _find_files {
 	my %packagesFiltered;
 	for my $row2 (@$result2) {
 		my $serieEnc = $row2->{serie_name};
+		$serieEnc =~ s/\/+/@/g;
 		$serieEnc =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
 		my $pkgLocation = sprintf("%s/%s", $row2->{category_name},
-			$serieEnc);
+			$row2->{serie_name});
 		$pkgLocation =~ s/\/\//\//so;
 		my $pkgNameURL = $row2->{package_name};
 		$pkgNameURL =~ s/\.t(g|x)z//;
-		my $pkgURLPath = sprintf("%sview.cgi/view/%s/%s/%s", $scriptPath, 
-			$findParams->{SLACKVERNAME}, $pkgLocation, $pkgNameURL);
+		my $pkgURLPath = sprintf("%sview.cgi/view/%s/%s/%s/%s", $scriptPath, 
+			$findParams->{SLACKVERNAME}, $row2->{category_name}, $serieEnc, 
+			$pkgNameURL);
 		$pkgURLPath =~  s/\/\//\//so;
 		my $pkgSize = sprintf("%.0f kB", $row2->{package_size}/1000);
 		my %item = ( PKGNAME => $row2->{package_name},
@@ -397,14 +399,16 @@ sub _find_packages {
 
 	for my $row (@$result1) {
 		my $serieEnc = $row->{serie_name};
+		$serieEnc =~ s/\/+/@/g;
 		$serieEnc =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
 		my $pkgLocation = sprintf("%s/%s", $row->{category_name},
-			$serieEnc);
+			$row->{serie_name});
 		$pkgLocation =~ s/\/\//\//so;
 		my $pkgNameURL = $row->{package_name};
 		$pkgNameURL =~ s/\.t(g|x)z//;
-		my $pkgURLPath = sprintf("%sview.cgi/view/%s/%s/%s", $scriptPath, 
-			$findParams->{SLACKVERNAME}, $pkgLocation, $pkgNameURL);
+		my $pkgURLPath = sprintf("%sview.cgi/view/%s/%s/%s/%s", $scriptPath, 
+			$findParams->{SLACKVERNAME}, $row->{category_name}, $serieEnc, 
+			$pkgNameURL);
 		$pkgURLPath =~  s/\/\//\//so;
 		my %item = ( PKGNAME => $row->{package_name},
 #			PKGSIZE => $row->{package_size},
