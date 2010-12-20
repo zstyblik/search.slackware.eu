@@ -17,16 +17,6 @@ sub setup {
 	# routes_root optionally is used to prepend a URI part to 
 	# every route
 	$self->routes_root('/'); 
-# OLD ROUTES ~ TODO ~ delete
-#	$self->routes([
-#		'' => 'view' ,
-#		'/download/:country/:idpkgs' => 'download',
-#		'/inspect/:idpkgs' => 'inspect',
-#		'/view/:idpkgs'  => 'view',
-#	]);
-#
-# TODO ~ encode/decode URL params :s
-#		'/view/:slackver/:category/:serie/:package' => 'view',
 	$self->routes([
 		'' => 'noview',
 		'/download/:slackver/:category/:serie/:package/:country' => 'download',
@@ -87,7 +77,8 @@ sub download {
 		return $self->error("Category is garbage.", '/cgi-bin/search.cgi');
 	}
 	# TODO ~ decode
-	if ($serie !~ /^[A-Za-z0-9\-\.]+$/) {
+	$serie =~ s/\%([A-Fa-f0-9\-\_\.\/]{2})/pack('C', hex($1))/seg;
+	if ($serie !~ /^[A-Za-z0-9\-\_\.\/]+$/) {
 		return $self->error("Serie is garbage.", '/cgi-bin/search.cgi');
 	}
 	if ($package !~ /^[A-Za-z0-9\-\.]+$/) {
@@ -176,7 +167,8 @@ sub inspect {
 		return $self->error("Category is garbage.", '/cgi-bin/search.cgi');
 	}
 	# TODO - decode
-	if ($serie !~ /^[A-Za-z0-9\-\.]+$/) {
+	$serie =~ s/\%([A-Fa-f0-9\-_\.\/]{2})/pack('C', hex($1))/seg;
+	if ($serie !~ /^[A-Za-z0-9\-\_\.\/]+$/) {
 		return $self->error("Serie is garbage.", '/cgi-bin/search.cgi');
 	}
 	if ($package !~ /^[A-Za-z0-9\-\.]+$/) {
@@ -264,7 +256,8 @@ sub view {
 		return $self->error("Category is garbage.", '/cgi-bin/search.cgi');
 	}
 	# TODO ~ decode
-	if ($serie !~ /^[A-Za-z0-9\-\.]+$/) {
+	$serie =~ s/\%([A-Fa-f0-9\-\_\.\/]{2})/pack('C', hex($1))/seg;
+	if ($serie !~ /^[A-Za-z0-9\-\_\.\/]+$/) {
 		return $self->error("Serie is garbage.", '/cgi-bin/search.cgi');
 	}
 	if ($package !~ /^[A-Za-z0-9\-\.]+$/) {
