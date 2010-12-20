@@ -318,82 +318,44 @@ sub view {
 
 	# Note: the ugliest of ugliest ... you may vomit!
 	my @countries = $self->_get_mirror_locations($pkgDetail);
-	my $countriesSize = @countries;
-	my $counter = 0;
+	my @countriesTpl;
 	my $country;
-	while ($counter <= $countriesSize) {
+	while (1) {
 		my %item;
 		$country = shift(@countries);
 		if ($country) {
-#			my $cEnc1 = $country1;
-#			$cText4 = $countr4->{COUNTRY};
-#			$cLink4 = $country4->{LINKCOUNTRY};
-#			$cFlag4 = $country4->{LINKFLAG};
-			$item{COUNTRY1} = $country->{COUNTRY};
 			$item{LINKCOUNTRY1} = $country->{LINKCOUNTRY};
 			$item{LINKFLAG1} = $country->{LINKFLAG};
 			$counter++;
-			$country = undef;
 		}
 
 		$country = shift(@countries);
 		if ($country) {
-#			my $cEnc2 = $country2;
-#			$cText4 = $countr4->{COUNTRY};
-#			$cLink4 = $country4->{LINKCOUNTRY};
-#			$cFlag4 = $country4->{LINKFLAG};
-#			$counter++;
 			$item{COUNTRY2} = $country->{COUNTRY};
 			$item{LINKCOUNTRY2} = $country->{LINKCOUNTRY};
 			$item{LINKFLAG2} = $country->{LINKFLAG};
 			$counter++;
-			$country = undef;
 		}
 		
 		$country = shift(@countries);
 		if ($country) {
-#			my $cEnc3 = $country3;
-#			$cText4 = $countr4->{COUNTRY};
-#			$cLink4 = $country4->{LINKCOUNTRY};
-#			$cFlag4 = $country4->{LINKFLAG};
-#			$counter++;
 			$item{COUNTRY3} = $country->{COUNTRY};
 			$item{LINKCOUNTRY3} = $country->{LINKCOUNTRY};
 			$item{LINKFLAG3} = $country->{LINKFLAG};
 			$counter++;
-			$country = undef;
 		}
 
 		$country = shift(@countries);
 		if ($country) {
-#			$cText4 = $countr4->{COUNTRY};
-#			$cLink4 = $country4->{LINKCOUNTRY};
-#			$cFlag4 = $country4->{LINKFLAG};
-#			$counter++;
-			$item{COUNTRY4} = $country->{COUNTRY};
 			$item{LINKCOUNTRY4} = $country->{LINKCOUNTRY};
 			$item{LINKFLAG4} = $country->{LINKFLAG};
 			$counter++;
-			$country = undef;
 		}
 
-#		my %item = (
-#			COUNTRY1 => $cText1,
-#			LINKCOUNTRY1 => $cLink1,
-#			LINKFLAG1 => $cFlag1,
-#			COUNTRY2 => $cText2,
-#			LINKCOUNTRY2 => $cLink2,
-#			LINKFLAG2 => $cFlag2,
-#			COUNTRY3 => $cText3,
-#			LINKCOUNTRY3 => $cLink3,
-#			LINKFLAG3 => $cFlag3,
-#			COUNTRY4 => $cText4,
-#			LINKCOUNTRY4 => $cLink4,
-#			LINKFLAG4 => $cFlag4,
-#		);
 		push(@countriesTpl, \%item);
+		last unless ($country);
 	} # while $counter < $countriesSize
-		
+	
 	$template->param(COUNTRIES => \@countriesTpl);
 
 	return $template->output();
