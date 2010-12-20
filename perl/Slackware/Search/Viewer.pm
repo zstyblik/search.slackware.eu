@@ -326,7 +326,6 @@ sub view {
 		if ($country) {
 			$item{LINKCOUNTRY1} = $country->{LINKCOUNTRY};
 			$item{LINKFLAG1} = $country->{LINKFLAG};
-			$counter++;
 		}
 
 		$country = shift(@countries);
@@ -334,7 +333,6 @@ sub view {
 			$item{COUNTRY2} = $country->{COUNTRY};
 			$item{LINKCOUNTRY2} = $country->{LINKCOUNTRY};
 			$item{LINKFLAG2} = $country->{LINKFLAG};
-			$counter++;
 		}
 		
 		$country = shift(@countries);
@@ -342,14 +340,12 @@ sub view {
 			$item{COUNTRY3} = $country->{COUNTRY};
 			$item{LINKCOUNTRY3} = $country->{LINKCOUNTRY};
 			$item{LINKFLAG3} = $country->{LINKFLAG};
-			$counter++;
 		}
 
 		$country = shift(@countries);
 		if ($country) {
 			$item{LINKCOUNTRY4} = $country->{LINKCOUNTRY};
 			$item{LINKFLAG4} = $country->{LINKFLAG};
-			$counter++;
 		}
 
 		push(@countriesTpl, \%item);
