@@ -316,56 +316,81 @@ sub view {
 	$template->param(SWURL => $pkgURLPath);
 	$template->param(SWLABEL => "Files");
 
+	# Note: the ugliest of ugliest ... you may vomit!
 	my @countries = $self->_get_mirror_locations($pkgDetail);
 	my $countriesSize = @countries;
 	my $counter = 0;
-	while ($counter < $countriesSize) {
-		my $country1 = shift(@countries);
-		my $cLink1;
-		if ($country1) {
-			my $cEnc1 = $country1;
-			$cEnc1 =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
-			$cLink1 = sprintf("%s/%s", $link, $cEnc1);
+	my $country;
+	while ($counter <= $countriesSize) {
+		my %item;
+		$country = shift(@countries);
+		if ($country) {
+#			my $cEnc1 = $country1;
+#			$cText4 = $countr4->{COUNTRY};
+#			$cLink4 = $country4->{LINKCOUNTRY};
+#			$cFlag4 = $country4->{LINKFLAG};
+			$item{COUNTRY1} = $country->{COUNTRY};
+			$item{LINKCOUNTRY1} = $country->{LINKCOUNTRY};
+			$item{LINKFLAG1} = $country->{LINKFLAG};
 			$counter++;
+			$country = undef;
 		}
 
-		my $country2 = shift(@countries);
-		my $cLink2;
-		if ($country2) {
-			my $cEnc2 = $country2;
-			$cEnc2 =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
-			$cLink2 = sprintf("%s/%s", $link, $cEnc2);
+		$country = shift(@countries);
+		if ($country) {
+#			my $cEnc2 = $country2;
+#			$cText4 = $countr4->{COUNTRY};
+#			$cLink4 = $country4->{LINKCOUNTRY};
+#			$cFlag4 = $country4->{LINKFLAG};
+#			$counter++;
+			$item{COUNTRY2} = $country->{COUNTRY};
+			$item{LINKCOUNTRY2} = $country->{LINKCOUNTRY};
+			$item{LINKFLAG2} = $country->{LINKFLAG};
 			$counter++;
+			$country = undef;
 		}
 		
-		my $country3 = shift(@countries);
-		my $cLink3;
-		if ($country3) {
-			my $cEnc3 = $country3;
-			$cEnc3 =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
-			$cLink3 = sprintf("%s/%s", $link, $cEnc3);
+		$country = shift(@countries);
+		if ($country) {
+#			my $cEnc3 = $country3;
+#			$cText4 = $countr4->{COUNTRY};
+#			$cLink4 = $country4->{LINKCOUNTRY};
+#			$cFlag4 = $country4->{LINKFLAG};
+#			$counter++;
+			$item{COUNTRY3} = $country->{COUNTRY};
+			$item{LINKCOUNTRY3} = $country->{LINKCOUNTRY};
+			$item{LINKFLAG3} = $country->{LINKFLAG};
 			$counter++;
+			$country = undef;
 		}
 
-		my $country4 = shift(@countries);
-		my $cLink4;
-		if ($country4) {
-			my $cEnc4 = $country4;
-			$cEnc4 =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
-			$cLink4 = sprintf("%s/%s", $link, $cEnc4);
+		$country = shift(@countries);
+		if ($country) {
+#			$cText4 = $countr4->{COUNTRY};
+#			$cLink4 = $country4->{LINKCOUNTRY};
+#			$cFlag4 = $country4->{LINKFLAG};
+#			$counter++;
+			$item{COUNTRY4} = $country->{COUNTRY};
+			$item{LINKCOUNTRY4} = $country->{LINKCOUNTRY};
+			$item{LINKFLAG4} = $country->{LINKFLAG};
 			$counter++;
+			$country = undef;
 		}
 
-		my %item = (
-			COUNTRY1 => $country1,
-			LINKCOUNTRY1 => $cLink1,
-			COUNTRY2 => $country2,
-			LINKCOUNTRY2 => $cLink2,
-			COUNTRY3 => $country3,
-			LINKCOUNTRY3 => $cLink3,
-			COUNTRY4 => $country4,
-			LINKCOUNTRY4 => $cLink4,
-		);
+#		my %item = (
+#			COUNTRY1 => $cText1,
+#			LINKCOUNTRY1 => $cLink1,
+#			LINKFLAG1 => $cFlag1,
+#			COUNTRY2 => $cText2,
+#			LINKCOUNTRY2 => $cLink2,
+#			LINKFLAG2 => $cFlag2,
+#			COUNTRY3 => $cText3,
+#			LINKCOUNTRY3 => $cLink3,
+#			LINKFLAG3 => $cFlag3,
+#			COUNTRY4 => $cText4,
+#			LINKCOUNTRY4 => $cLink4,
+#			LINKFLAG4 => $cFlag4,
+#		);
 		push(@countriesTpl, \%item);
 	} # while $counter < $countriesSize
 		
