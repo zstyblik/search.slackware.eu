@@ -7,7 +7,7 @@ use warnings;
 use CGI::Application::Plugin::ConfigAuto	(qw/cfg/);
 use CGI::Application::Plugin::DBH (qw/dbh_config dbh/);
 use CGI::Application::Plugin::Routes;
-use constant NEEDLEMINLENGTH => 3;
+use constant NEEDLEMINLENGTH => 2;
 
 sub setup {
 	my $self = shift;
@@ -65,7 +65,7 @@ sub find {
 		|| length($needle) < NEEDLEMINLENGTH) {
 		return "Slackware version or needle are too short.\n";
 	}
-	# ToDo - make lower
+	$slackVer = lc($slackVer);
 	unless ($slackVer 
 		=~ /^slackware(64)?-(current|[0-9]+\.[0-9]+){1}$/) {
 		return "Invalid slackware version name.\n";
