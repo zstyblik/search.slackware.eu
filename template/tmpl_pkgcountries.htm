@@ -2,15 +2,28 @@
 				<table>
 					<TMPL_LOOP name="COUNTRIES"><tr>
 						<td class="country">
-							<a href="<TMPL_VAR LINKCOUNTRY>">
-								<img src="<TMPL_VAR LINKFLAG>" alt="<TMPL_VAR COUNTRY>" /><TMPL_VAR NAME="COUNTRY">
+							<TMPL_IF name="LINKCOUNTRY1"><a href="<TMPL_VAR LINKCOUNTRY1>">
+								<img src="<TMPL_VAR LINKFLAG1>" alt="<TMPL_VAR COUNTRY1>" /><TMPL_VAR NAME="COUNTRY1">
 							</a>
+							</TMPL_IF>
 						</td>
 						<td class="country">
+							<TMPL_IF name="LINKCOUNTRY2"><a href="<TMPL_VAR LINKCOUNTRY2>">
+								<img src="<TMPL_VAR LINKFLAG2>" alt="<TMPL_VAR COUNTRY2>" /><TMPL_VAR NAME="COUNTRY2">
+							</a>
+							</TMPL_IF>
 						</td>
 						<td class="country">
+							<TMPL_IF name="LINKCOUNTRY3"><a href="<TMPL_VAR LINKCOUNTRY3>">
+								<img src="<TMPL_VAR LINKFLAG3>" alt="<TMPL_VAR COUNTRY3>" /><TMPL_VAR NAME="COUNTRY3">
+							</a>
+							</TMPL_IF>
 						</td>
 						<td class="country">
+							<TMPL_IF name="LINKCOUNTRY4"><a href="<TMPL_VAR LINKCOUNTRY4>">
+								<img src="<TMPL_VAR LINKFLAG4>" alt="<TMPL_VAR COUNTRY4>" /><TMPL_VAR NAME="COUNTRY4">
+							</a>
+							</TMPL_IF>
 						</td>
 					</tr>
 					</TMPL_LOOP>
