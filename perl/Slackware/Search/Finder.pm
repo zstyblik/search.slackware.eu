@@ -289,8 +289,10 @@ sub _find_files {
 
 	my %packagesFiltered;
 	for my $row2 (@$result2) {
+		my $serieEnc = $row2->{serie_name};
+		$serieEnc =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
 		my $pkgLocation = sprintf("%s/%s", $row2->{category_name},
-			$row2->{serie_name});
+			$serieEnc);
 		$pkgLocation =~ s/\/\//\//so;
 		my $pkgNameURL = $row2->{package_name};
 		$pkgNameURL =~ s/\.t(g|x)z//;
@@ -394,8 +396,10 @@ sub _find_packages {
 		rindex($ENV{SCRIPT_NAME}, "/")+1);
 
 	for my $row (@$result1) {
+		my $serieEnc = $row->{serie_name};
+		$serieEnc =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
 		my $pkgLocation = sprintf("%s/%s", $row->{category_name},
-			$row->{serie_name});
+			$serieEnc);
 		$pkgLocation =~ s/\/\//\//so;
 		my $pkgNameURL = $row->{package_name};
 		$pkgNameURL =~ s/\.t(g|x)z//;
