@@ -590,7 +590,7 @@ sub _get_pkg_files {
 sub _get_serie_id {
 	my $self = shift;
 	my $serie = shift || '';
-	if ($serie !~ /^[A-Za-z0-9\-\.]+$/) {
+	if ($serie !~ /^[A-Fa-f0-9\-\_\.\/]+$/) {
 		return -1;
 	}
 	my $dbh = $self->dbh;
