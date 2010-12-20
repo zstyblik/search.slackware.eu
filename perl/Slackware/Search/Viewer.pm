@@ -152,7 +152,7 @@ sub download {
 	$pkgURLPath =~  s/\/\//\//so;
 
 	$template->param(SWURL => $pkgURLPath);
-	$template->param(SWLABEL => "Back");
+	$template->param(SWLABEL => "Choose another location");
 
 	return $template->output();
 } # sub download
@@ -292,7 +292,6 @@ sub view {
 		return $self->error("Package is not in DB.", '/cgi-bin/search.cgi');
 	}
 
-
 	my $pkgDetail = $self->_get_pkg_details($idPkgs);
 	unless ($pkgDetail) {
 		return $self->error("It looks like this package doesn't \
@@ -318,7 +317,59 @@ sub view {
 	$template->param(SWLABEL => "Files");
 
 	my @countries = $self->_get_mirror_locations($pkgDetail);
-	$template->param(COUNTRIES => \@countries);
+	my $countriesSize = @countries;
+	my $counter = 0;
+	while ($counter < $countriesSize) {
+		my $country1 = shift(@countries);
+		my $cLink1;
+		if ($country1) {
+			my $cEnc1 = $country1;
+			$cEnc1 =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
+			$cLink1 = sprintf("%s/%s", $link, $cEnc1);
+			$counter++;
+		}
+
+		my $country2 = shift(@countries);
+		my $cLink2;
+		if ($country2) {
+			my $cEnc2 = $country2;
+			$cEnc2 =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
+			$cLink2 = sprintf("%s/%s", $link, $cEnc2);
+			$counter++;
+		}
+		
+		my $country3 = shift(@countries);
+		my $cLink3;
+		if ($country3) {
+			my $cEnc3 = $country3;
+			$cEnc3 =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
+			$cLink3 = sprintf("%s/%s", $link, $cEnc3);
+			$counter++;
+		}
+
+		my $country4 = shift(@countries);
+		my $cLink4;
+		if ($country4) {
+			my $cEnc4 = $country4;
+			$cEnc4 =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
+			$cLink4 = sprintf("%s/%s", $link, $cEnc4);
+			$counter++;
+		}
+
+		my %item = (
+			COUNTRY1 => $country1,
+			LINKCOUNTRY1 => $cLink1,
+			COUNTRY2 => $country2,
+			LINKCOUNTRY2 => $cLink2,
+			COUNTRY3 => $country3,
+			LINKCOUNTRY3 => $cLink3,
+			COUNTRY4 => $country4,
+			LINKCOUNTRY4 => $cLink4,
+		);
+		push(@countriesTpl, \%item);
+	} # while $counter < $countriesSize
+		
+	$template->param(COUNTRIES => \@countriesTpl);
 
 	return $template->output();
 } # sub view
