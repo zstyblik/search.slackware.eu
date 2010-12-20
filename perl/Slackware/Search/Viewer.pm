@@ -324,6 +324,7 @@ sub view {
 		my %item;
 		$country = shift(@countries);
 		if ($country) {
+			$item{COUNTRY1} = $country->{COUNTRY};
 			$item{LINKCOUNTRY1} = $country->{LINKCOUNTRY};
 			$item{LINKFLAG1} = $country->{LINKFLAG};
 		}
@@ -344,6 +345,7 @@ sub view {
 
 		$country = shift(@countries);
 		if ($country) {
+			$item{COUNTRY4} = $country->{COUNTRY};
 			$item{LINKCOUNTRY4} = $country->{LINKCOUNTRY};
 			$item{LINKFLAG4} = $country->{LINKFLAG};
 		}
