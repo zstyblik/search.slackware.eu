@@ -131,7 +131,7 @@ sub download {
 		$template->param($value => $pkgDetail->{$value});
 	}
 
-	my $serieEnc = $pkgDetail->{PKGSVER};
+	my $serieEnc = $pkgDetail->{PKGSER};
 	$serieEnc =~ s/\/+/@/g;
 	$serieEnc =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
 	my $pkgPath = "/".$pkgDetail->{PKGSVER}."/".$pkgDetail->{PKGCAT}
@@ -221,7 +221,7 @@ sub inspect {
 	unless (@pkgFiles == 0) {
 		$template->param(PKGFILES => \@pkgFiles);
 	}
-	my $serieEnc = $pkgDetail->{PKGSVER};
+	my $serieEnc = $pkgDetail->{PKGSER};
 	$serieEnc =~ s/\/+/@/g;
 	$serieEnc =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
 	my $pkgNameURL = $pkgDetail->{PKGNAME};
@@ -307,7 +307,7 @@ sub view {
 		$template->param($value => $pkgDetail->{$value});
 	}
 
-	my $serieEnc = $pkgDetail->{PKGSVER};
+	my $serieEnc = $pkgDetail->{PKGSER};
 	$serieEnc =~ s/\/+/@/g;
 	$serieEnc =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
 	my $pkgNameURL = $pkgDetail->{PKGNAME};
@@ -414,11 +414,14 @@ sub _get_mirror_locations {
 	}
 
 	# TODO ~ stuff it ... to the function, for . sake!
+	my $serieEnc = $pkgDetail->{PKGSER};
+	$serieEnc =~ s/\/+/@/g;
+	$serieEnc =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
 	my $pkgNameURL = $pkgDetail->{PKGNAME};
 	$pkgNameURL =~ s/\.t(g|x)z//;
 	my $link = sprintf("%s/download/%s/%s/%s/%s", $ENV{SCRIPT_NAME}, 
 		$pkgDetail->{PKGSVER}, 
-		$pkgDetail->{PKGCAT}, $pkgDetail->{PKGSER}, $pkgNameURL);
+		$pkgDetail->{PKGCAT}, $serieEnc, $pkgNameURL);
 	$link =~  s/\/\//\//so;
 
 	while (my $country = shift(@$result1)) {
