@@ -131,14 +131,14 @@ sub download {
 		$template->param($value => $pkgDetail->{$value});
 	}
 
-	my $serieEnc = $pkgDetail->{PKGSER};
-	$serieEnc =~ s/\/+/@/g;
-	$serieEnc =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
 	my $pkgPath = "/".$pkgDetail->{PKGSVER}."/".$pkgDetail->{PKGCAT}
-	."/".$serieEnc."/".$pkgDetail->{PKGNAME};
+	."/".$pkgDetail->{PKGSER}."/".$pkgDetail->{PKGNAME};
 	my @mirrors = $self->_get_mirrors($idCountry, $pkgPath);
 	$template->param(MIRRORS => \@mirrors);
 
+	my $serieEnc = $pkgDetail->{PKGSER};
+	$serieEnc =~ s/\/+/@/g;
+	$serieEnc =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
 	my $pkgNameURL = $pkgDetail->{PKGNAME};
 	$pkgNameURL =~ s/\.t(g|x)z//;
 	my $pkgURLPath = sprintf("%s/view/%s/%s/%s/%s", $ENV{SCRIPT_NAME}, 
