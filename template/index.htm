@@ -32,10 +32,7 @@
 						<span class="light">search</span><span class="dark">.slackware.eu</span>
 					</h1>
 					<ul>
-						<!---
-						<li><a href="#">News</a></li>
-						<li><a href="#">Changelogs</a></li> 
-						-->
+						<li><a href="/cgi-bin/index.cgi/home">Home</a></li>
 						<li><a href="/cgi-bin/search.cgi">Search</a></li>
 						<li><a href="/cgi-bin/index.cgi/links">Links</a></li>
 						<li><a href="/cgi-bin/index.cgi/about">About</a></li>
@@ -49,6 +46,7 @@
 <TMPL_IF NAME="ABOUT"><TMPL_INCLUDE NAME="tmpl_about.htm"></TMPL_IF>
 <TMPL_IF NAME="CHANGELOG"><TMPL_INCLUDE NAME="tmpl_changelog.htm"></TMPL_IF>
 <TMPL_IF NAME="ERROR"><TMPL_INCLUDE NAME="tmpl_error.htm"></TMPL_IF>
+<TMPL_IF NAME="HOME"><TMPL_INCLUDE NAME="tmpl_home.htm"></TMPL_IF>
 <TMPL_IF NAME="LINKS"><TMPL_INCLUDE NAME="tmpl_links.htm"></TMPL_IF>
 <TMPL_IF NAME="PKG"><TMPL_INCLUDE NAME="tmpl_pkg.htm"></TMPL_IF>
 <TMPL_IF NAME="SEARCH"><TMPL_INCLUDE NAME="tmpl_search.htm"></TMPL_IF>

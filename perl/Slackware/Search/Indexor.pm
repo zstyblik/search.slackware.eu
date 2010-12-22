@@ -11,15 +11,17 @@ use CGI::Application::Plugin::Redirect;
 
 sub setup {
 	my $self = shift;
-	$self->start_mode('about');
+	$self->start_mode('home');
 
 	$self->header_props(-type => 'text/html', -charset => 'UTF-8');
 	# routes_root optionally is used to prepend a URI part to 
 	# every route
 	$self->routes_root('/'); 
 	$self->routes([
-		'' => 'about' ,
+		'' => 'home' ,
 		'/about' => 'about',
+		'/changelog/:slackver' => 'changelog',
+		'/home' => 'home',
 		'/links' => 'links',
 	]);
 }
@@ -60,6 +62,36 @@ sub about {
 	my $template = $self->load_tmpl("index.htm");
 	$template->param(TITLE => "About");
 	$template->param(ABOUT => 1);
+	return $template->output();
+}
+
+sub changelog {
+	my $self = shift;
+	my $q = $self->query;
+	my $slackver = $q->param('slackversion');
+	$slackver = lc($slackver);
+	unless ($slackver =~ /.../) {
+		return $self->error("Slackware version is garbage.");
+	}
+	my $changeLogPath = sprintf("%s/%s/ChangeLog.txt", $CFG{CHANGELOGPATH},
+		$slackver);
+	unless ( -e $changeLogPath) {
+		my $errorMsg = sprintf("It seems ChangeLog doesn't exist for %s.",
+			$slackver);
+		return $self->error($errorMsg);
+	}
+	my $template = $self->load_tmpl("index.htm");
+	my $pageTitle = sprintf("ChangeLog %s", $slackver);
+	$template->param(TITLE => $pageTitle);
+	$template->param(CHANGELOG => 1);
+	return $template->output();
+}
+
+sub home {
+	my $self = shift;
+	my $template = $self->load_tmpl("index.htm");
+	$template->param(TITLE => "Slackware UnOfficial Package Browser/Search");
+	$template->param(NEWS => 1);
 	return $template->output();
 }
 
