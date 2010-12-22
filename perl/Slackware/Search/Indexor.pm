@@ -43,11 +43,10 @@ sub cgiapp_init {
 #  );
 } # sub cgiapp_prerun
 
-#sub teardown {
-#	my $self = shift;
-#	my $dbh = $self->dbh;
-#	$dbh->disconnect();
-#} # sub teardown
+# desc: teardown overload due to absence of DBH!
+sub teardown {
+	my $self = shift;
+} # sub teardown
 
 #sub error {
 #	my $self = shift;
