@@ -3,11 +3,13 @@ package Slackware::Search::Viewer;
 use strict;
 use warnings;
 
-use base 'CGI::Application';
+use base 'Slackware::Search::MainWeb';
 use CGI::Application::Plugin::Routes;
-use CGI::Application::Plugin::ConfigAuto	(qw/cfg/);
 use CGI::Application::Plugin::DBH (qw/dbh_config dbh/);
-use CGI::Application::Plugin::Redirect;
+# TODO ~ remove
+#use base 'CGI::Application';
+#use CGI::Application::Plugin::ConfigAuto	(qw/cfg/);
+#use CGI::Application::Plugin::Redirect;
 
 sub setup {
 	my $self = shift;
@@ -19,8 +21,11 @@ sub setup {
 	$self->routes_root('/'); 
 	$self->routes([
 		'' => 'noview',
+		'/category/:slackver/:category' => 'view_category',
 		'/download/:slackver/:category/:serie/:package/:country' => 'download',
 		'/inspect/:slackver/:category/:serie/:package' => 'inspect',
+		'/serie/:slackver/:category/:serie' => 'view_serie',
+		'/slackver/:slackver' => 'view_slackver',
 		'/view/:slackver/:category/:serie/:package' => 'view',
 	]);
 
@@ -41,21 +46,21 @@ sub cgiapp_init {
   );
 } # sub cgiapp_prerun
 
-sub teardown {
-	my $self = shift;
-	my $dbh = $self->dbh;
-	$dbh->disconnect() if ($dbh);
-} # sub teardown
+#sub teardown {
+#	my $self = shift;
+#	my $dbh = $self->dbh;
+#	$dbh->disconnect() if ($dbh);
+#} # sub teardown
 
-sub error {
-	my $self = shift;
-	my $error = shift;
-	my $redir = shift || $ENV{'SCRIPT_NAME'};
-	my $template = $self->load_tmpl('error.htm');
-	$template->param(ERROR => $error);
-	$template->param(REDIRECT => $redir);
-	return $template->output();
-} # sub error
+#sub error {
+#	my $self = shift;
+#	my $error = shift;
+#	my $redir = shift || $ENV{'SCRIPT_NAME'};
+#	my $template = $self->load_tmpl('error.htm');
+#	$template->param(ERROR => $error);
+#	$template->param(REDIRECT => $redir);
+#	return $template->output();
+#} # sub error
 
 # desc: choose mirror in specified country where to download from
 sub download {
@@ -362,6 +367,20 @@ sub view {
 
 	return $template->output();
 } # sub view
+# desc: view what's under given category within specified slackver/cat/
+sub view_category {
+	my $self = shift;
+} # sub view_category
+
+# desc: view packages under given serie within specified slackver/cat/ser/
+sub view_serie {
+	my $self = shift;
+} # sub view_serie
+
+# desc: view categories under given slackver/
+sub view_slackver {
+	my $self = shift;
+} # sub view_slackver
 
 sub _get_category_id {
 	my $self = shift;

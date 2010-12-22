@@ -43,11 +43,11 @@ sub cgiapp_init {
 #  );
 } # sub cgiapp_prerun
 
-sub teardown {
-	my $self = shift;
+#sub teardown {
+#	my $self = shift;
 #	my $dbh = $self->dbh;
 #	$dbh->disconnect();
-} # sub teardown
+#} # sub teardown
 
 #sub error {
 #	my $self = shift;

@@ -45,11 +45,11 @@ sub cgiapp_init {
   );
 } # sub cgiapp_prerun
 
-sub teardown {
-	my $self = shift;
-	my $dbh = $self->dbh;
-	$dbh->disconnect() if ($dbh);
-} # sub teardown
+#sub teardown {
+#	my $self = shift;
+#	my $dbh = $self->dbh;
+#	$dbh->disconnect() if ($dbh);
+#} # sub teardown
 
 #sub error: ErrorRunmode {
 #	my $self = shift;
