@@ -4,10 +4,11 @@ use strict;
 use warnings;
 
 use base 'Slackware::Search::MainWeb';
+use CGI::Application::Plugin::Routes;
+# TODO ~ remove
 #use base 'CGI::Application';
 #use CGI::Application::Plugin::ConfigAuto	(qw/cfg/);
 #use CGI::Application::Plugin::DBH (qw/dbh_config dbh/);
-use CGI::Application::Plugin::Routes;
 #use CGI::Application::Plugin::Redirect;
 
 sub setup {
@@ -48,15 +49,15 @@ sub teardown {
 #	$dbh->disconnect();
 } # sub teardown
 
-sub error {
-	my $self = shift;
-	my $error = shift;
-	my $redir = shift || $ENV{'SCRIPT_NAME'};
-	my $template = $self->load_tmpl('error.htm');
-	$template->param(ERROR => $error);
-	$template->param(REDIRECT => $redir);
-	return $template->output();
-} # sub error
+#sub error {
+#	my $self = shift;
+#	my $error = shift;
+#	my $redir = shift || $ENV{'SCRIPT_NAME'};
+#	my $template = $self->load_tmpl('error.htm');
+#	$template->param(ERROR => $error);
+#	$template->param(REDIRECT => $redir);
+#	return $template->output();
+#} # sub error
 
 sub about {
 	my $self = shift;
