@@ -3,11 +3,12 @@ package Slackware::Search::Indexor;
 use strict;
 use warnings;
 
-use base 'CGI::Application';
-use CGI::Application::Plugin::Routes;
-use CGI::Application::Plugin::ConfigAuto	(qw/cfg/);
+use base 'Slackware::Search::MainWeb';
+#use base 'CGI::Application';
+#use CGI::Application::Plugin::ConfigAuto	(qw/cfg/);
 #use CGI::Application::Plugin::DBH (qw/dbh_config dbh/);
-use CGI::Application::Plugin::Redirect;
+use CGI::Application::Plugin::Routes;
+#use CGI::Application::Plugin::Redirect;
 
 sub setup {
 	my $self = shift;
