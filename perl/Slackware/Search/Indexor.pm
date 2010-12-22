@@ -73,14 +73,14 @@ sub changelog {
 	unless ($slackver =~ /.../) {
 		return $self->error("Slackware version is garbage.");
 	}
-	my $changeLogPath = sprintf("%s/%s/ChangeLog.txt", $CFG{CHANGELOGPATH},
-		$slackver);
-	unless ( -e $changeLogPath) {
-		my $errorMsg = sprintf("It seems ChangeLog doesn't exist for %s.",
-			$slackver);
-		return $self->error($errorMsg);
-	}
-	my $template = $self->load_tmpl("index.htm");
+#	my $changeLogPath = sprintf("%s/%s/ChangeLog.txt", $CFG{CHANGELOGPATH},
+#		$slackver);
+#	unless ( -e $changeLogPath) {
+#		my $errorMsg = sprintf("It seems ChangeLog doesn't exist for %s.",
+#			$slackver);
+#		return $self->error($errorMsg);
+#	}
+#	my $template = $self->load_tmpl("index.htm");
 	my $pageTitle = sprintf("ChangeLog %s", $slackver);
 	$template->param(TITLE => $pageTitle);
 	$template->param(CHANGELOG => 1);
