@@ -80,7 +80,7 @@ sub changelog {
 #			$slackver);
 #		return $self->error($errorMsg);
 #	}
-#	my $template = $self->load_tmpl("index.htm");
+	my $template = $self->load_tmpl("index.htm");
 	my $pageTitle = sprintf("ChangeLog %s", $slackver);
 	$template->param(TITLE => $pageTitle);
 	$template->param(CHANGELOG => 1);
@@ -91,7 +91,7 @@ sub home {
 	my $self = shift;
 	my $template = $self->load_tmpl("index.htm");
 	$template->param(TITLE => "Slackware UnOfficial Package Browser/Search");
-	$template->param(NEWS => 1);
+	$template->param(HOME => 1);
 	return $template->output();
 }
 
