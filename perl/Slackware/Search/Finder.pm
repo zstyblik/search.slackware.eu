@@ -1,13 +1,15 @@
 package Slackware::Search::Finder;
-use base 'CGI::Application';
 
 use strict;
 use warnings;
 
+use base 'Slackware::Search::MainWeb';
 use CGI::Application::Plugin::AutoRunmode;
-use CGI::Application::Plugin::ConfigAuto	(qw/cfg/);
 use CGI::Application::Plugin::DBH (qw/dbh_config dbh/);
-use CGI::Application::Plugin::Redirect;
+# TODO ~ remove
+#use base 'CGI::Application';
+#use CGI::Application::Plugin::ConfigAuto	(qw/cfg/);
+#use CGI::Application::Plugin::Redirect;
 
 use constant LIMITFILES => 5;
 use constant NEEDLEMINLENGTH => 2;
