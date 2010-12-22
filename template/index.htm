@@ -13,16 +13,20 @@
 	<body>
 		<div id="main">
 			<div id="heading">
-				<div id="containersearch">
-					<form id="searchform" method="get" action="/cgi-bin/search.cgi">
+				<TMPL_IF name="QUICKSEARCH"><div id="quicksearch">
+					<form id="quicksearchform" name="quicksearchform" method="get" action="/cgi-bin/search.cgi">
 						<input id="inputsearch" name="inputsearch" type="text" size="16" />
 						<select id="sver" name="sver">
-							<!-- TODO -->
-							<option value="1">Slackware64-13.1</option>
+							<TMPL_LOOP NAME="SVERS">
+							<option value="<TMPL_VAR IDSVER>"<TMPL_VAR name="SELECTED">>
+								<TMPL_VAR NAME="SVERNAME">
+							</option>
+							</TMPL_LOOP>
 						</select> <!--- sver -->
 						<input id="buttonsearch" name="buttonsearch" type="button" value="search" /> 
 					</form> <!--- searchform -->
-				</div> <!--- containersearch -->
+				</div> <!--- quicksearch -->
+				</TMPL_IF>
 				<div id="containerlogo">
 					<h1>
 						<span class="light">search</span><span class="dark">.slackware.eu</span>
@@ -43,6 +47,7 @@
 				<div id="content">
 
 <TMPL_IF NAME="ABOUT"><TMPL_INCLUDE NAME="tmpl_about.htm"></TMPL_IF>
+<TMPL_IF NAME="CHANGELOG"><TMPL_INCLUDE NAME="tmpl_changelog.htm"></TMPL_IF>
 <TMPL_IF NAME="ERROR"><TMPL_INCLUDE NAME="tmpl_error.htm"></TMPL_IF>
 <TMPL_IF NAME="LINKS"><TMPL_INCLUDE NAME="tmpl_links.htm"></TMPL_IF>
 <TMPL_IF NAME="PKG"><TMPL_INCLUDE NAME="tmpl_pkg.htm"></TMPL_IF>
