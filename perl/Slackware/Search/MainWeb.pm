@@ -17,4 +17,10 @@ sub error {
 	return $template->output();
 } # sub error
 
+sub teardown {
+	my $self = shift;
+	my $dbh = $self->dbh;
+	$dbh->disconnect() if ($dbh);
+} # sub teardown
+
 1;
