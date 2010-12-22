@@ -5,6 +5,7 @@ use warnings;
 
 use base 'CGI::Application';
 use CGI::Application::Plugin::ConfigAuto (qw/cfg/);
+use CGI::Application::Plugin::DBH (qw/dbh_config dbh/);
 use CGI::Application::Plugin::Redirect;
 
 sub error {
