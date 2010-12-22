@@ -7,5 +7,14 @@ use base 'CGI::Application';
 use CGI::Application::Plugin::ConfigAuto (qw/cfg/);
 use CGI::Application::Plugin::Redirect;
 
+sub error {
+	my $self = shift;
+	my $error = shift;
+	my $redir = shift || $ENV{'SCRIPT_NAME'};
+	my $template = $self->load_tmpl('index.htm');
+	$template->param(ERROR => $error);
+	$template->param(REDIRECT => $redir);
+	return $template->output();
+} # sub error
 
 1;

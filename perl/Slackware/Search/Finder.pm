@@ -51,15 +51,15 @@ sub teardown {
 	$dbh->disconnect() if ($dbh);
 } # sub teardown
 
-sub error: ErrorRunmode {
-	my $self = shift;
-	my $error = shift;
-	my $redir = shift || undef;
-	my $template = $self->load_tmpl('error.htm');
-	$template->param(ERROR => $error);
-	$template->param(REDIRECT => $ENV{'SCRIPT_NAME'});
-	return $template->output();
-} # sub error
+#sub error: ErrorRunmode {
+#	my $self = shift;
+#	my $error = shift;
+#	my $redir = shift || undef;
+#	my $template = $self->load_tmpl('error.htm');
+#	$template->param(ERROR => $error);
+#	$template->param(REDIRECT => $ENV{'SCRIPT_NAME'});
+#	return $template->output();
+#} # sub error
 
 sub search_form: Runmode {
 	my $self = shift;
