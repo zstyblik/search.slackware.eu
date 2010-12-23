@@ -44,6 +44,7 @@ sub search_form: Runmode {
 	my $self = shift;
 	my $template = $self->load_tmpl("index.htm");
 	$template->param(TITLE => "Search");
+	$template->param(QSEARCHHIDE => 1);
 	$template->param(SEARCH => 1);
 
 	my @slackVersions = $self->_get_slackversions;
@@ -108,6 +109,7 @@ sub search_fetch: Runmode {
 	my $template = $self->load_tmpl("index.htm");
 	$template->param(TITLE => "Search results");
 	$template->param(SLACKVER => $slackVerName);
+	$template->param(QSEARCHHIDE => 1);
 	$template->param(SEARCH => 1);
 	$template->param(SEARCHRESULTS => 1);
 	$template->param(NEEDLE => $needle);
@@ -273,7 +275,7 @@ sub _find_files {
 		$pkgLocation =~ s/\/\//\//so;
 		my $pkgNameURL = $row2->{package_name};
 		$pkgNameURL =~ s/\.t(g|x)z//;
-		my $pkgURLPath = sprintf("%sview.cgi/view/%s/%s/%s/%s", $scriptPath, 
+		my $pkgURLPath = sprintf("%spackage.cgi/view/%s/%s/%s/%s", $scriptPath, 
 			$findParams->{SLACKVERNAME}, $row2->{category_name}, $serieEnc, 
 			$pkgNameURL);
 		$pkgURLPath =~  s/\/\//\//so;
@@ -382,7 +384,7 @@ sub _find_packages {
 		$pkgLocation =~ s/\/\//\//so;
 		my $pkgNameURL = $row->{package_name};
 		$pkgNameURL =~ s/\.t(g|x)z//;
-		my $pkgURLPath = sprintf("%sview.cgi/view/%s/%s/%s/%s", $scriptPath, 
+		my $pkgURLPath = sprintf("%spackage.cgi/view/%s/%s/%s/%s", $scriptPath, 
 			$findParams->{SLACKVERNAME}, $row->{category_name}, $serieEnc, 
 			$pkgNameURL);
 		$pkgURLPath =~  s/\/\//\//so;
