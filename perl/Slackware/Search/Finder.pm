@@ -5,10 +5,6 @@ use warnings;
 
 use base 'Slackware::Search::MainWeb';
 use CGI::Application::Plugin::AutoRunmode;
-# TODO ~ remove
-#use base 'CGI::Application';
-#use CGI::Application::Plugin::ConfigAuto	(qw/cfg/);
-#use CGI::Application::Plugin::Redirect;
 
 use constant LIMITFILES => 5;
 use constant NEEDLEMINLENGTH => 2;
@@ -185,11 +181,6 @@ sub search_fetch: Runmode {
 sub _find_files {
 	my $self = shift;
 	my $findParams = shift;
-
-#	my $needle = shift;
-#	my $idSlackver = shift;
-#	my $slackver = shift;
-
 	my $catsToCheck = shift; # unused ATM
 	my @pkgsFound;
 	unless ($findParams) {
