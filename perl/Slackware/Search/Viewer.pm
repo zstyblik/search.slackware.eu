@@ -16,11 +16,8 @@ sub setup {
 	$self->routes_root('/'); 
 	$self->routes([
 		'' => 'noview',
-		'/category/:slackver/:category' => 'view_category',
 		'/download/:slackver/:category/:serie/:package/:country' => 'download',
 		'/inspect/:slackver/:category/:serie/:package' => 'inspect',
-		'/serie/:slackver/:category/:serie' => 'view_serie',
-		'/slackver/:slackver' => 'view_slackver',
 		'/view/:slackver/:category/:serie/:package' => 'view',
 	]);
 
