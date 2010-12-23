@@ -1,4 +1,4 @@
-package Slackware::Search::Viewer;
+package Slackware::Search::ViewPackage;
 
 use strict;
 use warnings;
