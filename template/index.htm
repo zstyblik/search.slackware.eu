@@ -13,20 +13,24 @@
 	<body>
 		<div id="main">
 			<div id="heading">
-				<TMPL_IF name="QUICKSEARCH"><div id="quicksearch">
-					<form id="quicksearchform" name="quicksearchform" method="get" action="/cgi-bin/search.cgi">
+				<div id="quicksearch">
+					<TMPL_IF name="QSEARCHHIDE">
+					<br /><br />
+					<TMPL_ELSE><form id="quicksearchform" name="quicksearchform" method="get" action="/cgi-bin/search.cgi">
 						<input id="inputsearch" name="inputsearch" type="text" size="16" />
-						<select id="sver" name="sver">
+						<input id="sver" name="sver" type="hidden" value="<TMPL_VAR SVERSTABLE" />
+						<input id="haystack" name="haystack" type="hidden" value="2" />
+<!--						<select id="sver" name="sver">
 							<TMPL_LOOP NAME="SVERS">
 							<option value="<TMPL_VAR IDSVER>"<TMPL_VAR name="SELECTED">>
 								<TMPL_VAR NAME="SVERNAME">
 							</option>
 							</TMPL_LOOP>
-						</select> <!--- sver -->
+						</select> <!--- sver -->-->
 						<input id="buttonsearch" name="buttonsearch" type="button" value="search" /> 
 					</form> <!--- searchform -->
+					</TMPL_IF>
 				</div> <!--- quicksearch -->
-				</TMPL_IF>
 				<div id="containerlogo">
 					<h1>
 						<span class="light">search</span><span class="dark">.slackware.eu</span>
