@@ -2,8 +2,8 @@
 use strict;
 use CGI::Carp qw(fatalsToBrowser);
 use lib '/srv/httpd/search.slackware.eu/perl/';
-use Slackware::Search::Viewer;
-my $webapp = Slackware::Search::Viewer->new(
+use Slackware::Search::ViewPackage;
+my $webapp = Slackware::Search::ViewPackage->new(
 	PARAMS => {
 		cfg_file => ['/srv/httpd/search.slackware.eu/conf/config.pl'],
 		format => 'perl',
