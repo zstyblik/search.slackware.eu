@@ -43,7 +43,7 @@ sub about {
 	$template->param(TITLE => "About");
 	$template->param(ABOUT => 1);
 	my $idSlackverStable = $self->_get_slackversion_idStable();
-	$template->param(SVERSTABLE => $idSlackVerStable);
+	$template->param(SVERSTABLE => $idSlackverStable);
 	return $template->output();
 }
 
@@ -67,7 +67,7 @@ sub changelog {
 	$template->param(TITLE => $pageTitle);
 	$template->param(CHANGELOG => 1);
 	my $idSlackverStable = $self->_get_slackversion_idStable();
-	$template->param(SVERSTABLE => $idSlackVerStable);
+	$template->param(SVERSTABLE => $idSlackverStable);
 	return $template->output();
 }
 
@@ -77,7 +77,7 @@ sub home {
 	$template->param(TITLE => "Slackware UnOfficial Package Browser/Search");
 	$template->param(HOME => 1);
 	my $idSlackverStable = $self->_get_slackversion_idStable();
-	$template->param(SVERSTABLE => $idSlackVerStable);
+	$template->param(SVERSTABLE => $idSlackverStable);
 	return $template->output();
 }
 
@@ -87,7 +87,7 @@ sub links {
 	$template->param(TITLE => "Links");
 	$template->param(LINKS => 1);
 	my $idSlackverStable = $self->_get_slackversion_idStable();
-	$template->param(SVERSTABLE => $idSlackVerStable);
+	$template->param(SVERSTABLE => $idSlackverStable);
 	return $template->output();
 }
 
