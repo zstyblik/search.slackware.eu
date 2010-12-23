@@ -91,6 +91,18 @@ sub _get_slackversion_name {
 	my $slackversion = $dbh->selectrow_array($sql2);
 	return $slackversion;
 } # sub _get_slackversion_name
+# desc: return ID of stable slackversion
+# @return: int;
+sub _get_slackversion_idStable {
+	my $self = shift;
+	my $dbh = $self->dbh;
+	my $sql1 = "SELECT id_slackversion FROM slackversion WHERE \
+	version <> 9999 AND slackversion_name NOT LIKE 'slackware64-%' \
+	ORDER BY version DESC LIMIT 1;";
+	$idSlackver = $dbh->selectrow_array($sql1);
+	return -1 unless ($idSlackver);
+	return $idSlackver;
+} # sub _get_slackversion_idStable 
 # desc: return slackversions in db
 # $idSlackver: integer;
 # @return: array;
@@ -104,7 +116,8 @@ sub _get_slackversions {
 
 	if ($idSlackver == -1) {
 		my $sql1 = "SELECT id_slackversion FROM slackversion WHERE \
-		version <> 9999 ORDER BY version DESC LIMIT 1;";
+		version <> 9999 AND slackversion_name NOT LIKE 'slackware64-%' \
+		ORDER BY version DESC LIMIT 1;";
 		$idSlackver = $dbh->selectrow_array($sql1);
 	}
 
