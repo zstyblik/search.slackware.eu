@@ -57,9 +57,8 @@ sub download {
 	if ($category !~ /^[A-Za-z0-9]+$/) {
 		return $self->error("Category is garbage.", '/cgi-bin/search.cgi');
 	}
-	# TODO ~ decode
+	$serie =~ s/\%([A-Fa-f0-9@\-\_\.]{2})/pack('C', hex($1))/seg;
 	$serie =~ s/@+/\//g;
-	$serie =~ s/\%([A-Fa-f0-9\-\_\.\/]{2})/pack('C', hex($1))/seg;
 	if ($serie !~ /^[A-Za-z0-9\-\_\.\/]+$/) {
 		return $self->error("Serie is garbage.", '/cgi-bin/search.cgi');
 	}
@@ -151,9 +150,8 @@ sub inspect {
 	if ($category !~ /^[A-Za-z0-9]+$/) {
 		return $self->error("Category is garbage.", '/cgi-bin/search.cgi');
 	}
-	# TODO - decode
+	$serie =~ s/\%([A-Fa-f0-9@\-_\.]{2})/pack('C', hex($1))/seg;
 	$serie =~ s/@+/\//g;
-	$serie =~ s/\%([A-Fa-f0-9\-_\.\/]{2})/pack('C', hex($1))/seg;
 	if ($serie !~ /^[A-Za-z0-9\-\_\.\/]+$/) {
 		return $self->error("Serie is garbage.", '/cgi-bin/search.cgi');
 	}
@@ -243,8 +241,7 @@ sub view {
 	if ($category !~ /^[A-Za-z0-9]+$/) {
 		return $self->error("Category is garbage.", '/cgi-bin/search.cgi');
 	}
-	# TODO ~ decode
-	$serie =~ s/\%([A-Fa-f0-9\-\_\.\/@]{2})/pack('C', hex($1))/seg;
+	$serie =~ s/\%([A-Fa-f0-9@\-\_\.]{2})/pack('C', hex($1))/seg;
 	$serie =~ s/@+/\//g;
 	if ($serie !~ /^[A-Za-z0-9\-\_\.\/]+$/) {
 		return $self->error("Serie is garbage.", '/cgi-bin/search.cgi');
