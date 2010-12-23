@@ -1,14 +1,10 @@
-package Slackware::Search::Viewer;
+package Slackware::Search::ViewPackage;
 
 use strict;
 use warnings;
 
 use base 'Slackware::Search::MainWeb';
 use CGI::Application::Plugin::Routes;
-# TODO ~ remove
-#use base 'CGI::Application';
-#use CGI::Application::Plugin::ConfigAuto	(qw/cfg/);
-#use CGI::Application::Plugin::Redirect;
 
 sub setup {
 	my $self = shift;
@@ -20,11 +16,8 @@ sub setup {
 	$self->routes_root('/'); 
 	$self->routes([
 		'' => 'noview',
-		'/category/:slackver/:category' => 'view_category',
 		'/download/:slackver/:category/:serie/:package/:country' => 'download',
 		'/inspect/:slackver/:category/:serie/:package' => 'inspect',
-		'/serie/:slackver/:category/:serie' => 'view_serie',
-		'/slackver/:slackver' => 'view_slackver',
 		'/view/:slackver/:category/:serie/:package' => 'view',
 	]);
 
@@ -44,22 +37,6 @@ sub cgiapp_init {
     $CFG{'DB_PASS'},
   );
 } # sub cgiapp_prerun
-
-#sub teardown {
-#	my $self = shift;
-#	my $dbh = $self->dbh;
-#	$dbh->disconnect() if ($dbh);
-#} # sub teardown
-
-#sub error {
-#	my $self = shift;
-#	my $error = shift;
-#	my $redir = shift || $ENV{'SCRIPT_NAME'};
-#	my $template = $self->load_tmpl('error.htm');
-#	$template->param(ERROR => $error);
-#	$template->param(REDIRECT => $redir);
-#	return $template->output();
-#} # sub error
 
 # desc: choose mirror in specified country where to download from
 sub download {

@@ -5,11 +5,6 @@ use warnings;
 
 use base 'Slackware::Search::MainWeb';
 use CGI::Application::Plugin::Routes;
-# TODO ~ remove
-#use base 'CGI::Application';
-#use CGI::Application::Plugin::ConfigAuto	(qw/cfg/);
-#use CGI::Application::Plugin::DBH (qw/dbh_config dbh/);
-#use CGI::Application::Plugin::Redirect;
 
 sub setup {
 	my $self = shift;
@@ -35,28 +30,12 @@ sub cgiapp_init {
 
 	$self->tmpl_path([$CFG{'TMPL_PATH'}]);
 
-  # open database connection
-#	$self->dbh_config(
-#    $CFG{'DB_DSN'},
-#    $CFG{'DB_USER'},
-#    $CFG{'DB_PASS'},
-#  );
 } # sub cgiapp_prerun
 
 # desc: teardown overload due to absence of DBH!
 sub teardown {
 	my $self = shift;
 } # sub teardown
-
-#sub error {
-#	my $self = shift;
-#	my $error = shift;
-#	my $redir = shift || $ENV{'SCRIPT_NAME'};
-#	my $template = $self->load_tmpl('error.htm');
-#	$template->param(ERROR => $error);
-#	$template->param(REDIRECT => $redir);
-#	return $template->output();
-#} # sub error
 
 sub about {
 	my $self = shift;

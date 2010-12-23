@@ -5,10 +5,6 @@ use warnings;
 
 use base 'Slackware::Search::MainWeb';
 use CGI::Application::Plugin::AutoRunmode;
-# TODO ~ remove
-#use base 'CGI::Application';
-#use CGI::Application::Plugin::ConfigAuto	(qw/cfg/);
-#use CGI::Application::Plugin::Redirect;
 
 use constant LIMITFILES => 5;
 use constant NEEDLEMINLENGTH => 2;
@@ -44,26 +40,11 @@ sub cgiapp_init {
   );
 } # sub cgiapp_prerun
 
-#sub teardown {
-#	my $self = shift;
-#	my $dbh = $self->dbh;
-#	$dbh->disconnect() if ($dbh);
-#} # sub teardown
-
-#sub error: ErrorRunmode {
-#	my $self = shift;
-#	my $error = shift;
-#	my $redir = shift || undef;
-#	my $template = $self->load_tmpl('error.htm');
-#	$template->param(ERROR => $error);
-#	$template->param(REDIRECT => $ENV{'SCRIPT_NAME'});
-#	return $template->output();
-#} # sub error
-
 sub search_form: Runmode {
 	my $self = shift;
 	my $template = $self->load_tmpl("index.htm");
 	$template->param(TITLE => "Search");
+	$template->param(QSEARCHHIDE => 1);
 	$template->param(SEARCH => 1);
 
 	my @slackVersions = $self->_get_slackversions;
@@ -128,6 +109,7 @@ sub search_fetch: Runmode {
 	my $template = $self->load_tmpl("index.htm");
 	$template->param(TITLE => "Search results");
 	$template->param(SLACKVER => $slackVerName);
+	$template->param(QSEARCHHIDE => 1);
 	$template->param(SEARCH => 1);
 	$template->param(SEARCHRESULTS => 1);
 	$template->param(NEEDLE => $needle);
@@ -201,11 +183,6 @@ sub search_fetch: Runmode {
 sub _find_files {
 	my $self = shift;
 	my $findParams = shift;
-
-#	my $needle = shift;
-#	my $idSlackver = shift;
-#	my $slackver = shift;
-
 	my $catsToCheck = shift; # unused ATM
 	my @pkgsFound;
 	unless ($findParams) {
@@ -298,7 +275,7 @@ sub _find_files {
 		$pkgLocation =~ s/\/\//\//so;
 		my $pkgNameURL = $row2->{package_name};
 		$pkgNameURL =~ s/\.t(g|x)z//;
-		my $pkgURLPath = sprintf("%sview.cgi/view/%s/%s/%s/%s", $scriptPath, 
+		my $pkgURLPath = sprintf("%spackage.cgi/view/%s/%s/%s/%s", $scriptPath, 
 			$findParams->{SLACKVERNAME}, $row2->{category_name}, $serieEnc, 
 			$pkgNameURL);
 		$pkgURLPath =~  s/\/\//\//so;
@@ -407,7 +384,7 @@ sub _find_packages {
 		$pkgLocation =~ s/\/\//\//so;
 		my $pkgNameURL = $row->{package_name};
 		$pkgNameURL =~ s/\.t(g|x)z//;
-		my $pkgURLPath = sprintf("%sview.cgi/view/%s/%s/%s/%s", $scriptPath, 
+		my $pkgURLPath = sprintf("%spackage.cgi/view/%s/%s/%s/%s", $scriptPath, 
 			$findParams->{SLACKVERNAME}, $row->{category_name}, $serieEnc, 
 			$pkgNameURL);
 		$pkgURLPath =~  s/\/\//\//so;
@@ -423,136 +400,6 @@ sub _find_packages {
 
 	return @pkgsFound;
 } # sub _find_packages
-# desc: return categories of slackversion;
-# $idSlackVer: integer;
-# @return: array;
-sub _get_categories  {
-	my $self = shift;
-# future
-#	my $idSlackVer = shift;
-	my $dbh = $self->dbh;
-	my $sql1 = "SELECT id_category, category_name FROM category;";
-	my $result1 = $dbh->selectall_arrayref($sql1, { Slice => {} });
-	my @cats;
-	for my $row (@$result1) {
-		my %item = (IDCAT => $row->{id_category}, 
-			CATNAME => $row->{category_name}, 
-		);
-		push(@cats, \%item);
-	}
-	return @cats;
-} # sub _get_categories
-# desc: return slackversion name (string)
-# $idSlackversion: int;
-# @return: string/undef;
-sub _get_slackversion_name {
-	my $self = shift;
-	my $idSlackversion = shift;
-	unless ($idSlackversion =~ /^[0-9]+$/) {
-		return undef;
-	}
-	my $dbh = $self->dbh;
-
-	my $sql1 = "SELECT COUNT(*) FROM slackversion WHERE \
-	id_slackversion = $idSlackversion;";
-	if ($dbh->selectrow_array($sql1) == 0) {
-		return undef;
-	}
-
-	my $sql2 = "SELECT slackversion_name FROM slackversion WHERE \
-	id_slackversion = $idSlackversion LIMIT 1;";
-	my $slackversion = $dbh->selectrow_array($sql2);
-	return $slackversion;
-} # sub _get_slackversion_name
-# desc: return haystacks
-# $idHaystack: integer;
-# @return: array;
-sub _get_haystacks {
-	my $self = shift;
-	my $idHaystack = shift || -1;
-	my @haystacks;
-	unless ($idHaystack =~ /^[0-9]+$/) {
-		return @haystacks;
-	}
-	my %files = (IDHAYSTACK => 1,
-		HAYDESC => 'files',
-		SELECTED => '',
-	);
-	my %pkgs = (IDHAYSTACK => 2,
-		HAYDESC => 'packages',
-		SELECTED => '',
-	);
-	if ($idHaystack == 1) {
-		$files{SELECTED} = ' selected="selected"';
-	} else {
-		$pkgs{SELECTED} = ' selected="selected"';
-	}
-	push(@haystacks, \%files);
-	push(@haystacks, \%pkgs);
-	return @haystacks;
-}
-# desc: return slackversions in db
-# $idSlackver: integer;
-# @return: array;
-sub _get_slackversions {
-	my $self = shift;
-	my $idSlackver = shift || -1;
-	unless ($idSlackver =~ /^[0-9]$/) {
-		$idSlackver = -1;
-	}
-	my $dbh = $self->dbh;
-
-	if ($idSlackver == -1) {
-		my $sql1 = "SELECT id_slackversion FROM slackversion WHERE \
-		version <> 9999 ORDER BY version DESC LIMIT 1;";
-		$idSlackver = $dbh->selectrow_array($sql1);
-	}
-
-	my $sql2 = "SELECT id_slackversion, slackversion_name FROM \
-	slackversion ORDER BY version DESC, slackversion_name DESC;";
-	my $result2 = $dbh->selectall_arrayref($sql2, { Slice => {} });
-	my @slackVers;
-	for my $row (@$result2) {
-		my $selected = '';
-		if ($idSlackver == $row->{id_slackversion}) {
-			$selected = ' selected="selected"';
-		}
-		my %item = ( IDSVER => $row->{id_slackversion}, 
-			SVERNAME => $row->{slackversion_name},
-			SELECTED => $selected,
-		);
-		push(@slackVers, \%item);
-	}
-	return @slackVers;
-} # sub _get_slackversions
-# desc: return nfo about slackware versions in db
-# @return: array;
-sub _get_slackversions_nfo {
-	my $self = shift;
-	my @slackvernfo;
-
-	my $dbh = $self->dbh;
-	my $sql1 = "SELECT slackversion_name, \
-	to_char(ts_last_update, 'YYYY/MM/DD HH24:MI:SS') AS \
-	ts_last_update, no_files, no_pkgs FROM slackversion ORDER BY \
-	version DESC, slackversion_name DESC;";
-	my $result1 = $dbh->selectall_arrayref($sql1, { Slice => {}});
-
-	unless ($result1) {
-		return @slackvernfo;
-	}
-
-	for my $row1 (@$result1) {
-		my %item = (SVER => $row1->{slackversion_name},
-			NOPKGS => $row1->{no_pkgs},
-			NOFILES => $row1->{no_files},
-			LUPDATE => $row1->{ts_last_update},
-		);
-		push(@slackvernfo, \%item);
-	}
-
-	return @slackvernfo;
-} # sub _get_slackversions_nfo
 
 1;
 
