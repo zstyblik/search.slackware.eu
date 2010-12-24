@@ -445,10 +445,13 @@ sub _get_pkg_details {
 	}
 	my $dbh = $self->dbh;
 	
-	my $sql1 = "SELECT * FROM view_packages FULL JOIN slackversion \
+	# TODO ~ check out this query
+	my $sql1 = "SELECT * FROM view_packages \
+	FULL JOIN slackversion \
 	ON view_packages.id_slackversion = slackversion.id_slackversion \
 	FULL JOIN category ON view_packages.id_category = \
-	category.id_category FULL JOIN serie ON view_packages.id_serie = \
+	category.id_category \
+	FULL JOIN serie ON view_packages.id_serie = \
 	serie.id_serie WHERE id_packages = $idPkgs;";
 	my $hashPkg = $dbh->selectrow_hashref($sql1, { Slice => {}});
 	unless ($hashPkg) {
