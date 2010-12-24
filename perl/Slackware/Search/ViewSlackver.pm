@@ -34,7 +34,17 @@ sub cgiapp_init {
 
 sub view_slackver {
 	my $self = shift;
+	my $dbh = $self->dbh;
 	my $q = $self->query;
+	my $slackver = $q->param('slackver');
+	my $validSlackver = $self->_validate_slackver($slackver);
+	unless ($validSlackver) {
+		return $self->error("Slackversion is garbage.");
+	}
+	my $idSlackver = $self->_get_slackver_id($slackver);
+	unless ($idSlackver) {
+		return $self->error("Slackversion is not in DB.");
+	}
 	my $sql100 = sprintf("SELECT category_name FROM category WHERE \
 		id_category IN (SELECT id_category FROM packages WHERE \
 		id_slackversion = %i);", $idSlackver);
