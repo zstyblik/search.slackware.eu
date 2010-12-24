@@ -75,7 +75,7 @@ sub changelog {
 sub home {
 	my $self = shift;
 	my $template = $self->load_tmpl("index.htm");
-	$template->param(TITLE => "Slackware UnOfficial Package Browser/Search");
+	$template->param(TITLE => "Slackware Unofficial Package Browser/Search");
 	$template->param(HOME => 1);
 	my $idSlackverStable = $self->_get_slackversion_idStable();
 	$template->param(SVERSTABLE => $idSlackverStable);

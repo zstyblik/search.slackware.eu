@@ -340,20 +340,6 @@ sub view {
 
 	return $template->output();
 } # sub view
-# desc: view what's under given category within specified slackver/cat/
-sub view_category {
-	my $self = shift;
-} # sub view_category
-
-# desc: view packages under given serie within specified slackver/cat/ser/
-sub view_serie {
-	my $self = shift;
-} # sub view_serie
-
-# desc: view categories under given slackver/
-sub view_slackver {
-	my $self = shift;
-} # sub view_slackver
 
 sub _get_category_id {
 	my $self = shift;
@@ -500,7 +486,7 @@ sub _get_pkg_details {
 	}
 	return \%pkgDetails;
 } # sub _get_pkg_details
-
+# desc: return id_packages
 sub _get_packages_id {
 	my $self = shift;
 	my $package = shift;
@@ -531,7 +517,6 @@ sub _get_packages_id {
 	return -1 unless $result2;
 	return $result2;
 } # sub _get_packages_id
-
 # desc: return formated list of files associated with package
 # $idPkgs: int;
 # $slackver: string;
@@ -586,7 +571,6 @@ sub _get_pkg_files {
 
 	return @filesFound;
 } # sub _get_pkg_details
-
 # desc: look up serie ID
 # $serie: string;
 # @return: int
@@ -602,8 +586,7 @@ sub _get_serie_id {
 	my $result1 = $dbh->selectrow_array($sql1);
 	return -1 unless $result1;
 	return $result1;
-}
-
+} # sub _get_serie_id
 # desc: look up slackware version ID
 # $slackver: string;
 # @return: int;

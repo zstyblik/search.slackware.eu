@@ -1,0 +1,43 @@
+package Slackware::Search::ViewSlackver;
+
+use strict;
+use warnings;
+
+use base 'Slackware::Search::MainWeb';
+use CGI::Application::Plugin::Routes;
+
+sub setup {
+	my $self = shift;
+	$self->start_mode('view_slackver');
+	$self->error_mode('error');
+	$self->header_props(-type => 'text/html', -charset => 'UTF-8');
+	$self->routes_root('/');
+	$self->routes([
+			'' => 'noview',
+			'/view/:slackver' => 'view_slackver',
+	]);
+} # sub setup
+
+sub cgiapp_init {
+	my $self = shift;
+
+	my %CFG = $self->cfg;
+
+	$self->tmpl_patch([$CFG{'TMPL_PATH'}]);
+
+	$self->dbh_config(
+		$CFG{'DB_DSN'},
+		$CFG{'DB_USER'},
+		$CFG{'DB_PASS'},
+	);
+} # sub cgiapp_init
+
+sub view_slackver {
+	my $self = shift;
+	my $q = $self->query;
+	my $sql100 = sprintf("SELECT category_name FROM category WHERE \
+		id_category IN (SELECT id_category FROM packages WHERE \
+		id_slackversion = %i);", $idSlackver);
+}
+
+1;
