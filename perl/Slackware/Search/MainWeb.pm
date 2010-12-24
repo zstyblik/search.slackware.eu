@@ -42,6 +42,26 @@ sub _get_categories  {
 	}
 	return @cats;
 } # sub _get_categories
+# desc: encode URL
+# $URL: string;
+# @return: string;
+sub _encode_URL {
+	my $self = shift;
+	my $URL = shift || '';
+	return 0 unless ($URL);
+	$URL =~ s/([^A-Za-z0-9@\-\_\.])/sprintf("%%%02X", ord($1))/seg;
+	return $encoded;
+} # sub _encode_URL
+# desc: decode URL
+# $URL: string;
+# @return: string;
+sub _decode_URL {
+	my $self = shift;
+	my $URL = shift || '';
+	return 0 unless ($URL);
+	$URL =~ s/\%([A-Fa-f0-9@\-\_\.]{2})/pack('C', hex($1))/seg;
+	return $URL;
+} # sub _decode_URL
 # desc: return haystacks
 # $idHaystack: integer;
 # @return: array;
