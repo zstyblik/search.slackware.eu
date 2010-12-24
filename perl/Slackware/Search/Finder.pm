@@ -226,8 +226,8 @@ sub _find_files {
 
 	my $dbh = $self->dbh;
 
-	my $sql1 = "SELECT id_packages FROM files WHERE \
-	file_name LIKE '%".$findParams->{NEEDLE}."%' GROUP BY id_packages;";
+	my $sql1 = sprintf("SELECT id_packages FROM files WHERE \
+	file_name LIKE '%%%s%%' GROUP BY id_packages;", $findParams->{NEEDLE});
 	my $result1 = $dbhLite->selectall_arrayref($sql1, { Slice => {}});
 	
 	my @idPkgs;
@@ -269,7 +269,7 @@ sub _find_files {
 	for my $row2 (@$result2) {
 		my $serieEnc = $row2->{serie_name};
 		$serieEnc =~ s/\/+/@/g;
-		$serieEnc =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
+		$serieEnc =~ $self->_url_encode($serieEnc);
 		my $pkgLocation = sprintf("%s/%s", $row2->{category_name},
 			$row2->{serie_name});
 		$pkgLocation =~ s/\/\//\//so;
@@ -293,9 +293,9 @@ sub _find_files {
 	} # for my $row2
 	
 	my $idPkgsFilt = join(", ", keys(%packagesFiltered));
-	my $sql3 = "SELECT id_packages, file_name FROM files WHERE \
-	file_name LIKE '%".$findParams->{NEEDLE}."%' AND id_packages IN ("
-	.$idPkgsFilt.");";
+	my $sql3 = sprintf("SELECT id_packages, file_name FROM files WHERE \
+	file_name LIKE '%%%s%%' AND id_packages IN (%s));", 
+	$findParams->{NEEDLE}, $idPkgsFilt);
 	my $result3 = $dbhLite->selectall_arrayref($sql3, { Slice => {}});
 
 	for my $row3 (@$result3) {
@@ -378,7 +378,7 @@ sub _find_packages {
 	for my $row (@$result1) {
 		my $serieEnc = $row->{serie_name};
 		$serieEnc =~ s/\/+/@/g;
-		$serieEnc =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
+		$serieEnc =~ $self->_url_encode($serieEnc);
 		my $pkgLocation = sprintf("%s/%s", $row->{category_name},
 			$row->{serie_name});
 		$pkgLocation =~ s/\/\//\//so;

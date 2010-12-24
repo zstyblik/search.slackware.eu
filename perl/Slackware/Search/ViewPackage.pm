@@ -50,22 +50,26 @@ sub download {
 	my $package = $q->param('package');
 	my $country = $q->param('country');
 	# validate/sanitize input
-	if ($slackver !~ /^[A-Za-z0-9\-\.]+$/) {
+	my $validSlackver = $self->_validate_slackver($slackver);
+	unless ($validSlackver) {
 		return $self->error("Slackware version is garbage.", 
 			'/cgi-bin/search.cgi');
 	}
-	if ($category !~ /^[A-Za-z0-9]+$/) {
+	my $validCategory = $self->_validate_category($category);
+	unless ($validCategory) {
 		return $self->error("Category is garbage.", '/cgi-bin/search.cgi');
 	}
-	$serie =~ s/\%([A-Fa-f0-9@\-\_\.]{2})/pack('C', hex($1))/seg;
+	$serie =~ $self->_url_decode($serie);
 	$serie =~ s/@+/\//g;
-	if ($serie !~ /^[A-Za-z0-9\-\_\.\/]+$/) {
+	my $validSerie = $self->_validate_serie($serie);
+	unless ($validSerie) {
 		return $self->error("Serie is garbage.", '/cgi-bin/search.cgi');
 	}
-	if ($package !~ /^[A-Za-z0-9\-\.]+$/) {
+	my $validPackage = $self->_validate_package($package);
+	if ($validPackage) {
 		return $self->error("Package is garbage.", '/cgi-bin/search.cgi');
 	}
-	$country =~ s/\%([A-Fa-f0-9]{2})/pack('C', hex($1))/seg;
+	$country =~ $self->_url_decode($country);
 	unless ($country =~ /^[A-Za-z\ ]+$/) {
 		return $self->error("Wrong country.".$country, '/cgi-bin/search.cgi');
 	}
@@ -118,7 +122,7 @@ sub download {
 
 	my $serieEnc = $pkgDetail->{PKGSER};
 	$serieEnc =~ s/\/+/@/g;
-	$serieEnc =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
+	$serieEnc =~ $self->_url_encode($serie);
 	my $pkgNameURL = $pkgDetail->{PKGNAME};
 	$pkgNameURL =~ s/\.t(g|x)z//;
 	my $pkgURLPath = sprintf("%s/view/%s/%s/%s/%s", $ENV{SCRIPT_NAME}, 
@@ -143,19 +147,23 @@ sub inspect {
 	my $serie = $q->param('serie');
 	my $package = $q->param('package');
 	# validate/sanitize input
-	if ($slackver !~ /^[A-Za-z0-9\-\.]+$/) {
+	my $validSlackver = $self->_validate_slackver($slackver);
+	unless ($validSlackver) {
 		return $self->error("Slackware version is garbage.", 
 			'/cgi-bin/search.cgi');
 	}
-	if ($category !~ /^[A-Za-z0-9]+$/) {
+	my $validCategory = $self->_validate_category($category);
+	unless ($validCategory) {
 		return $self->error("Category is garbage.", '/cgi-bin/search.cgi');
 	}
-	$serie =~ s/\%([A-Fa-f0-9@\-_\.]{2})/pack('C', hex($1))/seg;
+	$serie =~ $self->_url_decode($serie);
 	$serie =~ s/@+/\//g;
-	if ($serie !~ /^[A-Za-z0-9\-\_\.\/]+$/) {
+	my $validSerie = $self->_validate_serie($serie);
+	unless ($validSerie) {
 		return $self->error("Serie is garbage.", '/cgi-bin/search.cgi');
 	}
-	if ($package !~ /^[A-Za-z0-9\-\.]+$/) {
+	my $validPackage = $self->_validate_package($package);
+	unless ($validPackage) {
 		return $self->error("Package is garbage.", '/cgi-bin/search.cgi');
 	}
 	# does slackver exist? fast lookup
@@ -202,7 +210,7 @@ sub inspect {
 	}
 	my $serieEnc = $pkgDetail->{PKGSER};
 	$serieEnc =~ s/\/+/@/g;
-	$serieEnc =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
+	$serieEnc =~ $self->_url_encode($serie);
 	my $pkgNameURL = $pkgDetail->{PKGNAME};
 	$pkgNameURL =~ s/\.t(g|x)z//;
 	my $pkgURLPath = sprintf("%s/view/%s/%s/%s/%s", $ENV{SCRIPT_NAME}, 
@@ -234,19 +242,23 @@ sub view {
 	my $serie = $q->param('serie');
 	my $package = $q->param('package');
 	# validate/sanitize input
-	if ($slackver !~ /^[A-Za-z0-9\-\.]+$/) {
+	my $validSlackver = $self->_validate_slackver($slackver);
+	unless ($validSlackver) {
 		return $self->error("Slackware version is garbage.", 
 			'/cgi-bin/search.cgi');
 	}
-	if ($category !~ /^[A-Za-z0-9]+$/) {
+	my $validCategory = $self->_validate_category($category);
+	unless ($validCategory) {
 		return $self->error("Category is garbage.", '/cgi-bin/search.cgi');
 	}
-	$serie =~ s/\%([A-Fa-f0-9@\-\_\.]{2})/pack('C', hex($1))/seg;
+	$serie =~ $self->_url_decode($serie);
 	$serie =~ s/@+/\//g;
-	if ($serie !~ /^[A-Za-z0-9\-\_\.\/]+$/) {
+	my $validSerie = $self->_validate_serie($serie);
+	unless ($validSerie) {
 		return $self->error("Serie is garbage.", '/cgi-bin/search.cgi');
 	}
-	if ($package !~ /^[A-Za-z0-9\-\.]+$/) {
+	my $validPackage = $self->_validate_package($package);
+	unless ($validPackage) {
 		return $self->error("Package is garbage.", '/cgi-bin/search.cgi');
 	}
 	# does slackver exist? fast lookup
@@ -287,7 +299,7 @@ sub view {
 
 	my $serieEnc = $pkgDetail->{PKGSER};
 	$serieEnc =~ s/\/+/@/g;
-	$serieEnc =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
+	$serieEnc =~ $self->_url_encode($serie);
 	my $pkgNameURL = $pkgDetail->{PKGNAME};
 	$pkgNameURL =~ s/\.t(g|x)z//;
 	my $pkgURLPath = sprintf("%s/inspect/%s/%s/%s/%s", $ENV{SCRIPT_NAME}, 
@@ -340,21 +352,6 @@ sub view {
 
 	return $template->output();
 } # sub view
-
-sub _get_category_id {
-	my $self = shift;
-	my $category = shift || '';
-	if ($category !~ /^[A-Za-z0-9]+$/) {
-		return -1;
-	}
-	my $dbh = $self->dbh;
-	my $sql1 = sprintf("SELECT id_category FROM category WHERE 
-		category_name = '%s';", $category);
-	my $result1 = $dbh->selectrow_array($sql1);
-	return -1 unless $result1;
-	return $result1;
-} # sub _get_category_id
-
 # desc: look up if country exists in DB
 # $country: string;
 # @return: int;
@@ -394,7 +391,7 @@ sub _get_mirror_locations {
 	# TODO ~ stuff it ... to the function, for . sake!
 	my $serieEnc = $pkgDetail->{PKGSER};
 	$serieEnc =~ s/\/+/@/g;
-	$serieEnc =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
+	$serieEnc =~ $self->_url_encode($serieEnc);
 	my $pkgNameURL = $pkgDetail->{PKGNAME};
 	$pkgNameURL =~ s/\.t(g|x)z//;
 	my $link = sprintf("%s/download/%s/%s/%s/%s", $ENV{SCRIPT_NAME}, 
@@ -460,10 +457,13 @@ sub _get_pkg_details {
 	}
 	my $dbh = $self->dbh;
 	
-	my $sql1 = "SELECT * FROM view_packages FULL JOIN slackversion \
+	# TODO ~ check out this query
+	my $sql1 = "SELECT * FROM view_packages \
+	FULL JOIN slackversion \
 	ON view_packages.id_slackversion = slackversion.id_slackversion \
 	FULL JOIN category ON view_packages.id_category = \
-	category.id_category FULL JOIN serie ON view_packages.id_serie = \
+	category.id_category \
+	FULL JOIN serie ON view_packages.id_serie = \
 	serie.id_serie WHERE id_packages = $idPkgs;";
 	my $hashPkg = $dbh->selectrow_hashref($sql1, { Slice => {}});
 	unless ($hashPkg) {
@@ -571,37 +571,5 @@ sub _get_pkg_files {
 
 	return @filesFound;
 } # sub _get_pkg_details
-# desc: look up serie ID
-# $serie: string;
-# @return: int
-sub _get_serie_id {
-	my $self = shift;
-	my $serie = shift || '';
-	if ($serie !~ /^[A-Za-z0-9\-\_\.\/]+$/) {
-		return -1;
-	}
-	my $dbh = $self->dbh;
-	my $sql1 = sprintf("SELECT id_serie FROM serie WHERE 
-		serie_name = '%s';", $serie);
-	my $result1 = $dbh->selectrow_array($sql1);
-	return -1 unless $result1;
-	return $result1;
-} # sub _get_serie_id
-# desc: look up slackware version ID
-# $slackver: string;
-# @return: int;
-sub _get_slackver_id {
-	my $self = shift;
-	my $slackver = shift || '';
-	if ($slackver !~ /^[A-Za-z0-9\-\.]+$/) {
-		return -1;
-	}
-	my $dbh = $self->dbh;
-	my $sql1 = sprintf("SELECT id_slackversion FROM slackversion WHERE 
-		slackversion_name = '%s';", $slackver);
-	my $result1 = $dbh->selectrow_array($sql1);
-	return -1 unless $result1;
-	return $result1;
-} # sub _get_slackver_id
 
 1;
