@@ -1,10 +1,21 @@
 * parse and update only package descriptions
 * parse only FILELIST (or whatever) and create SQL batch, so .sq3 for
  specific distro can be created; no updates/deletes - whole file
-* debug, may be global debug option
+ in other words an [SQL] batch file for PgSQL an SQLite
 * force update - compare each package, update each package, whatever
-* replace all COUNT(*) with something more apropriate
-* unified config(s) for all scripts and what-not
 * diffs like in % diff; for each change in changelog
 * PKG availability at mirror
 * Slackversion browser; slackvers -> cats -> pkgs
+* input focus order ~ what to look for -> in what -> version; search form
+* changelogs at web
+* ENH: write syncer for country flags
+* ENH: BE ~ debug, may be global debug option
+* ENH: auto add new Slackware version [backend]
+@ hide/show quick search at certain pages eg. search in search is useless ~
+negatory due layout shifting around
+@ BUG: error doesn't work!
+@ BUG: new URL path and non-encoded serie name in URL
+@ ENH: add flags next to mirror locations
+@ keep cat + f/p + slackver selection after each search!
+@ replace all COUNT(*) with something more apropriate ~ done where could be
+@ unified config(s) for all scripts and what-not ~ done even in Perl
