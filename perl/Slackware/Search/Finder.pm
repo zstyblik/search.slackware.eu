@@ -269,7 +269,7 @@ sub _find_files {
 	for my $row2 (@$result2) {
 		my $serieEnc = $row2->{serie_name};
 		$serieEnc =~ s/\/+/@/g;
-		$serieEnc =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
+		$serieEnc =~ $self->_url_encode($serieEnc);
 		my $pkgLocation = sprintf("%s/%s", $row2->{category_name},
 			$row2->{serie_name});
 		$pkgLocation =~ s/\/\//\//so;
@@ -378,7 +378,7 @@ sub _find_packages {
 	for my $row (@$result1) {
 		my $serieEnc = $row->{serie_name};
 		$serieEnc =~ s/\/+/@/g;
-		$serieEnc =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
+		$serieEnc =~ $self->_url_encode($serieEnc);
 		my $pkgLocation = sprintf("%s/%s", $row->{category_name},
 			$row->{serie_name});
 		$pkgLocation =~ s/\/\//\//so;
