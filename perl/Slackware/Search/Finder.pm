@@ -226,8 +226,8 @@ sub _find_files {
 
 	my $dbh = $self->dbh;
 
-	my $sql1 = "SELECT id_packages FROM files WHERE \
-	file_name LIKE '%".$findParams->{NEEDLE}."%' GROUP BY id_packages;";
+	my $sql1 = sprintf("SELECT id_packages FROM files WHERE \
+	file_name LIKE '%%%s%%' GROUP BY id_packages;", $findParams->{NEEDLE});
 	my $result1 = $dbhLite->selectall_arrayref($sql1, { Slice => {}});
 	
 	my @idPkgs;
@@ -293,9 +293,9 @@ sub _find_files {
 	} # for my $row2
 	
 	my $idPkgsFilt = join(", ", keys(%packagesFiltered));
-	my $sql3 = "SELECT id_packages, file_name FROM files WHERE \
-	file_name LIKE '%".$findParams->{NEEDLE}."%' AND id_packages IN ("
-	.$idPkgsFilt.");";
+	my $sql3 = sprintf("SELECT id_packages, file_name FROM files WHERE \
+	file_name LIKE '%%%s%%' AND id_packages IN (%s));", 
+	$findParams->{NEEDLE}, $idPkgsFilt);
 	my $result3 = $dbhLite->selectall_arrayref($sql3, { Slice => {}});
 
 	for my $row3 (@$result3) {
