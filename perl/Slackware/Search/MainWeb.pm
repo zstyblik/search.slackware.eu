@@ -263,7 +263,7 @@ sub _url_encode {
 	my $URL = shift || '';
 	return 0 unless ($URL);
 	$URL =~ s/([^A-Za-z0-9@\-\_\.])/sprintf("%%%02X", ord($1))/seg;
-	return $encoded;
+	return $URL;
 } # sub _encode_URL
 # desc: decode URL
 # $URL: string;
