@@ -69,6 +69,39 @@ sub _get_haystacks {
 	push(@haystacks, \%pkgs);
 	return @haystacks;
 } # sub _get_haystacks
+# desc: look up serie ID
+# $serie: string;
+# @return: int
+sub _get_serie_id {
+	my $self = shift;
+	my $serie = shift || '';
+	if ($serie !~ /^[A-Za-z0-9\-\_\.\/]+$/) {
+		return -1;
+	}
+	my $dbh = $self->dbh;
+	my $sql1 = sprintf("SELECT id_serie FROM serie WHERE 
+		serie_name = '%s';", $serie);
+	my $result1 = $dbh->selectrow_array($sql1);
+	return -1 unless $result1;
+	return $result1;
+} # sub _get_serie_id
+# TODO: rename to _get_slackversion_id ???
+# desc: look up slackware version ID
+# $slackver: string;
+# @return: int;
+sub _get_slackver_id {
+	my $self = shift;
+	my $slackver = shift || '';
+	if ($slackver !~ /^[A-Za-z0-9\-\.]+$/) {
+		return -1;
+	}
+	my $dbh = $self->dbh;
+	my $sql1 = sprintf("SELECT id_slackversion FROM slackversion WHERE 
+		slackversion_name = '%s';", $slackver);
+	my $result1 = $dbh->selectrow_array($sql1);
+	return -1 unless $result1;
+	return $result1;
+} # sub _get_slackver_id
 # desc: return slackversion name (string)
 # $idSlackversion: int;
 # @return: string/undef;
