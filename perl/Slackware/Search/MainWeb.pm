@@ -42,26 +42,6 @@ sub _get_categories  {
 	}
 	return @cats;
 } # sub _get_categories
-# desc: encode URL
-# $URL: string;
-# @return: string;
-sub _encode_URL {
-	my $self = shift;
-	my $URL = shift || '';
-	return 0 unless ($URL);
-	$URL =~ s/([^A-Za-z0-9@\-\_\.])/sprintf("%%%02X", ord($1))/seg;
-	return $encoded;
-} # sub _encode_URL
-# desc: decode URL
-# $URL: string;
-# @return: string;
-sub _decode_URL {
-	my $self = shift;
-	my $URL = shift || '';
-	return 0 unless ($URL);
-	$URL =~ s/\%([A-Fa-f0-9@\-\_\.]{2})/pack('C', hex($1))/seg;
-	return $URL;
-} # sub _decode_URL
 # desc: return haystacks
 # $idHaystack: integer;
 # @return: array;
@@ -186,5 +166,65 @@ sub _get_slackversions_nfo {
 
 	return @slackvernfo;
 } # sub _get_slackversions_nfo
+# desc: validate input ~ category
+# $category: string;
+# @return: bool;
+sub _validate_category {
+	my $self = shift;
+	my $category = shift || '';
+	return 0 unless ($category);
+	return 0 if ($category !~ /^[A-Za-z0-9]+$/);
+	return 1;
+} # sub _validate_category
+# desc: validate input ~ package
+# $package: string;
+# @return: bool;
+sub _validate_package {
+	my $self = shift;
+	my $package = shift || '';
+	return 0 unless ($package);
+	return 0 if ($package !~ /^[A-Za-z0-9\-\.]+$/);
+	return 1;
+} # sub _validate_package
+# desc; validate input ~ serie
+# $serie: string;
+# @return: bool;
+sub _validate_serie {
+	my $self = shift;
+	my $serie = shift || '';
+	return 0 unless ($serie);
+	return 0 if ($serie !~ /^[A-Za-z0-9\-\_\.\/]+$/);
+	return 1;
+} # sub _validate_serie
+# desc: validate input
+# $slackver: string;
+# @return: bool;
+sub _validate_slackver {
+	my $self = shift;
+	my $slackver = shift || '';
+	return 0 unless ($slackver);
+	return 0 if ($slackver !~ /^[A-Za-z0-9\-\.]+$/);
+	return 1;
+} # sub _validate_slackver
+# desc: encode URL
+# $URL: string;
+# @return: string;
+sub _url_encode {
+	my $self = shift;
+	my $URL = shift || '';
+	return 0 unless ($URL);
+	$URL =~ s/([^A-Za-z0-9@\-\_\.])/sprintf("%%%02X", ord($1))/seg;
+	return $encoded;
+} # sub _encode_URL
+# desc: decode URL
+# $URL: string;
+# @return: string;
+sub _url_decode {
+	my $self = shift;
+	my $URL = shift || '';
+	return 0 unless ($URL);
+	$URL =~ s/\%([A-Fa-f0-9@\-\_\.]{2})/pack('C', hex($1))/seg;
+	return $URL;
+} # sub _decode_URL
 
 1;
