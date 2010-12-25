@@ -67,7 +67,8 @@ sub view_serie {
 	}
 	my $sql100 = sprintf("SELECT package_name FROM package WHERE id_package 
 		IN  (SELECT id_package FROM packages WHERE id_slackversion = %i AND 
-		id_category = %i AND id_serie = %i);", $idSlackver, $idCategory, 
+		id_category = %i AND id_serie = %i) ORDER BY package_name ASC;", 
+		$idSlackver, $idCategory, 
 		$idSerie);
 	my $result100 = $dbh->selectall_arrayref($sql100, { Slice => {} });
 	unless ($result100) {
