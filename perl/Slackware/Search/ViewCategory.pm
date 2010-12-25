@@ -85,7 +85,7 @@ sub view_category {
 		$serieEnc =~ s/\/+/@/g;
 		$serieEnc = $self->_url_encode($serieEnc);
 		my $link = sprintf("/cgi-bin/serie.cgi/view/%s/%s/%s", $slackver,
-			$row->{category_name}, $serieEnc);
+			$category, $serieEnc);
 		my $HTML = sprintf("<a href=\"%s\">%s</a><br />", $link,
 			$row->{serie_name});
 		my %item = (VALUE => $HTML);
