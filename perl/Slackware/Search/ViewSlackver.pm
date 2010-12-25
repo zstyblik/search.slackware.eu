@@ -23,7 +23,7 @@ sub cgiapp_init {
 
 	my %CFG = $self->cfg;
 
-	$self->tmpl_patch([$CFG{'TMPL_PATH'}]);
+	$self->tmpl_path([$CFG{'TMPL_PATH'}]);
 
 	$self->dbh_config(
 		$CFG{'DB_DSN'},
