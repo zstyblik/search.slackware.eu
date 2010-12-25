@@ -47,7 +47,7 @@ sub view_serie {
 	unless ($validCategory) {
 		return $self->error("Category is garbage.");
 	}
-	$serieDec = $self->_url_decode($serie);
+	my $serieDec = $self->_url_decode($serie);
 	$serieDec = s/@+/\//g;
 	my $validSerie = $self->_validate_serie($serieDec);
 	unless ($validSerie) {
@@ -92,6 +92,7 @@ sub view_serie {
 			$slackver, $category, $serie, $row->{package_name});
 		my $HTML = sprintf("<a href=\"%s\">%s</a><br />", $link,
 			$row->{package_name});
+		my %item = (VALUE => $HTML);
 		push(@items, \%item);
 	}
 	my $template = $self->load_tmpl("index.htm");
