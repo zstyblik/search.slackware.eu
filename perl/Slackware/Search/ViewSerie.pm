@@ -48,7 +48,7 @@ sub view_serie {
 		return $self->error("Category is garbage.");
 	}
 	my $serieDec = $self->_url_decode($serie);
-	$serieDec = s/@+/\//g;
+	$serieDec =~ s/@+/\//g;
 	my $validSerie = $self->_validate_serie($serieDec);
 	unless ($validSerie) {
 		return $self->error("Serie is garbage.");
@@ -88,8 +88,10 @@ sub view_serie {
 	my %levelUp = (VALUE => $levelUpLink);
 	push(@items, \%levelUp);
 	for my $row (@$result100) {
+		my $pkgNameURL = $row->{package_name};
+		$pkgNameURL =~ s/\.t(g|x)z//;
 		my $link = sprintf("/cgi-bin/package.cgi/view/%s/%s/%s/%s", 
-			$slackver, $category, $serie, $row->{package_name});
+			$slackver, $category, $serie, $pkgNameURL);
 		my $HTML = sprintf("<a href=\"%s\">%s</a><br />", $link,
 			$row->{package_name});
 		my %item = (VALUE => $HTML);
