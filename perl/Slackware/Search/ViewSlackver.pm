@@ -48,15 +48,37 @@ sub view_slackver {
 	my $sql100 = sprintf("SELECT category_name FROM category WHERE \
 		id_category IN (SELECT id_category FROM packages WHERE \
 		id_slackversion = %i);", $idSlackver);
+	my $result100 = $dbh->selectall_arrayref($sql100, { Slice => {} });
+	unless ($result100) {
+		my $errorMsg = sprintf("Unable to select categories for '%s'.", 
+			$slackver);
+		return $self->error($errorMsg);
+	}
+	
+	if (@$result100 == 0) {
+		my $errorMsg = sprintf("No categories were found for '%s'.", 
+			$slackver);
+		return $self->error($errorMsg);
+	}
 
 	my @items;
-	my %item = (VALUE => 'foo');
-	push(@items, \%item);
+	my %levelUp = (VALUE => "<a href=\"/cgi-bin/search.cgi\">..</a>");
+	push(@items, \%levelUp);
+	for $row (@$result100) {
+		my $link = sprintf("/cgi-bin/category.cgi/%s/%s", $slackver,
+			$row->{category_name});
+		my $HTML = sprintf("<a href=\"%s\">%s</a><br />", $link,
+			$row->{category_name});
+		my %item = (VALUE => $HTML);
+		push(@items, \%item);
+	}
+
 	my $template = $self->load_tmpl("index.htm");
 	my $title = sprintf("Browsing %s", $slackver);
 	$template->param(TITLE => $title);
 	$template->param(SLACKVERBRWS => 1);
 	$template->param(NAVIGATION => 'navigation');
+	$template->param(ITEMS => \@items);
 	return $template->output();
 }
 
