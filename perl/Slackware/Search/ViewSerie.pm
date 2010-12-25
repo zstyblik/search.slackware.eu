@@ -101,7 +101,8 @@ sub view_serie {
 	my $title = sprintf("Browsing %s/%s/%s", $slackver, $category, $serie);
 	$template->param(TITLE => $title);
 	$template->param(SLACKVERBRWS => 1);
-	$template->param(NAVIGATION => 'navigation');
+	my $navigation = sprintf("%s/%s/%s/", $slackver, $category, $serieDec);
+	$template->param(NAVIGATION => $navigation);
 	$template->param(ITEMS => \@items);
 	return $template->output();
 }
