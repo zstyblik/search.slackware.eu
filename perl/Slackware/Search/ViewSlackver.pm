@@ -62,10 +62,10 @@ sub view_slackver {
 	}
 
 	my @items;
-	my %levelUp = (VALUE => "<a href=\"/cgi-bin/search.cgi\">..</a>");
+	my %levelUp = (VALUE => "<a href=\"/cgi-bin/search.cgi\">..</a><br />");
 	push(@items, \%levelUp);
 	for my $row (@$result100) {
-		my $link = sprintf("/cgi-bin/category.cgi/%s/%s", $slackver,
+		my $link = sprintf("/cgi-bin/category.cgi/view/%s/%s", $slackver,
 			$row->{category_name});
 		my $HTML = sprintf("<a href=\"%s\">%s</a><br />", $link,
 			$row->{category_name});
