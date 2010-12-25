@@ -95,7 +95,8 @@ sub view_category {
 	my $title = sprintf("Browsing %s/%s", $slackver, $category);
 	$template->param(TITLE => $title);
 	$template->param(SLACKVERBRWS => 1);
-	$template->param(NAVIGATION => 'navigation');
+	my $navigation = sprintf("%s/%s/", $slackver, $category);
+	$template->param(NAVIGATION => $navigation);
 	$template->param(ITEMS => \@items);
 	return $template->output();
 }
