@@ -75,7 +75,8 @@ sub view_category {
 	}
 
 	my @items;
-	my $levelUpLink = sprintf("<a href=\"/cgi-bin/slackver.cgi/view/%s\">..</a>",
+	my $levelUpLink = sprintf("<a href=\"/cgi-bin/slackver.cgi/view/%s\">
+		..</a><br/>",
 		$slackver);
 	my %levelUp = (VALUE => $levelUpLink);
 	push(@items, \%levelUp);
