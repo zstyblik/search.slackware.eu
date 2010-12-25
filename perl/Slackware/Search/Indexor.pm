@@ -51,7 +51,7 @@ sub about {
 sub changelog {
 	my $self = shift;
 	my $q = $self->query;
-	my $slackver = $q->param('slackversion');
+	my $slackver = $q->param('slackver');
 	$slackver = lc($slackver);
 	my $validSlackver = $self->_validate_slackver($slackver);
 	unless ($validSlackver) {
