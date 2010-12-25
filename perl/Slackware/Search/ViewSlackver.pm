@@ -78,7 +78,7 @@ sub view_slackver {
 	$template->param(TITLE => $title);
 	$template->param(SLACKVERBRWS => 1);
 	my $navigation = sprintf("%s/", $slackver);
-	$template->param(NAVIGATION => );
+	$template->param(NAVIGATION => $navigation );
 	$template->param(ITEMS => \@items);
 	return $template->output();
 }
