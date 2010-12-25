@@ -101,7 +101,12 @@ sub view_serie {
 	my $title = sprintf("Browsing %s/%s/%s", $slackver, $category, $serie);
 	$template->param(TITLE => $title);
 	$template->param(SLACKVERBRWS => 1);
-	my $navigation = sprintf("%s/%s/%s/", $slackver, $category, $serieDec);
+	my $slackverLink = sprintf("<a href=\"/cgi-bin/slackver.cgi/view/%s\"
+		>%s</a>", $slackver, $slackver);
+	my $categoryLink = sprintf("<a href=\"/cgi-bin/category.cgi/view/%s/%s\"
+		>%s</a>", $slackver, $category, $category);
+	my $navigation = sprintf("%s/%s/%s/", $slackverLink, $categoryLink, 
+		$serieDec);
 	$template->param(NAVIGATION => $navigation);
 	$template->param(ITEMS => \@items);
 	return $template->output();
