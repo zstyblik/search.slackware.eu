@@ -48,6 +48,16 @@ sub view_slackver {
 	my $sql100 = sprintf("SELECT category_name FROM category WHERE \
 		id_category IN (SELECT id_category FROM packages WHERE \
 		id_slackversion = %i);", $idSlackver);
+
+	my @items;
+	my %item = (VALUE => 'foo');
+	push(@items, \%item);
+	my $template = $self->load_tmpl("index.htm");
+	my $title = sprintf("Browsing %s", $slackver);
+	$template->param(TITLE => $title);
+	$template->param(SLACKVERBRWS => 1);
+	$template->param(NAVIGATION => 'navigation');
+	return $template->output();
 }
 
 1;

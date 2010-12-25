@@ -61,6 +61,16 @@ sub view_category {
 		id_serie IN (SELECT id_serie FROM packages WHERE id_slackversion = %i \
 		AND id_category = %i);", $idSlackver, $idCategory);
 	my $result100 = $dbh->selectrow_arrayref();
+
+	my @items;
+	my %item = (VALUE => 'foo');
+	push(@items, \%item);
+	my $template = $self->load_tmpl("index.htm");
+	my $title = sprintf("Browsing %s/%s", $slackver, $category);
+	$template->param(TITLE => $title);
+	$template->param(SLACKVERBRWS => 1);
+	$template->param(NAVIGATION => 'navigation');
+	return $template->output();
 }
 
 1;
