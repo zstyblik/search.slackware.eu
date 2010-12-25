@@ -95,6 +95,7 @@ sub view_category {
 	$template->param(TITLE => $title);
 	$template->param(SLACKVERBRWS => 1);
 	$template->param(NAVIGATION => 'navigation');
+	$template->param(ITEMS => \@items);
 	return $template->output();
 }
 
