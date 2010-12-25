@@ -15,6 +15,7 @@ sub error {
 	my $template = $self->load_tmpl('index.htm');
 	$template->param(ERROR => $error);
 	$template->param(REDIRECT => $redir);
+	$template->param(TITLE => 'ErRor');
 	return $template->output();
 } # sub error
 
