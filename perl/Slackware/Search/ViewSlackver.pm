@@ -47,7 +47,8 @@ sub view_slackver {
 	}
 	my $sql100 = sprintf("SELECT category_name FROM category WHERE \
 		id_category IN (SELECT id_category FROM packages WHERE \
-		id_slackversion = %i);", $idSlackver);
+		id_slackversion = %i) ORDER BY category_name ASC;", 
+		$idSlackver);
 	my $result100 = $dbh->selectall_arrayref($sql100, { Slice => {} });
 	unless ($result100) {
 		my $errorMsg = sprintf("Unable to select categories for '%s'.", 
