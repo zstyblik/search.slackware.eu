@@ -242,3 +242,11 @@ select {
 	text-align: right;
 }
 /* END QUICK SEARCH */
+/* SLACKVER BROWSER */
+#slackversionBrowserNavigation {
+	margin-left: 1em;
+}
+#slackversionBrowser {
+	margin-left: 1em;
+}
+/* END SLACKVER BROWSER */

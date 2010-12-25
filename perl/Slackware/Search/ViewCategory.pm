@@ -75,8 +75,7 @@ sub view_category {
 	}
 
 	my @items;
-	my $levelUpLink = sprintf("<a href=\"/cgi-bin/slackver.cgi/view/%s\">
-		..</a><br/>",
+	my $levelUpLink = sprintf("<a href=\"/cgi-bin/slackver.cgi/view/%s\">..</a><br/>",
 		$slackver);
 	my %levelUp = (VALUE => $levelUpLink);
 	push(@items, \%levelUp);
@@ -95,8 +94,8 @@ sub view_category {
 	my $title = sprintf("Browsing %s/%s", $slackver, $category);
 	$template->param(TITLE => $title);
 	$template->param(SLACKVERBRWS => 1);
-	my $slackverLink = sprintf("<a href=\"/cgi-bin/slackver.cgi/view/%s\"
-		>%s</a>", $slackver, $slackver);
+	my $slackverLink = sprintf("<a href=\"/cgi-bin/slackver.cgi/view/%s\">%s</a>", 
+		$slackver, $slackver);
 	my $navigation = sprintf("%s/%s/", $slackverLink, $category);
 	$template->param(NAVIGATION => $navigation);
 	$template->param(ITEMS => \@items);
