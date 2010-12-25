@@ -48,7 +48,7 @@ sub view_serie {
 		return $self->error("Category is garbage.");
 	}
 	my $serieDec = $self->_url_decode($serie);
-	$serieDec = s/@+/\//g;
+	$serieDec =~ s/@+/\//g;
 	my $validSerie = $self->_validate_serie($serieDec);
 	unless ($validSerie) {
 		return $self->error("Serie is garbage.");
