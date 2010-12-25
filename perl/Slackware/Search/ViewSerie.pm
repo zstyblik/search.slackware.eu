@@ -67,6 +67,17 @@ sub view_serie {
 		IN  (SELECT id_package FROM packages WHERE id_slackversion = %i AND 
 		id_category = %i AND id_serie = %i);", $idSlackver, $idCategory, 
 		$idSerie);
+
+	my @items;
+	my %item = (VALUE => 'foo');
+	push(@items, \%item);
+	my $template = $self->load_tmpl("index.htm");
+	my $title = sprintf("Browsing %s/%s/%s", $slackver, $category, $serie);
+	$template->param(TITLE => $title);
+	$template->param(SLACKVERBRWS => 1);
+	$template->param(NAVIGATION => 'navigation');
+	$template->param(ITEMS => \@items);
+	return $template->output();
 }
 
 1;
