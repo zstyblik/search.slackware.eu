@@ -60,11 +60,36 @@ sub view_category {
 	my $sql100 = sprintf("SELECT serie_name FROM serie WHERE \
 		id_serie IN (SELECT id_serie FROM packages WHERE id_slackversion = %i \
 		AND id_category = %i);", $idSlackver, $idCategory);
-	my $result100 = $dbh->selectrow_arrayref();
+	my $result100 = $dbh->selectall_arrayref($sql100, { Slice => {} });
+
+	unless ($result100) {
+		my $errorMsg = sprintf("Unable to select series from '%s/%s'.", 
+			$slackver, $category);
+		return $self->error($errorMsg);
+	}
+
+	if (@$result100 == 0) {
+		my $errorMsg = sprintf("No series were found under '%s/%s'.", 
+			$slackver, $category);
+		return $self->error($errorMsg);
+	}
 
 	my @items;
-	my %item = (VALUE => 'foo');
-	push(@items, \%item);
+	my $levelUpLink = sprintf("<a href=\"/cgi-bin/slackver.cgi/view/%s\">..</a>",
+		$slackver);
+	my %levelUp = (VALUE => $levelUpLink);
+	push(@items, \%levelUp);
+	for my $row (@$result100) {
+		my $serieEnc = $row->{serie_name};
+		$serieEnc =~ s/\/+/@/g;
+		$serieEnc = $self->_url_encode($serieEnc);
+		my $link = sprintf("/cgi-bin/serie.cgi/view/%s/%s/%s", $slackver,
+			$row->{category_name}, $serieEnc);
+		my $HTML = sprintf("<a href=\"%s\">%s</a><br />", $link,
+			$row->{serie_name});
+		my %item = (VALUE => $HTML);
+		push(@items, \%item);
+	}
 	my $template = $self->load_tmpl("index.htm");
 	my $title = sprintf("Browsing %s/%s", $slackver, $category);
 	$template->param(TITLE => $title);
