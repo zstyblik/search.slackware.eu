@@ -493,7 +493,7 @@ sub _get_packages_id {
 	my $idCategory = shift;
 	my $idSlackver = shift;
 
-	if ($package !~ /^[A-Za-z0-9\-\.]+$/) {
+	if ($package !~ /^[A-Za-z0-9\-\.\_]+$/) {
 		return -1;
 	}
 	if ($idCategory !~ /^[0-9]+$/) {
