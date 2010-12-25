@@ -47,7 +47,9 @@ sub view_serie {
 	unless ($validCategory) {
 		return $self->error("Category is garbage.");
 	}
-	my $validSerie = $self->_validate_serie($serie);
+	$serieDec = $self->_url_decode($serie);
+	$serieDec = s/@+/\//g;
+	my $validSerie = $self->_validate_serie($serieDec);
 	unless ($validSerie) {
 		return $self->error("Serie is garbage.");
 	}
@@ -59,7 +61,7 @@ sub view_serie {
 	unless ($idCategory) {
 		return $self->error("Category is not in DB.");
 	}
-	my $idSerie = $self->_get_serie_id($serie);
+	my $idSerie = $self->_get_serie_id($serieDec);
 	unless ($idSerie) {
 		return $self->error("Serie is not in DB.");
 	}
@@ -67,10 +69,31 @@ sub view_serie {
 		IN  (SELECT id_package FROM packages WHERE id_slackversion = %i AND 
 		id_category = %i AND id_serie = %i);", $idSlackver, $idCategory, 
 		$idSerie);
+	my $result100 = $dbh->selectall_arrayref($sql100, { Slice => {} });
+	unless ($result100) {
+		my $errorMsg = sprintf("Unable to select packages under '%s/%s/%s'.", 
+			$slackver, $category, $serie);
+		return $self->error($errorMsg);
+	}
+
+	if (@$result100 == 0) {
+		my $errorMsg = sprintf("Nothing found under '%s/%s/%s'.", $slackver, 
+			$category, $serie);
+		return $self->error($errorMsg);
+	}
 
 	my @items;
-	my %item = (VALUE => 'foo');
-	push(@items, \%item);
+	my $levelUpLink = sprintf("<a href=\"/cgi-bin/category.cgi/view/%s/%s
+		\">..</a><br />", $slackver, $category);
+	my %levelUp = (VALUE => $levelUpLink);
+	push(@items, \%levelUp);
+	for my $row (@$result100) {
+		my $link = sprintf("/cgi-bin/package.cgi/view/%s/%s/%s/%s", 
+			$slackver, $category, $serie, $row->{package_name});
+		my $HTML = sprintf("<a href=\"%s\">%s</a><br />", $link,
+			$row->{package_name});
+		push(@items, \%item);
+	}
 	my $template = $self->load_tmpl("index.htm");
 	my $title = sprintf("Browsing %s/%s/%s", $slackver, $category, $serie);
 	$template->param(TITLE => $title);
