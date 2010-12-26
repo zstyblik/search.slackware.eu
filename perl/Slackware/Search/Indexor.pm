@@ -70,13 +70,13 @@ sub changelog {
 			$slackver);
 		return $self->error($errorMsg);
 	}
-	my $template = $self->load_tmpl("index.htm");
-	my $pageTitle = sprintf("ChangeLog %s", $slackver);
-	$template->param(TITLE => $pageTitle);
-	$template->param(CHANGELOG => $changeLogPath);
-	$template->param(SVER => $slackver);
-	my $idSlackverStable = $self->_get_slackversion_idStable();
-	$template->param(SVERSTABLE => $idSlackverStable);
+	my $template = $self->load_tmpl($changeLogPath);
+#	my $pageTitle = sprintf("ChangeLog %s", $slackver);
+#	$template->param(TITLE => $pageTitle);
+#	$template->param(CHANGELOG => $changeLogPath);
+#	$template->param(SVER => $slackver);
+#	my $idSlackverStable = $self->_get_slackversion_idStable();
+#	$template->param(SVERSTABLE => $idSlackverStable);
 	return $template->output();
 }
 
