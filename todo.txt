@@ -5,12 +5,14 @@
 * force update - compare each package, update each package, whatever
 * diffs like in % diff; for each change in changelog
 * PKG availability at mirror
-* Slackversion browser; slackvers -> cats -> pkgs
 * input focus order ~ what to look for -> in what -> version; search form
-* changelogs at web
+* changelogs at web ~ offer PNG|TXT|HTML
 * ENH: write syncer for country flags
 * ENH: BE ~ debug, may be global debug option
 * ENH: auto add new Slackware version [backend]
+* ENH: add ^..$ regexp to limit the search, or "complete" regex support
+* FIX: browser ~ back links on error
+@ Slackversion browser; slackvers -> cats -> pkgs
 @ hide/show quick search at certain pages eg. search in search is useless ~
 negatory due layout shifting around
 @ BUG: error doesn't work!
