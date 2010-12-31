@@ -63,10 +63,11 @@ sub changelog {
 		return $self->error("Slackversion is not in DB.", 
 			'/cgi-bin/search.cgi');
 	}
+	my $tmpDir = $self->conf->param('TMPDIR') || '/tmp/';
 	my $changeLogPath = sprintf("%s/changelogs/%s/", 
-		$CFG{TMPDIR},	$slackver);
+		$tmpDir,	$slackver);
 	my $changeLog = sprintf("%s/changelogs/%s/ChangeLog.htm", 
-		$CFG{TMPDIR},	$slackver);
+		$tmpDir,	$slackver);
 	unless ( -e $changeLog) {
 		my $errorMsg = sprintf("It seems ChangeLog doesn't exist for %s.",
 			$slackver);
