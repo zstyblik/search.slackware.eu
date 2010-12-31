@@ -7,5 +7,6 @@ $CFG{DB_USER} = 'pkgs';
 $CFG{DB_PASS} = 'swarePkgs';
 $CFG{TMPL_PATH} = '/srv/httpd/search.slackware.eu/template/';
 $CFG{SQLITE_PATH} = '/srv/httpd/search.slackware.eu/db/';
+$CFG{TMPDIR} = '/mnt/tmp/search.slack/';
 
 \%CFG;
