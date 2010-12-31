@@ -55,28 +55,25 @@ sub changelog {
 	$slackver = lc($slackver);
 	my $validSlackver = $self->_validate_slackver($slackver);
 	unless ($validSlackver) {
-		return $self->error("Slackware version is garbage.");
+		return $self->error("Slackware version is garbage.", 
+			'/cgi-bin/search.cgi');
 	}
 	my $idSlackversion = $self->_get_slackver_id($slackver);
 	unless ($idSlackversion) {
-		return $self->error("Slackversion is not in DB.");
+		return $self->error("Slackversion is not in DB.", 
+			'/cgi-bin/search.cgi');
 	}
-#	my $changeLogPath = sprintf("%s/%s/ChangeLog.txt", $CFG{CHANGELOGPATH},
-#		$slackver);
-	my $changeLogPath = sprintf("/mnt/tmp/search.slack/changelogs/%s.htm", 
-		$slackver);
-	unless ( -e $changeLogPath) {
+	my $changeLogPath = sprintf("%s/changelogs/%s/", 
+		$CFG{TMPDIR},	$slackver);
+	my $changeLog = sprintf("%s/changelogs/%s/ChangeLog.htm", 
+		$CFG{TMPDIR},	$slackver);
+	unless ( -e $changeLog) {
 		my $errorMsg = sprintf("It seems ChangeLog doesn't exist for %s.",
 			$slackver);
-		return $self->error($errorMsg);
+		return $self->error($errorMsg, '/cgi-bin/search.cgi');
 	}
-	my $template = $self->load_tmpl($changeLogPath);
-#	my $pageTitle = sprintf("ChangeLog %s", $slackver);
-#	$template->param(TITLE => $pageTitle);
-#	$template->param(CHANGELOG => $changeLogPath);
-#	$template->param(SVER => $slackver);
-#	my $idSlackverStable = $self->_get_slackversion_idStable();
-#	$template->param(SVERSTABLE => $idSlackverStable);
+	$self->tmpl_path([$changeLogPath]);
+	my $template = $self->load_tmpl($changeLog);
 	return $template->output();
 }
 
