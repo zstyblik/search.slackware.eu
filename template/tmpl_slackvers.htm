@@ -5,7 +5,7 @@
 						<th>Packages</th>
 						<th>Files</th>
 						<th>Changed</th>
-						<th></th>
+						<th>Changelog</th>
 					</tr>
 					<TMPL_LOOP name="SVERNFO">
 					<tr>
@@ -16,7 +16,9 @@
 						<td class="number"><TMPL_VAR name="NOFILES"></td>
 						<td><TMPL_VAR name="LUPDATE"></td>
 						<td>
-							<a href="/cgi-bin/index.cgi/changelog/<TMPL_VAR SVER>">Changelog</a>
+							<a href="/cgi-bin/index.cgi/changelog/<TMPL_VAR SVER>">HTML</a>
+							|
+							<a href="/changelogs/<TMPL_VAR SVER>/ChangeLog.txt">TXT</a>
 						</td>
 					</tr>
 					</TMPL_LOOP>
