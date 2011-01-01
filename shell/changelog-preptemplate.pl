@@ -41,6 +41,7 @@ my $template = HTML::Template->new(filename => 'index.htm',
 
 $template->param(CHANGELOG => 'REPLACEME');
 $template->param(QSEARCHHIDE => 1);
+$template->param(SVER => $sver);
 my $title = sprintf("Changelog of %s", $sver);
 $template->param(TITLE => $title);
 
