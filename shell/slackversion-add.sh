@@ -59,10 +59,17 @@ wget -q "${LINK}/${SVER}/FILELIST.TXT" || \
 	exit 2
 }
 
-wget -q ${LINK}/${SVER}/CHECKSUMS.md5 || \
+wget -q "${LINK}/${SVER}/CHECKSUMS.md5" || \
 {
 	echo "Download of CHECKSUMS.md5 has failed." \
 	1>&2
+	exit 2
+}
+
+wget -q "${LINK}/${SVER}/ChangeLog.txt" || \
+{
+	echo "Download of ChangeLog.txt has failed." \
+		1>&2
 	exit 2
 }
 
@@ -162,7 +169,7 @@ perl "${SCRIPTDIR}./db-slackver-add.pl" "${SVER}" || \
 
 echo "[start---stop]: ${PSTART} ---`date`"
 
-rm -f ${STORDIR}/db/${SVER}.sq3
+rm -f "${STORDIR}/db/${SVER}.sq3"
 
 DATEFAIL=$(date '+%H-%M-%S')
 sqlite3 -init "${BATCHDIR}/SQLBATCH-${SVER}" \
@@ -172,7 +179,7 @@ sqlite3 -init "${BATCHDIR}/SQLBATCH-${SVER}" \
 	mv "${BATCHDIR}/SQLBATCH-${SVER}" \
 	"${BATCHDIR}/SQLBATCH-${SVER}.${DATEFAIL}"
 } || {
-	perl ${SCRIPTDIR}./db-files-count.pl "${SVER}" && \
+	perl "${SCRIPTDIR}./db-files-count.pl" "${SVER}" && \
 		rm -f "${BATCHDIR}/SQLBATCH-${SVER}" || \
 		echo "Failed to sync files count for ${SVER}"
 }
@@ -187,9 +194,15 @@ mkdir "${STORDIR}/distdata/${SVER}" || \
 	exit 3;
 }
 
+sh "${SCRIPTDIR}./changelog-convert.sh" "${SVER}" || \
+{
+	echo "Failed to process ChangeLog.txt"
+}
+
 # TODO ~ do no copy files ending with number!
 mv ./FILELIST.TXT.* "${STORDIR}/distdata/${SVER}/"
 mv ./CHECKSUMS.md5.* "${STORDIR}/distdata/${SVER}/"
+mv ./ChangeLog.txt "${STORDIR}/distdata/${SVER}/"
 cd "${TMPDIR}"
 # TODO - cmd review
 rm -Rf "./${SVER}/"
