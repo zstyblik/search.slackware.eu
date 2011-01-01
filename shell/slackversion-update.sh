@@ -49,7 +49,8 @@ if ! [ -d "${TMPDIR}" ]; then
 	mkdir "${TMPDIR}" || exit 31;
 fi
 cd "${TMPDIR}" || exit 32
-mkdir "${ARG1}" 2>/dev/null
+rm -rf "${TMPDIR}/${ARG1}"
+mkdir "${ARG1}" 2>/dev/null || true
 cd "${ARG1}" || exit 33
 
 if ! [ -d "${BATCHDIR}" ]; then
@@ -203,7 +204,7 @@ rm -f DOWNLOAD.files.manifests
 
 for MANFILE in $(grep -e 'MANIFEST\.bz2' \
 	./CHECKSUMS.md5.files.diff | awk '{ print $2 }'); do
-	grep -e ${MANFILE} FILELIST.TXT.files >> \
+	grep -e "${MANFILE}" FILELIST.TXT.files >> \
 	FILELIST.TXT.files.manifests
 
 	echo "${MANFILE}" >> DOWNLOAD.files.manifests;
