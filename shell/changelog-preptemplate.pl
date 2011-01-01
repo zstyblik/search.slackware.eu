@@ -44,7 +44,7 @@ $template->param(QSEARCHHIDE => 1);
 my $title = sprintf("Changelog of %s", $sver);
 $template->param(TITLE => $title);
 
-my $fileHtmlOut = sprintf(">%s/%s.tmpl", $CFG{TMPDIR}, $sver);
+my $fileHtmlOut = sprintf(">%s/changelogs/%s.tmpl", $CFG{TMPDIR}, $sver);
 
 open(FHTML, $fileHtmlOut) or die("Unable to open HTML out-file.");
 print FHTML $template->output();
@@ -59,13 +59,13 @@ open(FCHLOGNEW, $fileChlogNew)
 	or die("Unable to open ChangeLog for output.");
 while (my $line = <FCHLOG>) {
 	chomp($line);
-	if ($line =~ /^[A-Za-z]{3}[\ ]+[A-Za-z]{3}[\ ]+[0-9]{1,2}[\	]+[0-9]{2}:[0-9]{2}:[0-9]{2}[\ ]+[A-Z]{3,4}[\ ]+[0-9]{4}$/) {
-		$line =~ s/(^[A-Za-z]{3}[\ ]+[A-Za-z]{3}[\ ]+[0-9]{1,2}[\ ]+[0-9]{2}:[0-9]{2}:[0-9]{2}[\ ]+[A-Z]{3,4}[\ ]+[0-9]{4}$)/<h5>\1<\/h5><pre>/;
+	if ($line =~ /^[A-Za-z]{3}[\ ]+[A-Za-z]{3}[\ ]+[0-9]{1,2}[\ ]+[0-9]{2}:[0-9]{2}:[0-9]{2}[\ ]+[A-Z]{3,4}[\ ]+[0-9]{4}$/) {
+		$line =~ s/(^[A-Za-z]{3}[\ ]+[A-Za-z]{3}[\ ]+[0-9]{1,2}[\ ]+[0-9]{2}:[0-9]{2}:[0-9]{2}[\ ]+[A-Z]{3,4}[\ ]+[0-9]{4}$)/<h5>$1<\/h5><pre>/;
 		$tagPreOpen = 1;
 		goto PRINTLINE;
 	}
-	if ($line =~ /^[-]+$/) {
-		$line =~ s/^[-]+$/<\/pre><hr \/>/;
+	if ($line =~ /^[\-]+$/) {
+		$line =~ s/^[\-]+$/<\/pre><hr \/>/;
 		$tagPreOpen = 0;
 		goto PRINTLINE;
 	}	
