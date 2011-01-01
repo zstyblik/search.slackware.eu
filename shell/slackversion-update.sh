@@ -117,7 +117,7 @@ fi
 ### probably remove and let the script deal with it ?
 ### or do double check eg. CHECKSUMS.md5.files ?
 diff -b -B -N -q "${STORDIR}/distdata/${SVER}/CHECKSUMS.md5.pkgs" \
-CHECKSUMS.md5.pkgs > /dev/null || \
+CHECKSUMS.md5.pkgs > /dev/null && \
 {
 	echo "No changes for version ${SVER} from the last update."
 	exit 1;
@@ -193,14 +193,16 @@ if [ -z './FILELIST.TXT.pkgs' ]; then
 	exit 2;
 fi
 
+if [ -z './CHECKSUMS.md5.files.diff' ] 
+	&& [ -z 'CHECKSUMS.md5.pkgs.diff']; then
+	echo "There seem to be no differences for '${SVER}'" 1>&2
+	echo "How the hell did we get here in the first place?!" 1>&2
+	exit;
+fi
 
-grep '^M' CHECKSUMS.md5.files.diff | grep -i -q 'MANIFEST\.bz2'
-
+# clean-up in case these do exist
 rm -f FILELIST.TXT.files.manifests
 rm -f DOWNLOAD.files.manifests
-
-# TODO - does it ($?) makes sense? NO! :-D
-#if [ $? == 0 ]; then
 
 for MANFILE in $(grep -e 'MANIFEST\.bz2' \
 	./CHECKSUMS.md5.files.diff | awk '{ print $2 }'); do
@@ -211,7 +213,6 @@ for MANFILE in $(grep -e 'MANIFEST\.bz2' \
 done
 
 dlFiles 'DOWNLOAD.files.manifests'
-#fi
 
 cat CHECKSUMS.md5.files.diff | grep -i 'PACKAGES.TXT' | \
 awk '{ print $2 }' > DOWNLOAD.files.desc
