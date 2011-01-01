@@ -41,29 +41,37 @@ sub view_serie {
 	my $serie = $q->param('serie');
 	my $validSlackver = $self->_validate_slackver($slackver);
 	unless ($validSlackver) {
-		return $self->error("Slackversion is garbage.");
+		return $self->error("Slackversion is garbage.", 
+			'/cgi-bin/search.cgi');
 	}
 	my $validCategory = $self->_validate_category($category);
 	unless ($validCategory) {
-		return $self->error("Category is garbage.");
+		my $backLink = sprintf("/cgi-bin/slackver.cgi/view/%s", $slackver);
+		return $self->error("Category is garbage.", $backLink);
 	}
 	my $serieDec = $self->_url_decode($serie);
 	$serieDec =~ s/@+/\//g;
 	my $validSerie = $self->_validate_serie($serieDec);
 	unless ($validSerie) {
-		return $self->error("Serie is garbage.");
+		my $backLink = sprintf("/cgi-bin/category.cgi/view/%s/%s", 
+			$slackverm, $category);
+		return $self->error("Serie is garbage.", $backLink);
 	}
 	my $idSlackver = $self->_get_slackver_id($slackver);
 	unless ($idSlackver) {
-		return $self->error("Slackversion is not in DB.");
+		return $self->error("Slackversion is not in DB.", 
+			'/cgi-bin/search.cgi');
 	}
 	my $idCategory = $self->_get_category_id($category);
 	unless ($idCategory) {
-		return $self->error("Category is not in DB.");
+		my $backLink = sprintf("/cgi-bin/slackver.cgi/view/%s", $slackver);
+		return $self->error("Category is not in DB.", $backLink);
 	}
 	my $idSerie = $self->_get_serie_id($serieDec);
 	unless ($idSerie) {
-		return $self->error("Serie is not in DB.");
+		my $backLink = sprintf("/cgi-bin/category.cgi/view/%s/%s", 
+			$slackverm, $category);
+		return $self->error("Serie is not in DB.", $backLink);
 	}
 	my $sql100 = sprintf("SELECT package_name FROM package WHERE id_package 
 		IN  (SELECT id_package FROM packages WHERE id_slackversion = %i AND 
@@ -74,13 +82,17 @@ sub view_serie {
 	unless ($result100) {
 		my $errorMsg = sprintf("Unable to select packages under '%s/%s/%s'.", 
 			$slackver, $category, $serie);
-		return $self->error($errorMsg);
+		my $backLink = sprintf("/cgi-bin/category.cgi/view/%s/%s", 
+			$slackverm, $category);
+		return $self->error($errorMsg, $backLink);
 	}
 
 	if (@$result100 == 0) {
 		my $errorMsg = sprintf("Nothing found under '%s/%s/%s'.", $slackver, 
 			$category, $serie);
-		return $self->error($errorMsg);
+		my $backLink = sprintf("/cgi-bin/category.cgi/view/%s/%s", 
+			$slackverm, $category);
+		return $self->error($errorMsg, $backLink);
 	}
 
 	my @items;
