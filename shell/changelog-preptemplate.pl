@@ -44,7 +44,8 @@ $template->param(QSEARCHHIDE => 1);
 my $title = sprintf("Changelog of %s", $sver);
 $template->param(TITLE => $title);
 
-my $fileHtmlOut = sprintf(">%s/changelogs/%s.tmpl", $CFG{TMPDIR}, $sver);
+my $fileHtmlOut = sprintf(">%s/changelogs/%s/ChangeLog.tmpl", $CFG{TMPDIR},
+	$sver);
 
 open(FHTML, $fileHtmlOut) or die("Unable to open HTML out-file.");
 print FHTML $template->output();
@@ -69,6 +70,11 @@ while (my $line = <FCHLOG>) {
 		$tagPreOpen = 0;
 		goto PRINTLINE;
 	}	
+	if ($line =~ /^\+[\-]+\+$/) {
+		$line =~ s/^\+[\-]+\+$/<\/pre><hr \/>/;
+		$tagPreOpen = 0;
+		goto PRINTLINE;
+	}
 	$line =~ s/</&lt;/g;
 	$line =~ s/>/&gt;/g;
 	$line =~ s/&/&#38;/g;
