@@ -1,23 +1,23 @@
-* BE ~ parse and update only package descriptions
-* BE ~ parse only FILELIST (or whatever) and create SQL batch, so .sq3 for
- specific distro can be created; no updates/deletes - whole file
- in other words an [SQL] batch file for PgSQL an SQLite
-* BE ~ force update - compare each package, update each package, whatever
-* FIX: FE ~ input focus order ~ what to look for -> in what -> version; search form
-* ADD: FE ~ changelogs at web ~ offer PNG|TXT|HTML
-* FIX: FE ~ browser ~ back links on error
 * ENH: FE ~ add ^..$ regexp to limit the search, or "complete" regex support
 * ENH: FE ~ diffs like in % diff; for each change in changelog
+* ADD: BE ~ parse and update only package descriptions
+* ADD: BE ~ parse only FILELIST (or whatever) and create SQL batch, so .sq3 for
+ specific distro can be created; no updates/deletes - whole file
+ in other words an [SQL] batch file for PgSQL an SQLite
+* ADD: BE ~ force update - compare each package, update each package, whatever
 * ENH: BE ~ write syncer for country flags
 * ENH: BE ~ PKG availability at mirror
 * ENH: BE ~ debug, may be global debug option
 * ENH: BE ~ auto add new Slackware version
-@ Slackversion browser; slackvers -> cats -> pkgs
-@ hide/show quick search at certain pages eg. search in search is useless ~
-negatory due layout shifting around
-@ BUG: error doesn't work!
-@ BUG: new URL path and non-encoded serie name in URL
-@ ENH: add flags next to mirror locations
-@ keep cat + f/p + slackver selection after each search!
-@ replace all COUNT(*) with something more apropriate ~ done where could be
-@ unified config(s) for all scripts and what-not ~ done even in Perl
+@ ADD: FE ~ changelogs at web ~ offer PNG|TXT|HTML
+@ BUG: FE ~ error doesn't work!
+@ BUG: FE ~ new URL path and non-encoded serie name in URL
+@ ENH: FE ~ add flags next to mirror locations
+@ ENH: FE ~ Slackversion browser; slackvers -> cats -> pkgs
+@ FIX: FE ~ hide/show quick search at certain pages eg. search in search is
+useless ~ negatory due layout shifting around
+@ FIX: FE ~ input focus order ~ what to look for -> in what -> version; search form
+@ FIX: FE ~ keep cat + f/p + slackver selection after each search!
+@ FIX: FE ~ browser ~ back links on error
+@ FIX: BE ~ replace all COUNT(*) with something more apropriate ~ done where could be
+@ FIX: BE ~ unified config(s) for all scripts and what-not ~ done even in Perl
