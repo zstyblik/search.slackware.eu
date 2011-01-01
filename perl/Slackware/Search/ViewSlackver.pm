@@ -39,7 +39,7 @@ sub view_slackver {
 	my $slackver = $q->param('slackver');
 	my $validSlackver = $self->_validate_slackver($slackver);
 	unless ($validSlackver) {
-		return $self->error("Slackversion is garbage.");
+		return $self->error("Slackversion is garbage.", '/cgi-bin/search.cgi');
 	}
 	my $idSlackver = $self->_get_slackver_id($slackver);
 	unless ($idSlackver) {
@@ -53,13 +53,13 @@ sub view_slackver {
 	unless ($result100) {
 		my $errorMsg = sprintf("Unable to select categories for '%s'.", 
 			$slackver);
-		return $self->error($errorMsg);
+		return $self->error($errorMsg, '/cgi-bin/search.cgi');
 	}
 	
 	if (@$result100 == 0) {
 		my $errorMsg = sprintf("No categories were found for '%s'.", 
 			$slackver);
-		return $self->error($errorMsg);
+		return $self->error($errorMsg, '/cgi-bin/search.cgi');
 	}
 
 	my @items;
