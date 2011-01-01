@@ -2,19 +2,19 @@
 					<fieldset>
 						<legend>search</legend>
 						<input id="rm" name="rm" type="hidden" value="search" />
-						<input id="needle" name="needle" type="text" value="<TMPL_VAR NEEDLE>" />
-						<select id="haystack" name="haystack">
+						<input id="needle" name="needle" type="text" tabindex="1" value="<TMPL_VAR NEEDLE>" />
+						<select id="haystack" name="haystack" tabindex="2">
 							<option value="1"<TMPL_VAR NAME="HSTACKSELFILES">>files</option>
 							<option value="2"<TMPL_VAR NAME="HSTACKSELPKGS">>packages</option>
 						</select>
-						<select id="sver" name="sver">
+						<select id="sver" name="sver" tabindex="3">
 							<TMPL_LOOP NAME="SVERS">
 							<option value="<TMPL_VAR IDSVER>"<TMPL_VAR name="SELECTED">>
 								<TMPL_VAR NAME="SVERNAME">
 							</option>
 							</TMPL_LOOP>
 						</select>
-						<input id="button-search" name="button-search" type="submit" value="Search" />
+						<input id="button-search" name="button-search" type="submit" tabindex="4" value="Search" />
 						<br />
 						<br />
 						<fieldset>
