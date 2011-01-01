@@ -18,8 +18,8 @@ if ($numArgs != 1) {
 
 my $slackver = $ARGV[0];
 
-unless ($slackver !~ /^slackware(64)?-([0-9]+\.[0-9]+|current){1}$/i) {
-	printf("Slackware version is garbage. Get lost!");
+if ($slackver !~ /^slackware(64)?-([0-9]+\.[0-9]+|current){1}$/i) {
+	printf("Slackware version is garbage. Get lost!\n");
 	exit 1;
 }
 
