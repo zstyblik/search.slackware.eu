@@ -46,7 +46,7 @@ sub about {
 	my $idSlackverStable = $self->_get_slackversion_idStable();
 	$template->param(SVERSTABLE => $idSlackverStable);
 	return $template->output();
-}
+} # sub about
 
 sub changelog {
 	my $self = shift;
@@ -76,7 +76,7 @@ sub changelog {
 	$self->tmpl_path([$changeLogPath]);
 	my $template = $self->load_tmpl($changeLog);
 	return $template->output();
-}
+} # sub changelog
 
 sub home {
 	my $self = shift;
@@ -86,7 +86,7 @@ sub home {
 	my $idSlackverStable = $self->_get_slackversion_idStable();
 	$template->param(SVERSTABLE => $idSlackverStable);
 	return $template->output();
-}
+} # sub home
 
 sub links {
 	my $self = shift;
@@ -96,6 +96,6 @@ sub links {
 	my $idSlackverStable = $self->_get_slackversion_idStable();
 	$template->param(SVERSTABLE => $idSlackverStable);
 	return $template->output();
-}
+} # sub links
 
 1;
