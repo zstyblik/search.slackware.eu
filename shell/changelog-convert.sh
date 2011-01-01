@@ -56,5 +56,7 @@ sed -r -e "#REPLACEME#r ${CHANGELOGTMP}" -e 's/REPLACEME//g' \
 
 rm -f "${CHANGELOGDIR}/${ARG1}/ChangeLog.tmp"
 rm -f "${CHANGELOGDIR}/${ARG1}/ChangeLog.tmpl"
-mv "${CHANGELOGDIR}/${ARG1}/ChangeLog.html{.new,}"
+mv "${CHANGELOGDIR}/${ARG1}/ChangeLog.htm.new" \
+	"${CHANGELOGDIR}/${ARG1}/ChangeLog.htm"
+
 
