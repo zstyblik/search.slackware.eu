@@ -73,8 +73,8 @@ while (my $line = <FCHLOG>) {
 	$line =~ s/>/&gt;/g;
 	$line =~ s/&/&#38;/g;
 	PRINTLINE:
-	printf FCHLOGNEW $line;
-	printf FCHLOGNEW "\n";
+	print FCHLOGNEW $line;
+	print FCHLOGNEW "\n";
 } # while my $lineChlog
 if ($tagPreOpen == 1) {
 	print FCHLOGNEW "</pre>\n";
