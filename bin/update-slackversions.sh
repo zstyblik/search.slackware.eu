@@ -6,5 +6,5 @@ set -u
 
 cd /srv/httpd/search.slackware.eu/
 for SVER in $(perl ./shell/db-get-slackversions.pl); do
-	sh ./shell/slackversion-update.sh "${SVER}";
+	sh ./shell/slackversion-update.sh "${SVER}" || true
 done
