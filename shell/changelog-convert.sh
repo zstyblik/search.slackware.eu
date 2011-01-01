@@ -49,9 +49,10 @@ CHANGELOGTMP="${CHANGELOGDIR}/${ARG1}/ChangeLog.tmp"
 
 perl "/srv/httpd/search.slackware.eu/shell/changelog-preptemplate.pl" "${ARG1}"
 
-sed -r -e "#REPLACEME#r ${CHANGELOGTMP}" -e 's/REPLACEME//g' \
+sed -r -e "/REPLACEME/r ${CHANGELOGTMP}" \
+	-e 's/REPLACEME//g' \
 	-e '/^$/d' \
-	"${CHANGELOGDIR}/${ARG1}/ChangeLog.tmp" > \
+	"${CHANGELOGDIR}/${ARG1}/ChangeLog.tmpl" > \
 	"${CHANGELOGDIR}/${ARG1}/ChangeLog.htm.new" || exit 4
 
 rm -f "${CHANGELOGDIR}/${ARG1}/ChangeLog.tmp"
