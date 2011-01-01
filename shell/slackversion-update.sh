@@ -193,7 +193,7 @@ if [ -z './FILELIST.TXT.pkgs' ]; then
 	exit 2;
 fi
 
-if [ -z './CHECKSUMS.md5.files.diff' ] 
+if [ -z './CHECKSUMS.md5.files.diff' ] \
 	&& [ -z 'CHECKSUMS.md5.pkgs.diff']; then
 	echo "There seem to be no differences for '${SVER}'" 1>&2
 	echo "How the hell did we get here in the first place?!" 1>&2
