@@ -42,20 +42,22 @@ sub view_category {
 	# validate
 	my $validSlackver = $self->_validate_slackver($slackver);
 	unless ($validSlackver) {
-		return $self->error("Slackversion is garbage");
+		return $self->error("Slackversion is garbage", '/cgi-bin/search.cgi');
 	}
 	my $validCategory = $self->_validate_category($category);
 	unless ($validCategory) {
-		return $self->error("Category is garbage.");
+		my $backLink = sprintf("/cgi-bin/slackver.cgi/view/%s", $slackver);
+		return $self->error("Category is garbage.", $backLink);
 	}
 	# look-up in DB
 	my $idSlackver = $self->_get_slackver_id($slackver);
 	unless ($idSlackver) {
-		return $self->error("Slackversion is not in DB.");
+		return $self->error("Slackversion is not in DB.", '/cgi-bin/search.cgi');
 	}
 	my $idCategory = $self->_get_category_id($category);
 	unless ($idCategory) {
-		return $self->error("Category is not in DB.");
+		my $backLink = sprintf("/cgi-bin/slackver.cgi/view/%s", $slackver);
+		return $self->error("Category is not in DB.", $backLink);
 	}
 	my $sql100 = sprintf("SELECT serie_name FROM serie WHERE \
 		id_serie IN (SELECT id_serie FROM packages WHERE id_slackversion = %i \
@@ -66,13 +68,15 @@ sub view_category {
 	unless ($result100) {
 		my $errorMsg = sprintf("Unable to select series from '%s/%s'.", 
 			$slackver, $category);
-		return $self->error($errorMsg);
+		my $backLink = sprintf("/cgi-bin/slackver.cgi/view/%s", $slackver);
+		return $self->error($errorMsg, $backLink);
 	}
 
 	if (@$result100 == 0) {
 		my $errorMsg = sprintf("No series were found under '%s/%s'.", 
 			$slackver, $category);
-		return $self->error($errorMsg);
+		my $backLink = sprintf("/cgi-bin/slackver.cgi/view/%s", $slackver);
+		return $self->error($errorMsg, $backLink);
 	}
 
 	my @items;
