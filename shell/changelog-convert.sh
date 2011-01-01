@@ -47,14 +47,14 @@ fi
 
 CHANGELOGTMP="${CHANGELOGDIR}/${ARG1}/ChangeLog.tmp"
 
-sed -r -e \
-	's#(^[A-Za-z]{3}[\ ]+[A-Za-z]{3}[\ ]+[0-9]{1,2}[\ ]+[0-9]{2}:[0-9]{2}:[0-9]{2}[\ ]+[A-Z]{3,4}[\ ]+[0-9]{4}$)#<h5>\1</h5><pre>#' \
-	-e 's#^\+[-]+\+#<\/pre><hr \/>#' -e 's#^[-]+$#<\/pre><hr \/>#' \
-	"${CHANGELOGTXT}" > "${CHANGELOGTMP}" || exit 3
+#sed -r -e \
+#	's#(^[A-Za-z]{3}[\ ]+[A-Za-z]{3}[\ ]+[0-9]{1,2}[\ ]+[0-9]{2}:[0-9]{2}:[0-9]{2}[\ ]+[A-Z]{3,4}[\ ]+[0-9]{4}$)#<h5>\1</h5><pre>#' \
+#	-e 's#^\+[-]+\+#<\/pre><hr \/>#' -e 's#^[-]+$#<\/pre><hr \/>#' \
+#	"${CHANGELOGTXT}" > "${CHANGELOGTMP}" || exit 3
 
 perl "/srv/httpd/search.slackware.eu/shell/changelog-preptemplate.pl" "${ARG1}"
 
-sed -r -e '/REPLACEME/r ${CHANGELOGTMP}' -e 's/REPLACEME//g' \
+sed -r -e "#REPLACEME#r ${CHANGELOGTMP}" -e 's/REPLACEME//g' \
 "${CHANGELOGDIR}/${ARG1}/ChangeLog.htm.new" > \
 "${CHANGELOGDIR}/${ARG1}/ChangeLog.htm"
 
