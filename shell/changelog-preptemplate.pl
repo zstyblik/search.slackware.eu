@@ -11,15 +11,15 @@ use strict;
 use warnings;
 
 use lib "/srv/httpd/search.slackware.eu/perl/";
-use Slackware::Search::configParser qw(_getConfig);
+use Slackware::Search::ConfigParser qw(_getConfig);
 use HTML::Template;
 
-use const CFGFILE => '/srv/httpd/search.slackware.eu/conf/config.pl';
+use constant CFGFILE => '/srv/httpd/search.slackware.eu/conf/config.pl';
 
 my $numArgs = $#ARGV + 1;
 
-unless ($numArgs != 1) 
-	|| ($ARGV[0] !~ /^slackware(64)?-([0-9]+\.[0-9]+|current){1}$/i) {
+if ($numArgs != 1
+	|| $ARGV[0] !~ /^slackware(64)?-([0-9]+\.[0-9]+|current){1}$/i) {
 	printf("This script takes only one argument - slackwareversion.\n");
 	printf("Example: slackware64-13.1\n");
 	exit 1;
