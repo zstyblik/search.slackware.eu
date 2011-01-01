@@ -1,12 +1,7 @@
 #!/usr/bin/perl
 # 2010/Dec/31 @ Zdenek Styblik
-# Desc: take standard template and pre-generate HTML 
+# Desc: take standard templates and pre-generate HTML 
 # for further processing
-
-
-# replace http://... with <a href=...
-# and that's about it.
-
 use strict;
 use warnings;
 

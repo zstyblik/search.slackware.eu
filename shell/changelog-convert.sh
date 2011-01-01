@@ -1,7 +1,7 @@
 #!/bin/bash
 # 2010/Dec/22 @ Zdenek Styblik
-# Desc: replace dates with <b>$DATE</b> and terminators '+-...-+' 
-# with '<hr />' in Slackware's ChangeLog.txt
+# Desc: prepare directories in case they don't exist, call templater, 
+# and process templates
 set -e
 set -u
 
@@ -59,5 +59,4 @@ rm -f "${CHANGELOGDIR}/${ARG1}/ChangeLog.tmp"
 rm -f "${CHANGELOGDIR}/${ARG1}/ChangeLog.tmpl"
 mv "${CHANGELOGDIR}/${ARG1}/ChangeLog.htm.new" \
 	"${CHANGELOGDIR}/${ARG1}/ChangeLog.htm"
-
 
