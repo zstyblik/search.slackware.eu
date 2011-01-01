@@ -59,4 +59,5 @@ rm -f "${CHANGELOGDIR}/${ARG1}/ChangeLog.tmp"
 rm -f "${CHANGELOGDIR}/${ARG1}/ChangeLog.tmpl"
 mv "${CHANGELOGDIR}/${ARG1}/ChangeLog.htm.new" \
 	"${CHANGELOGDIR}/${ARG1}/ChangeLog.htm"
+cp "${CHANGELOGTXT}" "${CHANGELOGDIR}/${SVER}/"
 
