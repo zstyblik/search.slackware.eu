@@ -15,7 +15,7 @@ source "${CFG}"
 
 SVERSLIST=$(mktemp -p "${TMPDIR}")
 
-wget -q "${LINK}" -O "${SVERSLIST}" || \
+wget -q "${LINK}/" -O "${SVERSLIST}" || \
 	{
 		echo "Unable to download list of Slackware versions.";
 		rm -f "${SVERSLIST}";
