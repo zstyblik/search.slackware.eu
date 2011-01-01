@@ -48,7 +48,7 @@ grep -q -i -E '^slackware(64)?-(current|[0-9]+\.[0-9]+){1}$' || \
 if ! [ -d "${TMPDIR}" ]; then
 	mkdir "${TMPDIR}" || exit 31;
 fi
-cd ${TMPDIR} || exit 32
+cd "${TMPDIR}" || exit 32
 mkdir "${ARG1}" 2>/dev/null
 cd "${ARG1}" || exit 33
 
@@ -115,21 +115,27 @@ fi
 
 ### probably remove and let the script deal with it ?
 ### or do double check eg. CHECKSUMS.md5.files ?
-diff -b -B -N -q ${STORDIR}/distdata/${SVER}/CHECKSUMS.md5.pkgs \
+diff -b -B -N -q "${STORDIR}/distdata/${SVER}/CHECKSUMS.md5.pkgs" \
 CHECKSUMS.md5.pkgs > /dev/null || \
 {
 	echo "No changes for version ${SVER} from the last update."
 	exit 1;
 }
 
+wget -q "${LINK}/${SVER}/ChangeLog.txt" || \
+{
+	echo "Download of ChangeLog.txt has failed." 1>&2
+	exit 2;
+}
+
 # TODO 
 set +e
-perl ${SCRIPTDIR}/file-comparator.pl \
-${STORDIR}/distdata/${SVER}/CHECKSUMS.md5.pkgs CHECKSUMS.md5.pkgs
+perl "${SCRIPTDIR}/file-comparator.pl" \
+"${STORDIR}/distdata/${SVER}/CHECKSUMS.md5.pkgs" CHECKSUMS.md5.pkgs
 RCPKGS=$?
 
-perl ${SCRIPTDIR}/file-comparator.pl \
-${STORDIR}/distdata/${SVER}/CHECKSUMS.md5.files CHECKSUMS.md5.files
+perl "${SCRIPTDIR}/file-comparator.pl" \
+"${STORDIR}/distdata/${SVER}/CHECKSUMS.md5.files" CHECKSUMS.md5.files
 RCFILES=$?
 set -e
 
@@ -217,13 +223,13 @@ grep -i 'PACKAGES.TXT'  > FILELIST.TXT.files.desc
 # TODO - lsof here?
 rm -f "${BATCHDIR}/SQLBATCH-${SVER}"
 
-perl ${SCRIPTDIR}./db-slackver-update.pl "${ARG1}"
+perl "${SCRIPTDIR}./db-slackver-update.pl" "${ARG1}"
 
-TVAR=$(lsof ${STORDIR}/db/${SVER}.sq3 | wc -l)
+TVAR=$(lsof "${STORDIR}/db/${SVER}.sq3" | wc -l)
 while [ ${TVAR} -ne 0 ]; do
 	echo "going to sleep"
 	sleep 5
-	TVAR=$(lsof ${STORDIR}/db/${SVER}.sq3 | wc -l);
+	TVAR=$(lsof "${STORDIR}/db/${SVER}.sq3" | wc -l);
 done
 
 DATEFAIL=$(date '+%H-%M-%S')
@@ -235,7 +241,7 @@ sqlite3 -init "${BATCHDIR}/SQLBATCH-${SVER}" \
 	"${BATCHDIR}/SQLBATCH-${SVER}.${DATEFAIL}"
 } || \
 {
-	perl ${SCRIPTDIR}./db-files-count.pl "${SVER}" && \
+	perl "${SCRIPTDIR}./db-files-count.pl" "${SVER}" && \
 	rm -f "${BATCHDIR}/SQLBATCH-${SVER}" || \
 	{
 		echo "Updating files count has failed for ${SVER}" 1>&2
@@ -244,12 +250,16 @@ sqlite3 -init "${BATCHDIR}/SQLBATCH-${SVER}" \
 	}
 }
 
+diff -b -B -N -q "${STORDIR}/distdata/${SVER}/ChangeLog.txt" \
+	./ChangeLog.txt && sh "${SCRIPTDIR}./changelog-convert.sh" "${SVER}"
+
 # TODO - don't move files ending with number
 mv ./FILELIST.TXT.* "${STORDIR}/distdata/${SVER}/"
 mv ./CHECKSUMS.md5.* "${STORDIR}/distdata/${SVER}/"
+mv ./ChangeLog.txt "${STORDIR}/distdata/${SVER}/"
 cd ${TMPDIR}
 # TODO - cmd review
-rm -Rf ./${SVER}/
+rm -Rf "./${SVER}/"
 
 exit 0
 
