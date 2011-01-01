@@ -57,7 +57,7 @@ $sver);
 open(FCHLOG, $fileChlog) or die("Unable to open ChangeLog.");
 open(FCHLOGNEW, $fileChlogNew) 
 	or die("Unable to open ChangeLog for output.");
-while (my $lineChlog = <FCHLOG>) {
+while (my $line = <FCHLOG>) {
 	chomp($line);
 	if ($line =~ /^[A-Za-z]{3}[\ ]+[A-Za-z]{3}[\ ]+[0-9]{1,2}[\	]+[0-9]{2}:[0-9]{2}:[0-9]{2}[\ ]+[A-Z]{3,4}[\ ]+[0-9]{4}$/) {
 		$line =~ s/(^[A-Za-z]{3}[\ ]+[A-Za-z]{3}[\ ]+[0-9]{1,2}[\ ]+[0-9]{2}:[0-9]{2}:[0-9]{2}[\ ]+[A-Z]{3,4}[\ ]+[0-9]{4}$)/<h5>\1<\/h5><pre>/;
