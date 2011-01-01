@@ -1,17 +1,17 @@
-* parse and update only package descriptions
-* parse only FILELIST (or whatever) and create SQL batch, so .sq3 for
+* BE ~ parse and update only package descriptions
+* BE ~ parse only FILELIST (or whatever) and create SQL batch, so .sq3 for
  specific distro can be created; no updates/deletes - whole file
  in other words an [SQL] batch file for PgSQL an SQLite
-* force update - compare each package, update each package, whatever
-* diffs like in % diff; for each change in changelog
-* PKG availability at mirror
-* input focus order ~ what to look for -> in what -> version; search form
-* changelogs at web ~ offer PNG|TXT|HTML
-* ENH: write syncer for country flags
+* BE ~ force update - compare each package, update each package, whatever
+* FIX: FE ~ input focus order ~ what to look for -> in what -> version; search form
+* ADD: FE ~ changelogs at web ~ offer PNG|TXT|HTML
+* FIX: FE ~ browser ~ back links on error
+* ENH: FE ~ add ^..$ regexp to limit the search, or "complete" regex support
+* ENH: FE ~ diffs like in % diff; for each change in changelog
+* ENH: BE ~ write syncer for country flags
+* ENH: BE ~ PKG availability at mirror
 * ENH: BE ~ debug, may be global debug option
-* ENH: auto add new Slackware version [backend]
-* ENH: add ^..$ regexp to limit the search, or "complete" regex support
-* FIX: browser ~ back links on error
+* ENH: BE ~ auto add new Slackware version
 @ Slackversion browser; slackvers -> cats -> pkgs
 @ hide/show quick search at certain pages eg. search in search is useless ~
 negatory due layout shifting around
