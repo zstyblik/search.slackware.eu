@@ -273,11 +273,9 @@ sub _find_files {
 		my $pkgLocation = sprintf("%s/%s", $row2->{category_name},
 			$row2->{serie_name});
 		$pkgLocation =~ s/\/\//\//so;
-		my $pkgNameURL = $row2->{package_name};
-		$pkgNameURL =~ s/\.t(g|x)z//;
 		my $pkgURLPath = sprintf("%spackage.cgi/view/%s/%s/%s/%s", $scriptPath, 
 			$findParams->{SLACKVERNAME}, $row2->{category_name}, $serieEnc, 
-			$pkgNameURL);
+			$row2->{package_name});
 		$pkgURLPath =~  s/\/\//\//so;
 		my $pkgSize = sprintf("%.0f kB", $row2->{package_size}/1000);
 		my %item = ( PKGNAME => $row2->{package_name},
@@ -382,11 +380,9 @@ sub _find_packages {
 		my $pkgLocation = sprintf("%s/%s", $row->{category_name},
 			$row->{serie_name});
 		$pkgLocation =~ s/\/\//\//so;
-		my $pkgNameURL = $row->{package_name};
-		$pkgNameURL =~ s/\.t(g|x)z//;
 		my $pkgURLPath = sprintf("%spackage.cgi/view/%s/%s/%s/%s", $scriptPath, 
 			$findParams->{SLACKVERNAME}, $row->{category_name}, $serieEnc, 
-			$pkgNameURL);
+			$row->{package_name});
 		$pkgURLPath =~  s/\/\//\//so;
 		my %item = ( PKGNAME => $row->{package_name},
 #			PKGSIZE => $row->{package_size},

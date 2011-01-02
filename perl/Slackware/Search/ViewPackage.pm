@@ -123,11 +123,9 @@ sub download {
 	my $serieEnc = $pkgDetail->{PKGSER};
 	$serieEnc =~ s/\/+/@/g;
 	$serieEnc =~ $self->_url_encode($serie);
-	my $pkgNameURL = $pkgDetail->{PKGNAME};
-#	$pkgNameURL =~ s/\.t(g|x)z//;
 	my $pkgURLPath = sprintf("%s/view/%s/%s/%s/%s", $ENV{SCRIPT_NAME}, 
 		$pkgDetail->{PKGSVER}, 
-		$pkgDetail->{PKGCAT}, $serieEnc, $pkgNameURL);
+		$pkgDetail->{PKGCAT}, $serieEnc, $pkgDetail->{PKGNAME});
 	$pkgURLPath =~  s/\/\//\//so;
 
 	$template->param(SWURL => $pkgURLPath);
@@ -211,11 +209,9 @@ sub inspect {
 	my $serieEnc = $pkgDetail->{PKGSER};
 	$serieEnc =~ s/\/+/@/g;
 	$serieEnc =~ $self->_url_encode($serie);
-	my $pkgNameURL = $pkgDetail->{PKGNAME};
-#	$pkgNameURL =~ s/\.t(g|x)z//;
 	my $pkgURLPath = sprintf("%s/view/%s/%s/%s/%s", $ENV{SCRIPT_NAME}, 
 		$pkgDetail->{PKGSVER}, 
-		$pkgDetail->{PKGCAT}, $serieEnc, $pkgNameURL);
+		$pkgDetail->{PKGCAT}, $serieEnc, $pkgDetail->{PKGNAME});
 	$pkgURLPath =~  s/\/\//\//so;
 
 	$template->param(SWURL => $pkgURLPath);
@@ -300,11 +296,9 @@ sub view {
 	my $serieEnc = $pkgDetail->{PKGSER};
 	$serieEnc =~ s/\/+/@/g;
 	$serieEnc =~ $self->_url_encode($serie);
-	my $pkgNameURL = $pkgDetail->{PKGNAME};
-#	$pkgNameURL =~ s/\.t(g|x)z//;
 	my $pkgURLPath = sprintf("%s/inspect/%s/%s/%s/%s", $ENV{SCRIPT_NAME}, 
 		$pkgDetail->{PKGSVER}, 
-		$pkgDetail->{PKGCAT}, $serieEnc, $pkgNameURL);
+		$pkgDetail->{PKGCAT}, $serieEnc, $pkgDetail->{PKGNAME});
 	$pkgURLPath =~  s/\/\//\//so;
 
 	$template->param(SWURL => $pkgURLPath);
@@ -392,11 +386,9 @@ sub _get_mirror_locations {
 	my $serieEnc = $pkgDetail->{PKGSER};
 	$serieEnc =~ s/\/+/@/g;
 	$serieEnc =~ $self->_url_encode($serieEnc);
-	my $pkgNameURL = $pkgDetail->{PKGNAME};
-#	$pkgNameURL =~ s/\.t(g|x)z//;
 	my $link = sprintf("%s/download/%s/%s/%s/%s", $ENV{SCRIPT_NAME}, 
 		$pkgDetail->{PKGSVER}, 
-		$pkgDetail->{PKGCAT}, $serieEnc, $pkgNameURL);
+		$pkgDetail->{PKGCAT}, $serieEnc, $pkgDetail->{PKGNAME});
 	$link =~  s/\/\//\//so;
 
 	while (my $country = shift(@$result1)) {
