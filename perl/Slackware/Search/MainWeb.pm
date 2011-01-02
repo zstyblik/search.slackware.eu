@@ -48,7 +48,7 @@ sub _get_categories  {
 # @return: array;
 sub _get_haystacks {
 	my $self = shift;
-	my $idHaystack = shift || -1;
+	my $idHaystack = shift || 'garbage';
 	my @haystacks;
 	unless ($idHaystack =~ /^[0-9]+$/) {
 		return @haystacks;
@@ -77,13 +77,13 @@ sub _get_category_id {
 	my $self = shift;
 	my $category = shift || '';
 	if ($category !~ /^[A-Za-z0-9]+$/) {
-		return -1;
+		return 0;
 	}
 	my $dbh = $self->dbh;
 	my $sql1 = sprintf("SELECT id_category FROM category WHERE 
 		category_name = '%s';", $category);
 	my $result1 = $dbh->selectrow_array($sql1);
-	return -1 unless $result1;
+	return 0 unless $result1;
 	return $result1;
 } # sub _get_category_id
 # desc: look up serie ID
@@ -93,13 +93,13 @@ sub _get_serie_id {
 	my $self = shift;
 	my $serie = shift || '';
 	if ($serie !~ /^[A-Za-z0-9\-\_\.\/]+$/) {
-		return -1;
+		return 0;
 	}
 	my $dbh = $self->dbh;
 	my $sql1 = sprintf("SELECT id_serie FROM serie WHERE 
 		serie_name = '%s';", $serie);
 	my $result1 = $dbh->selectrow_array($sql1);
-	return -1 unless $result1;
+	return 0 unless $result1;
 	return $result1;
 } # sub _get_serie_id
 # TODO: rename to _get_slackversion_id ???
@@ -110,13 +110,13 @@ sub _get_slackver_id {
 	my $self = shift;
 	my $slackver = shift || '';
 	if ($slackver !~ /^[A-Za-z0-9\-\.]+$/) {
-		return -1;
+		return 0;
 	}
 	my $dbh = $self->dbh;
 	my $sql1 = sprintf("SELECT id_slackversion FROM slackversion WHERE 
 		slackversion_name = '%s';", $slackver);
 	my $result1 = $dbh->selectrow_array($sql1);
-	return -1 unless $result1;
+	return 0 unless $result1;
 	return $result1;
 } # sub _get_slackver_id
 # desc: return slackversion name (string)
@@ -150,7 +150,7 @@ sub _get_slackversion_idStable {
 	version <> 9999 AND slackversion_name NOT LIKE 'slackware64-%' \
 	ORDER BY version DESC LIMIT 1;";
 	my $idSlackver = $dbh->selectrow_array($sql1);
-	return -1 unless ($idSlackver);
+	return 0 unless ($idSlackver);
 	return $idSlackver;
 } # sub _get_slackversion_idStable 
 # desc: return slackversions in db
@@ -158,13 +158,13 @@ sub _get_slackversion_idStable {
 # @return: array;
 sub _get_slackversions {
 	my $self = shift;
-	my $idSlackver = shift || -1;
+	my $idSlackver = shift || 'garbage';
 	unless ($idSlackver =~ /^[0-9]$/) {
-		$idSlackver = -1;
+		$idSlackver = 0;
 	}
 	my $dbh = $self->dbh;
 
-	if ($idSlackver == -1) {
+	if ($idSlackver == 0) {
 		my $sql1 = "SELECT id_slackversion FROM slackversion WHERE \
 		version <> 9999 AND slackversion_name NOT LIKE 'slackware64-%' \
 		ORDER BY version DESC LIMIT 1;";
