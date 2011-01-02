@@ -124,7 +124,7 @@ sub download {
 	$serieEnc =~ s/\/+/@/g;
 	$serieEnc =~ $self->_url_encode($serie);
 	my $pkgNameURL = $pkgDetail->{PKGNAME};
-	$pkgNameURL =~ s/\.t(g|x)z//;
+#	$pkgNameURL =~ s/\.t(g|x)z//;
 	my $pkgURLPath = sprintf("%s/view/%s/%s/%s/%s", $ENV{SCRIPT_NAME}, 
 		$pkgDetail->{PKGSVER}, 
 		$pkgDetail->{PKGCAT}, $serieEnc, $pkgNameURL);
@@ -212,7 +212,7 @@ sub inspect {
 	$serieEnc =~ s/\/+/@/g;
 	$serieEnc =~ $self->_url_encode($serie);
 	my $pkgNameURL = $pkgDetail->{PKGNAME};
-	$pkgNameURL =~ s/\.t(g|x)z//;
+#	$pkgNameURL =~ s/\.t(g|x)z//;
 	my $pkgURLPath = sprintf("%s/view/%s/%s/%s/%s", $ENV{SCRIPT_NAME}, 
 		$pkgDetail->{PKGSVER}, 
 		$pkgDetail->{PKGCAT}, $serieEnc, $pkgNameURL);
@@ -301,7 +301,7 @@ sub view {
 	$serieEnc =~ s/\/+/@/g;
 	$serieEnc =~ $self->_url_encode($serie);
 	my $pkgNameURL = $pkgDetail->{PKGNAME};
-	$pkgNameURL =~ s/\.t(g|x)z//;
+#	$pkgNameURL =~ s/\.t(g|x)z//;
 	my $pkgURLPath = sprintf("%s/inspect/%s/%s/%s/%s", $ENV{SCRIPT_NAME}, 
 		$pkgDetail->{PKGSVER}, 
 		$pkgDetail->{PKGCAT}, $serieEnc, $pkgNameURL);
@@ -393,7 +393,7 @@ sub _get_mirror_locations {
 	$serieEnc =~ s/\/+/@/g;
 	$serieEnc =~ $self->_url_encode($serieEnc);
 	my $pkgNameURL = $pkgDetail->{PKGNAME};
-	$pkgNameURL =~ s/\.t(g|x)z//;
+#	$pkgNameURL =~ s/\.t(g|x)z//;
 	my $link = sprintf("%s/download/%s/%s/%s/%s", $ENV{SCRIPT_NAME}, 
 		$pkgDetail->{PKGSVER}, 
 		$pkgDetail->{PKGCAT}, $serieEnc, $pkgNameURL);
@@ -507,7 +507,7 @@ sub _get_packages_id {
 	}
 	my $dbh = $self->dbh;
 	my $sql1 = sprintf("SELECT id_package FROM package WHERE 
-		package_name LIKE '%s.\%';", $package);
+		package_name = '%s';", $package);
 	my $result1 = $dbh->selectrow_array($sql1);
 	return -1 unless $result1;
 
