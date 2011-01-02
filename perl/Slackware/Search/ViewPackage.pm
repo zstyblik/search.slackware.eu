@@ -66,7 +66,7 @@ sub download {
 		return $self->error("Serie is garbage.", '/cgi-bin/search.cgi');
 	}
 	my $validPackage = $self->_validate_package($package);
-	if ($validPackage) {
+	unless ($validPackage) {
 		return $self->error("Package is garbage.", '/cgi-bin/search.cgi');
 	}
 	$country =~ $self->_url_decode($country);
@@ -382,7 +382,6 @@ sub _get_mirror_locations {
 		return @countries;
 	}
 
-	# TODO ~ stuff it ... to the function, for . sake!
 	my $serieEnc = $pkgDetail->{PKGSER};
 	$serieEnc =~ s/\/+/@/g;
 	$serieEnc =~ $self->_url_encode($serieEnc);
