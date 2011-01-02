@@ -75,28 +75,28 @@ sub download {
 	}
 	# does slackver exist? fast lookup
 	my $idSlackver = $self->_get_slackver_id($slackver);
-	if ($idSlackver == -1) {
+	unless ($idSlackver) {
 		return $self->error("Slackware version is not in DB.", 
 			'/cgi-bin/search.cgi');
 	}
   # does category exist? fast lookup
 	my $idCategory = $self->_get_category_id($category, $idSlackver);
-	if ($idCategory == -1) {
+	unless ($idCategory) {
 		return $self->error("Category is not in DB.", '/cgi-bin/search.cgi');
 	}
 	# does serie exist? fast lookup
 	my $idSerie = $self->_get_serie_id($serie);
-	if ($idSerie == -1) {
+	unless ($idSerie) {
 		return $self->error("Serie is not in DB.", '/cgi-bin/search.cgi');
 	}
 	# does country exists?
 	my $idCountry = $self->_get_country_id($country);
-	if ($idCountry == -1) {
+	unless ($idCountry) {
 		return $self->error("Country is not in DB.", '/cgi-bin/search.cgi');
 	}
 	# does pkg exist? slow lookup
 	my $idPkgs = $self->_get_packages_id($package, $idCategory, $idSlackver);
-	if ($idPkgs == -1) {
+	unless ($idPkgs) {
 		return $self->error("Package is not in DB.", '/cgi-bin/search.cgi');
 	}
 
@@ -166,23 +166,23 @@ sub inspect {
 	}
 	# does slackver exist? fast lookup
 	my $idSlackver = $self->_get_slackver_id($slackver);
-	if ($idSlackver == -1) {
+	unless ($idSlackver) {
 		return $self->error("Slackware version is not in DB.", 
 			'/cgi-bin/search.cgi');
 	}
   # does category exist? fast lookup
 	my $idCategory = $self->_get_category_id($category, $idSlackver);
-	if ($idCategory == -1) {
+	unless ($idCategory) {
 		return $self->error("Category is not in DB.", '/cgi-bin/search.cgi');
 	}
 	# does serie exist? fast lookup
 	my $idSerie = $self->_get_serie_id($serie);
-	if ($idSerie == -1) {
+	unless ($idSerie) {
 		return $self->error("Serie is not in DB.", '/cgi-bin/search.cgi');
 	}
 	# does pkg exist? slow lookup
 	my $idPkgs = $self->_get_packages_id($package, $idCategory, $idSlackver);
-	if ($idPkgs == -1) {
+	unless ($idPkgs) {
 		return $self->error("Package is not in DB.", '/cgi-bin/search.cgi');
 	}
 
@@ -259,23 +259,23 @@ sub view {
 	}
 	# does slackver exist? fast lookup
 	my $idSlackver = $self->_get_slackver_id($slackver);
-	if ($idSlackver == -1) {
+	unless ($idSlackver) {
 		return $self->error("Slackware version is not in DB.", 
 			'/cgi-bin/search.cgi');
 	}
   # does category exist? fast lookup
 	my $idCategory = $self->_get_category_id($category, $idSlackver);
-	if ($idCategory == -1) {
+	unless ($idCategory) {
 		return $self->error("Category is not in DB.", '/cgi-bin/search.cgi');
 	}
 	# does serie exist? fast lookup
 	my $idSerie = $self->_get_serie_id($serie);
-	if ($idSerie == -1) {
+	unless ($idSerie) {
 		return $self->error("Serie is not in DB.", '/cgi-bin/search.cgi');
 	}
 	# does pkg exist? slow lookup
 	my $idPkgs = $self->_get_packages_id($package, $idCategory, $idSlackver);
-	if ($idPkgs == -1) {
+	unless ($idPkgs) {
 		return $self->error("Package is not in DB.", '/cgi-bin/search.cgi');
 	}
 
@@ -353,13 +353,13 @@ sub _get_country_id {
 	my $self = shift;
 	my $country = shift || '';
 	unless ($country =~ /^[A-Za-z\ ]+$/) {
-		return -1;
+		return 0;
 	}
 	my $dbh = $self->dbh;
 	my $sql1 = sprintf("SELECT id_country FROM country WHERE 
 		name = '%s';", $country);
 	my $result1 = $dbh->selectrow_array($sql1);
-	return -1 unless $result1;
+	return 0 unless $result1;
 	return $result1;
 }
 # desc: return formated list of locations
@@ -489,19 +489,19 @@ sub _get_packages_id {
 	my $idSlackver = shift;
 
 	if ($package !~ /^[A-Za-z0-9\-\.\_]+$/) {
-		return -1;
+		return 0;
 	}
 	if ($idCategory !~ /^[0-9]+$/) {
-		return -1;
+		return 0;
 	}
 	if ($idSlackver !~ /^[0-9]+$/) {
-		return -1;
+		return 0;
 	}
 	my $dbh = $self->dbh;
 	my $sql1 = sprintf("SELECT id_package FROM package WHERE 
 		package_name = '%s';", $package);
 	my $result1 = $dbh->selectrow_array($sql1);
-	return -1 unless $result1;
+	return 0 unless $result1;
 
 	my $sql2 = sprintf("SELECT id_packages FROM packages WHERE 
 		id_package = %i AND id_category = %i AND id_slackversion = %i;", 
@@ -509,7 +509,7 @@ sub _get_packages_id {
 	# TODO ~ this probably should be selectall_arrayref and check whether 
 	# only one package got returned ... right?
 	my $result2 = $dbh->selectrow_array($sql2);
-	return -1 unless $result2;
+	return 0 unless $result2;
 	return $result2;
 } # sub _get_packages_id
 # desc: return formated list of files associated with package
