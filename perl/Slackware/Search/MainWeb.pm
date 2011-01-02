@@ -102,11 +102,10 @@ sub _get_serie_id {
 	return 0 unless $result1;
 	return $result1;
 } # sub _get_serie_id
-# TODO: rename to _get_slackversion_id ???
 # desc: look up slackware version ID
 # $slackver: string;
 # @return: int;
-sub _get_slackver_id {
+sub _get_slackversion_id {
 	my $self = shift;
 	my $slackver = shift || '';
 	if ($slackver !~ /^[A-Za-z0-9\-\.]+$/) {
@@ -118,7 +117,7 @@ sub _get_slackver_id {
 	my $result1 = $dbh->selectrow_array($sql1);
 	return 0 unless $result1;
 	return $result1;
-} # sub _get_slackver_id
+} # sub _get_slackversion_id
 # desc: return slackversion name (string)
 # $idSlackversion: int;
 # @return: string/undef;

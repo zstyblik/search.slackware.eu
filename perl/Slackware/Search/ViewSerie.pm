@@ -57,7 +57,7 @@ sub view_serie {
 			$slackver, $category);
 		return $self->error("Serie is garbage.", $backLink);
 	}
-	my $idSlackver = $self->_get_slackver_id($slackver);
+	my $idSlackver = $self->_get_slackversion_id($slackver);
 	unless ($idSlackver) {
 		return $self->error("Slackversion is not in DB.", 
 			'/cgi-bin/search.cgi');

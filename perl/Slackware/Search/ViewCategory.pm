@@ -50,7 +50,7 @@ sub view_category {
 		return $self->error("Category is garbage.", $backLink);
 	}
 	# look-up in DB
-	my $idSlackver = $self->_get_slackver_id($slackver);
+	my $idSlackver = $self->_get_slackversion_id($slackver);
 	unless ($idSlackver) {
 		return $self->error("Slackversion is not in DB.", '/cgi-bin/search.cgi');
 	}

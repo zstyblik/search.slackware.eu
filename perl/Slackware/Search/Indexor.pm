@@ -58,7 +58,7 @@ sub changelog {
 		return $self->error("Slackware version is garbage.", 
 			'/cgi-bin/search.cgi');
 	}
-	my $idSlackversion = $self->_get_slackver_id($slackver);
+	my $idSlackversion = $self->_get_slackversion_id($slackver);
 	unless ($idSlackversion) {
 		return $self->error("Slackversion is not in DB.", 
 			'/cgi-bin/search.cgi');

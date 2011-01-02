@@ -74,7 +74,7 @@ sub download {
 		return $self->error("Wrong country.".$country, '/cgi-bin/search.cgi');
 	}
 	# does slackver exist? fast lookup
-	my $idSlackver = $self->_get_slackver_id($slackver);
+	my $idSlackver = $self->_get_slackversion_id($slackver);
 	unless ($idSlackver) {
 		return $self->error("Slackware version is not in DB.", 
 			'/cgi-bin/search.cgi');
@@ -165,7 +165,7 @@ sub inspect {
 		return $self->error("Package is garbage.", '/cgi-bin/search.cgi');
 	}
 	# does slackver exist? fast lookup
-	my $idSlackver = $self->_get_slackver_id($slackver);
+	my $idSlackver = $self->_get_slackversion_id($slackver);
 	unless ($idSlackver) {
 		return $self->error("Slackware version is not in DB.", 
 			'/cgi-bin/search.cgi');
@@ -258,7 +258,7 @@ sub view {
 		return $self->error("Package is garbage.", '/cgi-bin/search.cgi');
 	}
 	# does slackver exist? fast lookup
-	my $idSlackver = $self->_get_slackver_id($slackver);
+	my $idSlackver = $self->_get_slackversion_id($slackver);
 	unless ($idSlackver) {
 		return $self->error("Slackware version is not in DB.", 
 			'/cgi-bin/search.cgi');

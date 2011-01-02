@@ -41,7 +41,7 @@ sub view_slackver {
 	unless ($validSlackver) {
 		return $self->error("Slackversion is garbage.", '/cgi-bin/search.cgi');
 	}
-	my $idSlackver = $self->_get_slackver_id($slackver);
+	my $idSlackver = $self->_get_slackversion_id($slackver);
 	unless ($idSlackver) {
 		return $self->error("Slackversion is not in DB.");
 	}
