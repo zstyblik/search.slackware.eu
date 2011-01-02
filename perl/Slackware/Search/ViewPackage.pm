@@ -479,10 +479,13 @@ sub _get_pkg_details {
 	$pkgDetails{PKGCAT} = $hashPkg->{category_name};
 	$pkgDetails{PKGSVER} = $hashPkg->{slackversion_name};
 	$pkgDetails{PKGSER} = '';
+	$pkgDetails{PKGSERENC} = '';
 	my $serie = '';
 	if ($hashPkg->{serie_name}) {
 		$pkgDetails{PKGSER} = $hashPkg->{serie_name};
 		$serie = $hashPkg->{serie_name};
+		my $serieEnc = $self->_url_encode($serie);
+		$pkgDetails{PKGSERENC} = $serieEnc;
 	}
 	return \%pkgDetails;
 } # sub _get_pkg_details

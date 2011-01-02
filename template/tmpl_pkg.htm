@@ -7,15 +7,25 @@
 					</tr>
 					<tr>
 						<td class="attr">Slackware version::</td>
-						<td class="value"><TMPL_VAR name="PKGSVER"></td>
+						<td class="value">
+							<a href="/cgi-bin/slackver.cgi/view/<TMPL_VAR PKGSVER>">
+								<TMPL_VAR name="PKGSVER">
+							</a>
+						</td>
 					</tr>
 					<tr>
 						<td class="attr">Package category::</td>
-						<td class="value"><TMPL_VAR name="PKGCAT"></td>
+						<td class="value">
+							<a href="/cgi-bin/category.cgi/view/<TMPL_VAR PKGSVER>/<TMPL_VAR PKGCAT>">
+								<TMPL_VAR name="PKGCAT"></td>
+							</a>
 					</tr>
 					<tr>
 						<td class="attr">Package serie::</td>
-						<td class="value"><TMPL_VAR name="PKGSER"></td>
+						<td class="value">
+							<a href="/cgi-bin/serie.cgi/view/<TMPL_VAR PKGSVER>/<TMPL_VAR PKGCAT>/<TMPL_VAR PKGSERENC>">
+								<TMPL_VAR name="PKGSER"></td>
+							</a>
 					</tr>
 					<tr>
 						<td class="attr">Package created::</td>
