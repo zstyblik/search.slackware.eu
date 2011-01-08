@@ -215,7 +215,7 @@ sub _find_files {
 	my $dbhLite = DBI->connect("dbi:SQLite:dbname=".$sqLiteFile, 
 		"","", 
 		{ AutoCommit => 1,
-      PrintError => 0,
+			PrintError => 0,
 			RaiseError => 0
 		}
 	);
@@ -291,7 +291,7 @@ sub _find_files {
 	
 	my $idPkgsFilt = join(", ", keys(%packagesFiltered));
 	my $sql3 = sprintf("SELECT id_packages, file_name FROM files WHERE \
-	file_name LIKE '%%%s%%' AND id_packages IN (%s));", 
+	file_name LIKE '%%%s%%' AND id_packages IN (%s);", 
 	$findParams->{NEEDLE}, $idPkgsFilt);
 	my $result3 = $dbhLite->selectall_arrayref($sql3, { Slice => {}});
 
