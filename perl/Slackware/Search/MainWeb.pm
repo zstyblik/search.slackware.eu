@@ -158,7 +158,7 @@ sub _get_slackversion_idStable {
 sub _get_slackversions {
 	my $self = shift;
 	my $idSlackver = shift || 'garbage';
-	unless ($idSlackver =~ /^[0-9]$/) {
+	unless ($idSlackver =~ /^[0-9]+$/) {
 		$idSlackver = 0;
 	}
 	my $dbh = $self->dbh;
