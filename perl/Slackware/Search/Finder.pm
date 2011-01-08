@@ -116,8 +116,7 @@ sub search_fetch: Runmode {
 	$template->param(HSTACKSELFILES=>'');
 	$template->param(HSTACKSELPKGS=>'');
 
-	my @slackVersions = $self->_get_slackversions($idSlackver, 
-		$slackVerName);
+	my @slackVersions = $self->_get_slackversions($idSlackver);
 	my @categories = $self->_get_categories;
 
 	my @catsToCheck;
