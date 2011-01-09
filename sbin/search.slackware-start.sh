@@ -41,3 +41,5 @@ for SVER in $(perl ./shell/db-get-slackversions.pl); do
 	rmdir "${TMPDIR}/${SVER}"
 done
 
+chown -R slacker "${TMPDIR}/"
+
