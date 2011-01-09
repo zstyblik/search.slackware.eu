@@ -25,6 +25,9 @@ wget -q "${LINK}/" -O "${SVERSLIST}" || \
 for SVER in $(grep -e '<a href=' "${SVERSLIST}" | tr -s ' ' | \
 	cut -d '>' -f 2- | cut -d '<' -f 1 | sed -e 's#\/##' | \
 	grep -v -E -e '(-iso|unsupported|_source)'); do
+	if [ "${SVER}" == "slackware-3.3" ] || [ "${SVER}" == "slackware-7.1" ]; then
+		continue;
+	fi
 	perl "${SCRIPTDIR}/db-check-slackversion.pl" "${SVER}" && \
 		sh "${SCRIPTDIR}/slackversion-add.sh" "${SVER}" || continue;
 done
