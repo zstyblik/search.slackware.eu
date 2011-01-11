@@ -18,31 +18,43 @@ source "${CFG}"
 cd /srv/httpd/search.slackware.eu/
 
 if [ ! -d "${TMPDIR}" ]; then
-	mkdir "${TMPDIR}";
+	mkdir "${TMPDIR}" || true
 fi
 
 if [ ! -d "${TMPDIR}/changelogs/" ]; then
-	mkdir "${TMPDIR}/changelogs"
+	mkdir "${TMPDIR}/changelogs" || true
 fi
 
+NEWSDIR="${TMPDIR}/news/"
+if [ ! -d "${NEWSDIR}" ]; then
+	mkdir "${NEWSDIR}" || true
+fi
+touch "${NEWSDIR}/linuxsec-news.htm"
+touch "${NEWSDIR}/slack-news.htm"
+touch "${NEWSDIR}/slack-torrents.htm"
+
+perl ./bin/linuxsec-get-news.pl || true
+perl ./bin/slackware-get-security.pl || true
+perl ./bin/slackware-get-torrents.pl || true
+
 if [ ! -d "${BATCHDIR}" ]; then
-	mkdir "${BATCHDIR}"
+	mkdir "${BATCHDIR}" || true
 fi
 
 for SVER in $(perl ./shell/db-get-slackversions.pl); do
-	mkdir "${TMPDIR}/${SVER}"
+	mkdir "${TMPDIR}/${SVER}" || true
 	cd "${TMPDIR}/${SVER}"
 	wget -q "${LINK}/${SVER}/ChangeLog.txt" || \
 		{
 			echo "Failed to download ChangeLog.txt for '${SVER}'" 1>&2
 			cd "${TMPDIR}"
 			rm -f "${TMPDIR}/${SVER}/*"
-			rmdir "${TMPDIR}"
+			rmdir "${TMPDIR}" || true
 		}
 	sh "${SCRIPTDIR}/changelog-convert.sh" "${SVER}"
 	cd "${TMPDIR}"
 	rm -f "${TMPDIR}/${SVER}"
-	rmdir "${TMPDIR}/${SVER}"
+	rmdir "${TMPDIR}/${SVER}" || true
 done
 
 chown -R slacker "${TMPDIR}/"
