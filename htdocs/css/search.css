@@ -219,16 +219,16 @@ select {
 /* END COUNTRY LIST */
 /* LINK BACK TO TOP */
 .back-to-top {
+	clear: both;
 	left: 0;
 	position: relative;
-	clear: both;
 }
 .back-to-top a {
 }
 .back-to-top a img {
 	border: 0;
-	width: 20px;
 	height: 96px;
+	width: 20px;
 }
 /* END LINK BACK TO TOP */
 /* QUICK SEARCH */
