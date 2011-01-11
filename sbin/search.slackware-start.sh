@@ -25,6 +25,10 @@ if [ ! -d "${TMPDIR}/changelogs/" ]; then
 	mkdir "${TMPDIR}/changelogs"
 fi
 
+if [ ! -d "${BATCHDIR}" ]; then
+	mkdir "${BATCHDIR}"
+fi
+
 for SVER in $(perl ./shell/db-get-slackversions.pl); do
 	mkdir "${TMPDIR}/${SVER}"
 	cd "${TMPDIR}/${SVER}"
@@ -42,4 +46,4 @@ for SVER in $(perl ./shell/db-get-slackversions.pl); do
 done
 
 chown -R slacker "${TMPDIR}/"
-
+chown -R slacker:slacker "${BATCHDIR}/"
