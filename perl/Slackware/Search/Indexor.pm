@@ -80,6 +80,15 @@ sub changelog {
 
 sub home {
 	my $self = shift;
+	my $tmpDir = $self->cfg('TMPDIR') || '/tmp/';
+	my $linuxsecNews = sprintf("%s/news/linuxsec-news.htm", $tmpDir);
+	my $slackNews = sprintf("%s/news/slack-news.htm", $tmpDir);
+	my $slackTorrents = sprintf("%s/news/slack-torrents.htm", $tmpDir);
+	unless ( -e $linuxsecNews || $slackNews || $slackTorrents ) {
+		my $errorMsg = sprintf("I'm sorry, but one of news files doesn't exist
+				and I'm unable to continue.");
+		return $self->error($errorMsg);
+	}
 	my $template = $self->load_tmpl("index.htm");
 	$template->param(TITLE => "Slackware Unofficial Package Browser/Search");
 	$template->param(HOME => 1);
