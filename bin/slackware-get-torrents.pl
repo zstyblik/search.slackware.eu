@@ -7,6 +7,7 @@ use Time::Local;
 
 my $url = "http://www.slackware.com/getslack/torrents.php";
 my $baseURL = 'http://www.slackware.com/torrents/';
+my $outDir = '/mnt/tmp/search.slack/news/';
 
 my $browser = LWP::UserAgent->new;
 my $printOut = '';
@@ -26,7 +27,13 @@ for my $htmlLine ( split(/\n/, $response->content) ) {
 	}
 } # for my $htmlLine
 
-open(FILE, '>/mnt/tmp/czslug.org/slack-torrents.htm');
+unless ( -e $outDir ) {
+	exit 254;
+}
+
+my $outFile = sprintf(">%s/slack-torrents.htm", $outDir);
+
+open(FILE, $outFile) or die("Unable to write to file.");
 print FILE "\t\t\t<div class=\"remoteNews-left\">\n";
 print FILE "\t\t\t\t<ul>\n";
 print FILE $printOut;
