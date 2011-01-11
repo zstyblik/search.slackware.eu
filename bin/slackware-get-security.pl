@@ -8,6 +8,7 @@ use Time::Local;
 my $url = "http://www.slackware.com/lists/archive/"
 ."list.php?l=slackware-security&y=YYY";
 my $baseURL = 'http://www.slackware.com/lists/archive/viewer.php';
+my $outDir = '/mnt/tmp/search.slack/news/';
 
 my ($sec,$min,$hour,$day,$month,$year,$wday,$yday,$isdst) = 
 	localtime(time);
@@ -48,9 +49,13 @@ while ($year >= $yearStop) {
 
 exit 2 if ($newsCount == 0);
 
-# TODO ~ does directory exits?
+unless ( -e $outDir ) {
+	exit 254;
+}
 
-open(FILE, '>/mnt/tmp/search.slack/news/slack-news.htm');
+my $outFile = sprintf(">%s/slack-news.htm", $outDir);
+
+open(FILE, $outFile) or die("Unable to write to file.");
 print FILE "\t\t\t<div class=\"remoteNews-left\">\n"
 print FILE "\t\t\t\t<ul>\n";
 print FILE $printOut;
