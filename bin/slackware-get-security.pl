@@ -56,7 +56,7 @@ unless ( -e $outDir ) {
 my $outFile = sprintf(">%s/slack-news.htm", $outDir);
 
 open(FILE, $outFile) or die("Unable to write to file.");
-print FILE "\t\t\t<div class=\"remoteNews-left\">\n"
+print FILE "\t\t\t<div class=\"remoteNews-left\">\n";
 print FILE "\t\t\t\t<ul>\n";
 print FILE $printOut;
 print FILE "\t\t\t\t</ul>\n";
