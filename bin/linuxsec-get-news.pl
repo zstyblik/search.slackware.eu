@@ -5,6 +5,7 @@ use warnings;
 use LWP;
 
 my $url = 'http://www.linuxsecurity.com/static-content/linuxsecurity_advisories.rss';
+my $outDir = '/mnt/tmp/search.slack/news/';
 
 my $browser = LWP::UserAgent->new;
 
@@ -40,9 +41,13 @@ for my $rssLine ( split(/\n/, $response->content) ) {
 
 exit 2 if ($newsCount == 0);
 
-# TODO ~ does directory exist?
+unless ( -e $outDir ) {
+	exit 254;
+}
 
-open(FILE, '>/mnt/tmp/search.slack/news/linuxsec-news.htm');
+my $outFile = sprintf(">%s/linuxsec-news.htm", $outDir);
+
+open(FILE, $outFile) or die("Unable write to file.");
 print FILE "\t\t\t<div class=\"remoteNews-right\">\n";
 print FILE "\t\t\t\t<ul>\n";
 print FILE $printOut;
