@@ -221,6 +221,7 @@ select {
 .back-to-top {
 	left: 0;
 	position: relative;
+	clear: both;
 }
 .back-to-top a {
 }
@@ -250,3 +251,19 @@ select {
 	margin-left: 1em;
 }
 /* END SLACKVER BROWSER */
+.remoteNews-left {
+	float: left;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 48%;
+	width: 48%;
+}
+.remoteNews-right {
+	margin-left: 51%;
+	margin-right: auto;
+	max-width: 48%;
+	width: 48%;
+}
+/* NEWS FROM OTHER SITES */
+/* END NEWS FROM OTHER SITES */
+
