@@ -45,6 +45,8 @@ sub about {
 	$template->param(ABOUT => 1);
 	my $idSlackverStable = $self->_get_slackversion_idStable();
 	$template->param(SVERSTABLE => $idSlackverStable);
+	my $slackverStable = $self->_get_slackversion_name($idSlackverStable);
+	$template->param(SVERNAME => $slackverStable);
 	return $template->output();
 } # sub about
 
@@ -94,6 +96,8 @@ sub home {
 	$template->param(HOME => 1);
 	my $idSlackverStable = $self->_get_slackversion_idStable();
 	$template->param(SVERSTABLE => $idSlackverStable);
+	my $slackverStable = $self->_get_slackversion_name($idSlackverStable);
+	$template->param(SVERNAME => $slackverStable);
 	return $template->output();
 } # sub home
 
@@ -104,6 +108,8 @@ sub links {
 	$template->param(LINKS => 1);
 	my $idSlackverStable = $self->_get_slackversion_idStable();
 	$template->param(SVERSTABLE => $idSlackverStable);
+	my $slackverStable = $self->_get_slackversion_name($idSlackverStable);
+	$template->param(SVERNAME => $slackverStable);
 	return $template->output();
 } # sub links
 
