@@ -23,7 +23,7 @@ for my $htmlLine ( split(/\n/, $response->content) ) {
 		$htmlLine = substr($htmlLine, index($htmlLine, "<a href="), 
 			index($htmlLine, "</a>")+4 );
 		$htmlLine =~ s/\/torrents\//$baseURL/;
-		$printOut.= sprintf("\t\t\t\t\t<li>%s</li>\n", $htmlLine);
+		$printOut.= sprintf("\t\t\t\t\t\t<li>%s</li>\n", $htmlLine);
 	}
 } # for my $htmlLine
 
@@ -34,9 +34,11 @@ unless ( -e $outDir ) {
 my $outFile = sprintf(">%s/slack-torrents.htm", $outDir);
 
 open(FILE, $outFile) or die("Unable to write to file.");
-print FILE "\t\t\t<div class=\"remoteNews-left\">\n";
-print FILE "\t\t\t\t<ul>\n";
+print FILE "\t\t\t<div class=\"remoteNews\">\n";
+print FILE "\t\t\t\t<fieldset>\n";
+print FILE "\t\t\t\t\t<legend>Slackware torrents</legend>\n";
+print FILE "\t\t\t\t\t<ul>\n";
 print FILE $printOut;
-print FILE "\t\t\t\t</ul>\n";
+print FILE "\t\t\t\t\t</ul>\n";
 print FILE "\t\t\t</div>\n";
 close(FILE);
