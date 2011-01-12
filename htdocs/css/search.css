@@ -251,6 +251,12 @@ select {
 	margin-left: 1em;
 }
 /* END SLACKVER BROWSER */
+/* NEWS FROM OTHER SITES */
+.remoteNews {
+	clear: both;
+	margin-left: auto;
+	margin-right: auto;
+}
 .remoteNews-left {
 	float: left;
 	margin-left: auto;
@@ -269,6 +275,5 @@ select {
 	font-weight: italic;
 	text-align: right;
 }
-/* NEWS FROM OTHER SITES */
 /* END NEWS FROM OTHER SITES */
 
