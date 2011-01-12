@@ -264,6 +264,11 @@ select {
 	max-width: 48%;
 	width: 48%;
 }
+.remoteNews-source {
+	font-size: small;
+	font-weight: italic;
+	text-align: right;
+}
 /* NEWS FROM OTHER SITES */
 /* END NEWS FROM OTHER SITES */
 
