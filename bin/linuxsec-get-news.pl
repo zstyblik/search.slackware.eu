@@ -32,7 +32,7 @@ for my $rssLine ( split(/\n/, $response->content) ) {
 	if ( $title && $rssLine =~ /^<link>/) {
 		$rssLine =~ s/<(\/)?link>//g;
 		$rssLine =~ s/&/&#38;/g;
-		$printOut.= sprintf("\t\t\t\t\t<li><a href=\"%s\">%s</a></li>\n", 
+		$printOut.= sprintf("\t\t\t\t\t\t<li><a href=\"%s\">%s</a></li>\n", 
 			$rssLine, $title);
 		$title = undef;
 		$newsCount++;
@@ -49,8 +49,11 @@ my $outFile = sprintf(">%s/linuxsec-news.htm", $outDir);
 
 open(FILE, $outFile) or die("Unable write to file.");
 print FILE "\t\t\t<div class=\"remoteNews-right\">\n";
-print FILE "\t\t\t\t<ul>\n";
+print FILE "\t\t\t\t<fieldset>\n";
+print FILE "\t\t\t\t\t<label>Linux Security headlines</label>\n";
+print FILE "\t\t\t\t\t<ul>\n";
 print FILE $printOut;
-print FILE "\t\t\t\t</ul>\n";
+print FILE "\t\t\t\t\t</ul>\n";
+print FILE "\t\t\t\t</fieldset>";
 print FILE "\t\t\t</div>\n";
 close(FILE);

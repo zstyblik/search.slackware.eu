@@ -37,7 +37,7 @@ while ($year >= $yearStop) {
 			$htmlLine =~ s/&/&#38;/g;
 			$htmlLine =~ s/viewer\.php/$baseURL/;
 			$newsCount++;
-			$printOut.= sprintf("\t\t\t\t\t<li>%s</a></li>\n", $htmlLine);
+			$printOut.= sprintf("\t\t\t\t\t\t<li>%s</a></li>\n", $htmlLine);
 		}
 		if ($newsCount >= 10) {
 			$year = 0;
@@ -57,8 +57,11 @@ my $outFile = sprintf(">%s/slack-news.htm", $outDir);
 
 open(FILE, $outFile) or die("Unable to write to file.");
 print FILE "\t\t\t<div class=\"remoteNews-left\">\n";
-print FILE "\t\t\t\t<ul>\n";
+print FILE "\t\t\t\t<fieldset>\n";
+print FILE "\t\t\t\t\t<label>Slackware security warnings</label>\n";
+print FILE "\t\t\t\t\t<ul>\n";
 print FILE $printOut;
-print FILE "\t\t\t\t</ul>\n";
+print FILE "\t\t\t\t\t</ul>\n";
+print FILE "\t\t\t\t</fieldset>\n";
 print FILE "\t\t\t</div>\n";
 close(FILE);
