@@ -29,6 +29,12 @@ grep -q -i -E '^slackware(64)?-(current|[0-9]+\.[0-9]+){1}$' || \
 	exit 1;
 }
 
+if [ $(id -u) -eq 0 ]; then
+	echo "Refusing to run as a root!"
+	echo "You are going to break it!!!"
+	exit 2;
+fi
+
 CHANGELOGTXT="${TMPDIR}/${ARG1}/ChangeLog.txt"
 CHANGELOGDIR="${TMPDIR}/changelogs/"
 
