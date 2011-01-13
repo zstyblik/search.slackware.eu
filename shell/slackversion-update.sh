@@ -222,6 +222,8 @@ dlFiles 'DOWNLOAD.files.desc'
 cat FILELIST.TXT.files | \
 grep -i 'PACKAGES.TXT'  > FILELIST.TXT.files.desc
 
+mv -f PACKAGES.TXT "$(echo "${SVER}" | cut -d '-' -f 1)/"
+
 # TODO - lsof here?
 rm -f "${BATCHDIR}/SQLBATCH-${SVER}"
 
