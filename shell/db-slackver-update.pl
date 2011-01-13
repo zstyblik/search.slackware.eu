@@ -191,10 +191,10 @@ my $idSerie;
 while (my $linePkg = <FPKGS>) {
 	chomp($linePkg);
 	my @arrLine = split(' ', $linePkg);
+# FORMAT ~ 4 - size; 5 - date; 6 - time; 7 pkgname
 	unless ($arrLine[7]) {
 		next;
 	} # unless $arrLine[7]
-# 4 - size; 5 - date; 6 - time; 7 pkgname
 	if ($arrLine[7] !~ /^\.\// || $arrLine[7] !~ /\.(tgz|txz)$/) {
 		next;
 	} # if $arrLine[7]
@@ -229,7 +229,12 @@ while (my $linePkg = <FPKGS>) {
 		}
 	}
 	my $sql101;
-	if (exists($pkgsAdd{"./".$arrLine[7]})) {
+	# HOTFIX !!!
+	my $sql102 = sprintf("SELECT id_packages FROM packages WHERE
+	id_slackversion = %i AND id_category = %i AND id_serie = %i AND
+	id_package = %i;", $idSlackVer, $idCategory, $idSerie, $idPkg);
+	my $result102 = $dbh->selectrow_array($sql102);
+	if (exists($pkgsAdd{"./".$arrLine[7]}) && !$result102) {
 		$sql101 = "INSERT INTO packages (id_slackversion, id_category, 
 		id_serie, id_package, package_size, package_created) 
 		VALUES ($idSlackVer, $idCategory, $idSerie,
