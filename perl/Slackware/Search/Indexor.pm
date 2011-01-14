@@ -86,7 +86,7 @@ sub home {
 	my $linuxsecNews = sprintf("%s/news/linuxsec-news.htm", $tmpDir);
 	my $slackNews = sprintf("%s/news/slack-news.htm", $tmpDir);
 	my $slackTorrents = sprintf("%s/news/slack-torrents.htm", $tmpDir);
-	unless ( -e $linuxsecNews || $slackNews || $slackTorrents ) {
+	unless ( -e $linuxsecNews || -e $slackNews || -e $slackTorrents ) {
 		my $errorMsg = sprintf("I'm sorry, but one of news files doesn't exist
 				and I'm unable to continue.");
 		return $self->error($errorMsg);
