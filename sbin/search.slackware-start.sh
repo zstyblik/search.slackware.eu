@@ -21,6 +21,8 @@ if [ ! -d "${TMPDIR}" ]; then
 	mkdir "${TMPDIR}" || true
 fi
 
+chown -R slacker "${TMPDIR}/"
+
 if [ ! -d "${TMPDIR}/changelogs/" ]; then
 	mkdir "${TMPDIR}/changelogs" || true
 fi
@@ -51,11 +53,10 @@ for SVER in $(perl ./shell/db-get-slackversions.pl); do
 			rm -f "${TMPDIR}/${SVER}/*"
 			rmdir "${TMPDIR}" || true
 		}
-	sh "${SCRIPTDIR}/changelog-convert.sh" "${SVER}"
+	chown slacker:slacker -R "${TMPDIR}/${SVER}/ChangeLog.txt"
+	su slacker -c "sh \"${SCRIPTDIR}/changelog-convert.sh\" \"${SVER}\""
 	cd "${TMPDIR}"
-	rm -f "${TMPDIR}/${SVER}"
-	rmdir "${TMPDIR}/${SVER}" || true
+	rm -Rf "${TMPDIR}/${SVER}"
 done
 
-chown -R slacker "${TMPDIR}/"
 chown -R slacker:slacker "${BATCHDIR}/"
