@@ -72,8 +72,8 @@ sub _set_sverName {
 sub existsSlackVer {
 	my $self = shift;
 	my $slackVer = shift;
-	my $sql1 = "SELECT COUNT(*) FROM slackversion WHERE 
-	slackversion_name = '$slackVer';";
+	my $sql1 = sprintf("SELECT COUNT(*) FROM slackversion WHERE 
+	slackversion_name = '%s';", $slackVer);
 	if ($dbh->selectrow_array($sql1) == 0) {
 		return 0;
 	} else {
@@ -90,12 +90,12 @@ sub insertSlackVer {
 	if ($version eq 'current') {
 		$version = 9999;
 	}
-	my $sql1 = "INSERT INTO slackversion (slackversion_name, version) 
-	VALUES ('$slackVer', $version);";
+	my $sql1 = sprintf("INSERT INTO slackversion (slackversion_name, version) 
+	VALUES ('%s', %s);", $slackVer, $version);
 	$dbh->do($sql1)
 		or die("Unable to insert new Slackware version.");
-	my $sql2 = "SELECT id_slackversion FROM slackversion WHERE 
-	slackversion_name = '$slackVer';";
+	my $sql2 = sprintf("SELECT id_slackversion FROM slackversion WHERE 
+	slackversion_name = '%s';", $slackVer);
 	my $idSlackVer = $dbh->selectrow_array($sql2)
 		or die("Unable to select Slackware version ID.");
 	return $idSlackVer;
@@ -106,12 +106,12 @@ sub insertSlackVer {
 sub getSlackVerId {
 	my $self = shift;
 	my $slackVer = shift;
-	my $sql1 = "SELECT id_slackversion FROM slackversion WHERE 
-	slackversion_name = '$slackVer';";
-	my $idSlackVer = -1;
+	my $sql1 = sprintf("SELECT id_slackversion FROM slackversion WHERE 
+	slackversion_name = '%s';", $slackVer);
+	my $idSlackVer = 0;
  	$idSlackVer = $dbh->selectrow_array($sql1);
 	unless ($idSlackVer) {
-		return -1;
+		return 0;
 	}
 	return $idSlackVer;
 } # sub getSlackVerId
@@ -121,11 +121,11 @@ sub getSlackVerId {
 sub insertCategory {
 	my $self = shift;
 	my $category = shift;
-	my $sql1 = "INSERT INTO category (category_name) 
-	VALUES ('$category');";
+	my $sql1 = sprintf("INSERT INTO category (category_name) 
+	VALUES ('%s');", $category);
 	$dbh->do($sql1);
-	my $sql2 = "SELECT id_category FROM category WHERE 
-	category_name = '$category';";
+	my $sql2 = sprintf("SELECT id_category FROM category WHERE 
+	category_name = '%s';", $category);
 	my $idCategory = $dbh->selectrow_array($sql2) 
 		or die("Unable to select category ID.");
 	return $idCategory;
@@ -136,12 +136,12 @@ sub insertCategory {
 sub getCategoryId {
 	my $self = shift;
 	my $category = shift; 
-	my $sql1 = "SELECT id_category FROM category WHERE 
-	category_name = '".$category."';";
-	my $idCategory = -1; 
+	my $sql1 = sprintf("SELECT id_category FROM category WHERE 
+	category_name = '%s';", $category);
+	my $idCategory = 0; 
 	$idCategory = $dbh->selectrow_array($sql1);
 	unless ($idCategory) {
-		return -1;
+		return 0;
 	}
 	return $idCategory;
 } # sub getCategoryId
@@ -151,10 +151,11 @@ sub getCategoryId {
 sub insertSerie {
 	my $self = shift;
 	my $serie = shift;
-	my $sql1 = "INSERT INTO serie (serie_name) VALUES ('$serie');";
+	my $sql1 = sprintf("INSERT INTO serie (serie_name) VALUES ('%s');",
+		$serie);
 	$dbh->do($sql1);
-	my $sql2 = "SELECT id_serie FROM serie WHERE 
-	serie_name = '$serie';";
+	my $sql2 = sprintf("SELECT id_serie FROM serie WHERE serie_name = '%s';",
+		$serie);
 	my $idSerie = $dbh->selectrow_array($sql2)
 		or die("Unable to select serie ID.");
 	return $idSerie;
@@ -165,12 +166,12 @@ sub insertSerie {
 sub getSerieId {
 	my $self = shift;
 	my $serie = shift;
-	my $sql1 = "SELECT id_serie FROM serie WHERE 
-	serie_name = '$serie';";
-	my $idSerie = -1;
+	my $sql1 = sprintf("SELECT id_serie FROM serie WHERE serie_name = '%s';",
+		$serie);
+	my $idSerie = 0;
  	$idSerie = $dbh->selectrow_array($sql1);
 	unless ($idSerie) {
-		return -1;
+		return 0;
 	}
 	return $idSerie;
 } # sub getSerieId
@@ -180,11 +181,11 @@ sub getSerieId {
 sub insertPkg {
 	my $self = shift;
 	my $pkgName = shift;
-	my $sql1 = "INSERT INTO package (package_name) 
-	VALUES ('$pkgName');";
+	my $sql1 = sprintf("INSERT INTO package (package_name) VALUES ('%s');",
+		$pkgName);
 	$dbh->do($sql1);
-	my $sql2 = "SELECT id_package FROM package WHERE 
-	package_name = '$pkgName';";
+	my $sql2 = sprintf("SELECT id_package FROM package WHERE 
+		package_name = '%s';", $pkgName);
 	my $idPackage = $dbh->selectrow_array($sql2)
 		or die("Unable to select package ID.");
 	return $idPackage;
@@ -195,12 +196,12 @@ sub insertPkg {
 sub getPkgId {
 	my $self = shift;
 	my $pkgName = shift;
-	my $sql1 = "SELECT id_package FROM package WHERE 
-	package_name = '$pkgName';";
-	my $idPkg = -1;
+	my $sql1 = sprintf("SELECT id_package FROM package WHERE package_name =
+		'%s';", $pkgName);
+	my $idPkg = 0;
 	$idPkg = $dbh->selectrow_array($sql1);
 	unless ($idPkg) {
-		return -1;
+		return 0;
 	}
 	return $idPkg;
 } # sub getPkgId
@@ -213,15 +214,14 @@ sub updatePkgNfo {
 	my @reqKeys = qw(PKGNFO IDPKG IDSER IDCAT IDSVER);
 	for my $reqKey (@reqKeys) {
 		unless (exists($hashNfo->{$reqKey})) {
-			return -1;
+			return 0;
 		}
 	} # for my $reqKey
 	$hashNfo->{PKGNFO} =~ s/[']+/"/g;
-	my $sql1 = "UPDATE packages SET package_desc = (E'"
-	.$hashNfo->{PKGNFO}."') WHERE id_package = ".$hashNfo->{IDPKG}
-	." AND id_serie = ".$hashNfo->{IDSER}." AND id_category = "
-	.$hashNfo->{IDCAT}." AND id_slackversion = "
-	.$hashNfo->{IDSVER}.";";
+	my $sql1 = sprintf("UPDATE packages SET package_desc = '%s' WHERE 
+		id_package = %i AND id_serie = %i AND id_category = %i AND 
+		id_slackversion = %i;", $hashNfo->{PKGNFO}, $hashNfo->{IDPKG}, 
+		$hashNfo->{IDSER}, $hashNfo->{IDCAT}, $hashNfo->{IDSVER});
 	$dbh->do($sql1) or die("Unable to update package's desc.");
 	return 0;
 }
@@ -234,7 +234,7 @@ sub processPkgDesc {
 	my $fpath = shift;
 	my $idSlackVer = shift;
 	unless ( -e $fpath ) {
-		return -1;
+		return 0;
 	} # unless -e
 	open(FDESC, $fpath) or die("Unable to open $fpath");
 	$fpath = substr($fpath, 2);
@@ -243,8 +243,8 @@ sub processPkgDesc {
 	my @arrFPath = split('/', $fpath);
 	$category = shift @arrFPath;
 	$idCategory = $self->getCategoryId($category);
-	if ($idCategory == -1) {
-		return -1;
+	unless ($idCategory) {
+		return 0;
 	} # if $idCategory
 	my $idPkg = undef;
 	my $idSerie = undef;
@@ -271,7 +271,7 @@ sub processPkgDesc {
 				length $arr[2]);
 			$pkgInfo = undef;
 			$idPkg = $self->getPkgId($pkgName);
-			if ($idPkg == -1) {
+			unless ($idPkg) {
 				$idPkg = undef;
 				$idSerie = undef;
 				$pkgInfo = undef;
@@ -309,9 +309,9 @@ sub processPkgDesc {
 				$idSerie = 'NULL';
 			} else {
 				$idSerie = $self->getSerieId($serie);
-				if ($idSerie == -1) {
+				unless ($idSerie) {
 					$idSerie = 'NULL';
-				} # if $idCategory -1
+				} # if $idSeri
 			} # if @arr2 == 1
 			next;
 		} # if PACKAGE LOCATION
@@ -340,20 +340,20 @@ sub processManifestFile {
 	my $idSlackVer = shift;
 	my $update = shift || 0;
 	unless ( -e $fpath && $fpath =~ /\.bz2$/) {
-		return -1;
+		return 0;
 	} # unless -e $fpath
 	my $outFile = $fpath;
 	$outFile =~ s/\.bz2$//g;
 	`bzip2 -d -k -c $fpath > $outFile`;
 	unless ( -e $outFile ) {
-		return -1;
+		return 0;
 	} # unless -e $outFile
 	$fpath = substr($fpath, 2);
 	my @arrFPath = split('/', $fpath);
 	my $idCategory = $self->getCategoryId($arrFPath[0]);
 	my $category = $arrFPath[0];
-	if ($idCategory == -1) {
-		return -1;
+	unless ($idCategory) {
+		return 0;
 	}
 	open(FMAN, $outFile) or die("Unable to open $outFile");
 	my $seriePrev = '';
@@ -396,7 +396,7 @@ sub processManifestFile {
 #				$contents = '';
 #			}
 			if ($package !~ /^\.\//) {
-				print "I've probably miscaught package! :(\n [$package]\n";
+				printf("I've probably miscaught package! :(\n [%s]\n", $package);
 				$idPkgs = undef;
 				next;
 			}
@@ -417,7 +417,7 @@ sub processManifestFile {
 				next;
 			}
 			
-			my $idSerie = -1;
+			my $idSerie = 0;
 			my $serie = join("/", @arr);
 			unless ($serie) {
 				$idSerie = 'NULL';
@@ -426,7 +426,7 @@ sub processManifestFile {
 					$idSerie = $idSeriePrev;
 				} else {
 					$idSerie = $self->getSerieId($serie);
-					if ($idSerie == -1) {
+					unless ($idSerie) {
 						$idSerie = 'NULL';
 					} else {
 						$idSeriePrev = $idSerie;
@@ -442,8 +442,8 @@ sub processManifestFile {
 				IDPKG => $idPkg
 			);
 			$idPkgs = $self->getPkgsId(\%hashPkgs);
-			if ($idPkgs == -1) {
-				print "[man]".$category."::".$serie."::".$pkgName."\n";
+			unless ($idPkgs) {
+				printf("[man]%s::%s::%s\n", $category, $serie, $pkgName);
 				$idPkgs = undef;
 				next;
 			}
@@ -498,21 +498,21 @@ sub getPkgsId {
 	my @reqKeys = qw(IDSVER IDCAT IDSER IDPKG);
 	for my $reqKey (@reqKeys) {
 		unless (exists($hashPkgs->{$reqKey})) {
-			return -1;
+			return 0;
 		}
 	}
 	my $sqlSer = "IS ";
 	if ($hashPkgs->{IDSER} =~ /[0-9]+/) {
 		$sqlSer = "= ";
 	}
-	my $sql1 = "SELECT id_packages FROM packages WHERE 
-	id_slackversion = ".$hashPkgs->{IDSVER}." AND id_category = "
-	.$hashPkgs->{IDCAT}." AND id_serie ".$sqlSer.$hashPkgs->{IDSER}
-	." AND id_package = ".$hashPkgs->{IDPKG}.";";
-	my $idPkgs = -1;
+	my $sql1 = sprintf("SELECT id_packages FROM packages WHERE 
+	id_slackversion = %i AND id_category = %i AND id_serie %s%i AND 
+	id_package = %i;", $hashPkgs->{IDSVER}, $hashPkgs->{IDCAT}, 
+	$sqlSer, $hashPkgs->{IDSER}, $hashPkgs->{IDPKG});
+	my $idPkgs = 0;
  	$idPkgs = $dbh->selectrow_array($sql1);
 	unless ($idPkgs) {
-		return -1;
+		return 0;
 	}
 	return $idPkgs;
 } # getPkgsId
