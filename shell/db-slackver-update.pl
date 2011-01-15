@@ -35,13 +35,13 @@ die ("Unable to connect to DB.") unless ($dbh);
 my $numArgs = $#ARGV + 1;
 
 if ($numArgs == 0) {
-	print "Parameter must be Slackware version.\n";
+	print("Parameter must be Slackware version.\n");
 	exit 1;
 }
 
 if ($ARGV[0] !~ /^slackware(64)?-([0-9]+\.[0-9]+|current){1}$/i) {
-	print "Parameter doesn't look like Slackware version to me."
-	.$ARGV[0]."\n";
+	printf("Parameter '%s' doesn't look like Slackware version to me.\n", 
+		$ARGV[0]);
 	exit 1;
 }
 
@@ -50,7 +50,7 @@ FILELIST.TXT.pkgs CHECKSUMS.md5.pkgs FILELIST.TXT.files.desc
 CHECKSUMS.md5.files);
 for my $fileReq (@filesReq) {
 	unless ( -e "./$fileReq" ) {
-		print "File $fileReq doesn't seem to exist.\n";
+		printf("File '%s' doesn't seem to exist.\n", $fileReq);
 		exit 1;
 	} # unless -e $fileReq
 } # for my $fileReq
@@ -60,11 +60,11 @@ $slib->_set_dbHandler($dbh);
 
 my $sverExists = $slib->existsSlackVer($ARGV[0]);
 if ($sverExists == 0) {
-	print "This Slackware version is not in DB.\n";
-	print "Please use add script.\n";
+	printf("This Slackware version is not in DB.\n");
+	printf("Please use add script.\n");
 	exit 1;
 }
-my $idSlackVer = -1;
+my $idSlackVer = 0;
 $idSlackVer = $slib->getSlackVerId($ARGV[0]);
 $slib->_set_sverName($ARGV[0]);
 
@@ -113,10 +113,10 @@ close(FFILED);
 ### PKGS DEL ###
 my @pkgsDel = keys(%pkgsDel);
 unless (@pkgsDel == 0) {
-	print "Removing old packages...\n";
+	printf("Removing old packages...\n");
 	my $categoryLast = '';
-	my $idSerieLast = -1;
-	my $idCatLast = -1;
+	my $idSerieLast = 0;
+	my $idCatLast = 0;
 	my $serieLast = '';
 	my $idSerie;
 	my $batchFile = $slib->_get_batchFile;
@@ -167,11 +167,11 @@ unless (@pkgsDel == 0) {
 			IDPKG => $idPkg,
 		);
 		my $idPkgs = $slib->getPkgsId(\%hashPkgs);
-		next if ($idPkgs == -1);
+		next if ($idPkgs == 0);
 		print FBATCH "DELETE FROM files WHERE id_packages = $idPkgs;\n";
-		my $sql100 = "DELETE FROM packages WHERE \
-			id_package = $idPkg AND id_slackversion = $idSlackVer AND \
-			id_category = $idCategory AND id_serie $serSQL;";
+		my $sql100 = sprintf("DELETE FROM packages WHERE id_package = %i AND 
+			id_slackversion = %i AND id_category = %i AND id_serie %s;",
+			$idPkg, $idSlackVer, $idCategory, $serSQL);
 		$dbh->do($sql100);
 	}
 	print FBATCH "COMMIT;";
@@ -182,10 +182,10 @@ unless (@pkgsDel == 0) {
 open(FPKGS, "./FILELIST.TXT.pkgs")
 	or die("Unable to open FILELIST.TXT.pkgs");
 
-print "Processing packages...\n";
+printf("Processing packages...\n");
 my $categoryLast = '';
-my $idSerieLast = -1;
-my $idCatLast = -1;
+my $idSerieLast = 0;
+my $idCatLast = 0;
 my $serieLast = '';
 my $idSerie;
 while (my $linePkg = <FPKGS>) {
@@ -235,10 +235,10 @@ while (my $linePkg = <FPKGS>) {
 	id_package = %i;", $idSlackVer, $idCategory, $idSerie, $idPkg);
 	my $result102 = $dbh->selectrow_array($sql102);
 	if (exists($pkgsAdd{"./".$arrLine[7]}) && !$result102) {
-		$sql101 = "INSERT INTO packages (id_slackversion, id_category, 
+		$sql101 = sprintf("INSERT INTO packages (id_slackversion, id_category, 
 		id_serie, id_package, package_size, package_created) 
-		VALUES ($idSlackVer, $idCategory, $idSerie,
-		$idPkg, ".$arrLine[4].", '".$arrLine[5]." ".$arrLine[6]."');";
+		VALUES (%i, %i, %i, %i, %i, '%s %s');" $idSlackVer, $idCategory, 
+		$idSerie, $idPkg, $arrLine[4], $arrLine[5], $arrLine[6]);
 	} else {
 		my $serSQL;
 		if ($idSerie eq 'NULL') {
@@ -246,10 +246,10 @@ while (my $linePkg = <FPKGS>) {
 		} else {
 			$serSQL = "= ".$idSerie;
 		}
-		$sql101 = "UPDATE packages SET package_size = ".$arrLine[4]
-		.", package_created = '".$arrLine[5]." ".$arrLine[6]."' WHERE 
-		id_slackversion = $idSlackVer AND id_category = $idCategory AND 
-		id_serie $serSQL;";
+		$sql101 = sprintf("UPDATE packages SET package_size = %i, 
+			package_created = '%s %s' WHERE id_slackversion = %i AND 
+			id_category = %i AND id_serie %s;", $arrLine[4], $arrLine[5], 
+			$arrLine[6], $idSlackVer, $idCategory, $serSQL);
 	}
 	$dbh->do($sql101) or die("Unable to insert package.");
 } # while my $linePkg
@@ -259,7 +259,7 @@ close(FPKGS);
 ### PKGS MD5 ###
 open(FPKGS5, "./CHECKSUMS.md5.pkgs")
 	or die("Unable to open CHECKSUMS.md5.pkgs");
-print "Processing package's MD5s...\n";
+printf("Processing package's MD5s...\n");
 # ToDo - small problem here is what IF new manifest gets added
 while (my $linePkg5 = <FPKGS5>) {
 	chomp($linePkg5);
@@ -302,10 +302,9 @@ while (my $linePkg5 = <FPKGS5>) {
 			$serieLast = $serie;
 		}
 	}
-	my $sql200 = "UPDATE packages SET package_md5sum = '".$arrLine[0]
-	."' WHERE id_slackversion = $idSlackVer AND 
-	id_category = $idCategory AND id_serie = $idSerie AND 
-	id_package = $idPkg;";
+	my $sql200 = sprintf("UPDATE packages SET package_md5sum = '%s' WHERE 
+		id_slackversion = %i AND id_category = %i AND id_serie = %i AND 
+	id_package = %i;", $arrLine[0], $idSlackVer, $idCategory, $idSerie, $idPkg);
 	$dbh->do($sql200)
 		or die("Unable to update package's MD5 sum.");
 } # while my $linePkg5
@@ -314,7 +313,7 @@ close(FPKGS5);
 if ( -e "./FILELIST.TXT.files.manifests" ) {
 	open(FMANS, "./FILELIST.TXT.files.manifests") 
 		or die("Unable to open FILELIST.TXT.files.manifests");
-	print "Processing manifests. This is going to be a while.\n";
+	printf("Processing manifests. This is going to be a while.\n");
 	$slib->_set_pkgsAdd(\%pkgsAdd) if (%pkgsAdd);
 	$slib->_set_pkgsMod(\%pkgsMod) if (%pkgsMod);
 	while (my $lineMan = <FMANS>) {
@@ -330,9 +329,9 @@ if ( -e "./FILELIST.TXT.files.manifests" ) {
 			|| exists($fileMod{$arrLine[7]}));
 		$slib->processManifestFile($arrLine[7], $idSlackVer, 1);
 		# ToDo - small problem here is what IF new manifest gets added
-		my $sql300 = "UPDATE datafile SET dfile_created = '".
-		$arrLine[5]." ".$arrLine[6]."' WHERE id_slackversion = "
-		.$idSlackVer." AND fpath = '".$arrLine[7]."';";
+		my $sql300 = sprintf("UPDATE datafile SET dfile_created = '%s %s' WHERE 
+			id_slackversion = %i AND fpath = '%s';", $arrLine[5], $arrLine[6],
+		$idSlackVer, $arrLine[7]);
 		$dbh->do($sql300) or die("Unable to insert datafile.");
 	}
 	close(FMANS);
@@ -341,7 +340,7 @@ if ( -e "./FILELIST.TXT.files.manifests" ) {
 if ( -e "./FILELIST.TXT.files.desc" ) {
 	open(FDESC, "./FILELIST.TXT.files.desc") 
 		or die("Unable to open FILELIST.TXT.files.desc");
-	print "Processing package's descriptions...\n";
+	printf("Processing package's descriptions...\n");
 	while (my $lineDesc = <FDESC>) {
 		chomp($lineDesc);
 		my @arrLine = split(' ', $lineDesc);
@@ -355,9 +354,9 @@ if ( -e "./FILELIST.TXT.files.desc" ) {
 			|| exists($fileMod{$arrLine[7]}));
 		$slib->processPkgDesc($arrLine[7], $idSlackVer);
 		# ToDo - A/M and act accordingly with DIFF
-		my $sql400 = "UPDATE datafile SET dfile_created = '".
-		$arrLine[5]." ".$arrLine[6]."' WHERE id_slackversion = "
-		.$idSlackVer." AND fpath = '".$arrLine[7]."';";
+		my $sql400 = sprintf("UPDATE datafile SET dfile_created = '%s %s' 
+			WHERE id_slackversion = %i AND fpath = '%s';", 
+			$arrLine[5], $arrLine[6], $idSlackVer, $arrLine[7]);
 		$dbh->do($sql400) or die("Unable to insert datafile.");
 	}
 	close(FDESC);
@@ -365,7 +364,7 @@ if ( -e "./FILELIST.TXT.files.desc" ) {
 ### SVER DATA FILES MD5 ###
 open(DFILE5, "./CHECKSUMS.md5.files")
 	or die("Unable to open CHECKSUMS.md5.files");
-print "Processing datafile's MD5s ...\n";
+printf("Processing datafile's MD5s ...\n");
 while (my $lineDF5 = <DFILE5>) {
 	chomp($lineDF5);
 	my @arrLine = split(' ', $lineDF5);
@@ -375,23 +374,23 @@ while (my $lineDF5 = <DFILE5>) {
 	if ($arrLine[1] !~ /^\.\//) {
 		next;
 	}
-	my $sql500 = "UPDATE datafile SET dfile_md5sum = '"
-	.$arrLine[0]."' WHERE fpath = '".$arrLine[1]."' AND \
-	id_slackversion = $idSlackVer;";
+	my $sql500 = sprintf("UPDATE datafile SET dfile_md5sum = '%s' WHERE 
+		fpath = '%s' AND id_slackversion = %i;", $arrLine[0], $arrLine[1], 
+		$idSlackVer);
 	$dbh->do($sql500) or die("Unable to update datafile's MD5 sum.");
 } # while my $lineDF5
 close(DFILE5);
 
 ### Update update time
-my $sql888 = "UPDATE slackversion SET ts_last_update = NOW() WHERE \
-id_slackversion = $idSlackVer;";
+my $sql888 = sprintf("UPDATE slackversion SET ts_last_update = NOW() WHERE \
+id_slackversion = %i;", $idSlackVer);
 $dbh->do($sql888);
 
 ### Update pkgs count ;;; No. files is being updated from ex.script;
 # TODO - this "needs" to be rewritten
-my $sql999 = "UPDATE slackversion SET no_pkgs = (SELECT COUNT(*) \
-FROM view_packages WHERE id_slackversion = $idSlackVer) WHERE \
-id_slackversion = $idSlackVer;";
+my $sql999 = sprintf("UPDATE slackversion SET no_pkgs = (SELECT COUNT(*) \
+FROM view_packages WHERE id_slackversion = %i) WHERE \
+id_slackversion = %i;", $idSlackVer, $idSlackVer);
 $dbh->do($sql999);
 
 $dbh->commit;
