@@ -33,17 +33,17 @@ die ("Unable to connect to DB.") unless ($dbh);
 my $numArgs = $#ARGV + 1;
 
 if ($numArgs == 0) {
-	print "Parameter must be Slackware version.\n";
+	printf("Parameter must be Slackware version.\n");
 	exit 1;
 }
 
 if ($ARGV[0] !~ /^slackware(64)?-([0-9]+\.[0-9]+|current){1}$/i) {
-	print "Parameter doesn't look like Slackware version to me."
-	.$ARGV[0]."\n";
+	printf("Parameter '%s' doesn't look like Slackware version to me.\n", 
+		$ARGV[0]);
 	exit 1;
 }
 
-my $sqLiteFile = $CFG{SQLITE_PATH}."/".$ARGV[0].".sq3";
+my $sqLiteFile = sprintf("%s/%s.sq3", $CFG{SQLITE_PATH}, $ARGV[0]);
 my $dbhLite = DBI->connect("dbi:SQLite:dbname=".$sqLiteFile, 
 	"","", 
 	{ AutoCommit => 1,
@@ -52,15 +52,15 @@ my $dbhLite = DBI->connect("dbi:SQLite:dbname=".$sqLiteFile,
 	}
 );
 
-die ("Unable to open SQLite file $sqLiteFile") unless ($dbhLite);
+die ("Unable to open SQLite file '$sqLiteFile'") unless ($dbhLite);
 
 my $sql1 = "SELECT COUNT(*) FROM files;";
 my $filesCount = $dbhLite->selectrow_array($sql1) 
 	or die("Unable to select files count.");
 $dbhLite->disconnect;
 
-my $sql2 = "UPDATE slackversion SET no_files = $filesCount WHERE \
-slackversion_name = '".$ARGV[0]."';";
+my $sql2 = sprintf("UPDATE slackversion SET no_files = %i WHERE \
+slackversion_name = '%s';", $filesCount, $ARGV[0]);
 $dbh->do($sql2) or die("Unable to update files count.");
 $dbh->commit;
 $dbh->disconnect;
