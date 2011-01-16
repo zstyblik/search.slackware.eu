@@ -1,4 +1,4 @@
-grep -q -e 'slacker' || useradd -s /bin/bash \
+grep -q -e 'slacker' /etc/passwd || useradd -s /bin/bash \
 	-d /mnt/search.slackware.eu/home/ -U -m slacker
 
 chown -R slacker:slacker /srv/httpd/search.slackware.eu/bin
