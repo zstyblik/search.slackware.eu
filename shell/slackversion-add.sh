@@ -194,11 +194,13 @@ if ! [ -d "${STORDIR}/distdata/" ]; then
 	mkdir "${STORDIR}/distdata"
 fi
 
-mkdir "${STORDIR}/distdata/${SVER}" || \
-{
-	echo "Failed to create '${STORDIR}/distdata/${SVER}'. Terminating."
-	exit 3;
-}
+if ! [ -d "${STORDIR}/distdata/${SVER}/" ]; then
+	mkdir "${STORDIR}/distdata/${SVER}" || \
+	{
+		echo "Failed to create '${STORDIR}/distdata/${SVER}'. Terminating."
+		exit 3;
+	}
+fi
 
 sh "${SCRIPTDIR}./changelog-convert.sh" "${SVER}" || \
 {
