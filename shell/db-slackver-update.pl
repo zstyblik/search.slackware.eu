@@ -237,7 +237,7 @@ while (my $linePkg = <FPKGS>) {
 	if (exists($pkgsAdd{"./".$arrLine[7]}) && !$result102) {
 		$sql101 = sprintf("INSERT INTO packages (id_slackversion, id_category, 
 		id_serie, id_package, package_size, package_created) 
-		VALUES (%i, %i, %i, %i, %i, '%s %s');" $idSlackVer, $idCategory, 
+		VALUES (%i, %i, %i, %i, %i, '%s %s');", $idSlackVer, $idCategory, 
 		$idSerie, $idPkg, $arrLine[4], $arrLine[5], $arrLine[6]);
 	} else {
 		my $serSQL;
