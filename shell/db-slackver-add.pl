@@ -176,7 +176,8 @@ while (my $linePkg5 = <FPKGS5>) {
 
 	my $sql1 = sprintf("UPDATE packages SET package_md5sum = '%s' WHERE 
 		id_slackversion = %i AND id_category = %i AND id_serie = %s AND 
-	id_package = %i;", $arrLine[0], $idSlackVer, $idCategory, $idSerie);
+	id_package = %i;", $arrLine[0], $idSlackVer, $idCategory, $idSerie,
+	$idPkg);
 	$dbh->do($sql1)
 		or die("Unable to update package's MD5 sum.");
 } # while my $linePkg5
