@@ -506,7 +506,7 @@ sub getPkgsId {
 		$sqlSer = "= ";
 	}
 	my $sql1 = sprintf("SELECT id_packages FROM packages WHERE 
-	id_slackversion = %i AND id_category = %i AND id_serie %s%i AND 
+	id_slackversion = %i AND id_category = %i AND id_serie %s%s AND 
 	id_package = %i;", $hashPkgs->{IDSVER}, $hashPkgs->{IDCAT}, 
 	$sqlSer, $hashPkgs->{IDSER}, $hashPkgs->{IDPKG});
 	my $idPkgs = 0;
