@@ -260,8 +260,7 @@ sqlite3 -init "${BATCHDIR}/SQLBATCH-${SVER}" \
 	}
 }
 
-diff -b -B -N -q "${STORDIR}/distdata/${SVER}/ChangeLog.txt" \
-	./ChangeLog.txt && sh "${SCRIPTDIR}./changelog-convert.sh" "${SVER}"
+sh "${SCRIPTDIR}./changelog-convert.sh" "${SVER}"
 
 # TODO - don't move files ending with number
 mv ./FILELIST.TXT.* "${STORDIR}/distdata/${SVER}/"
