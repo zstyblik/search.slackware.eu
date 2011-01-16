@@ -41,7 +41,7 @@ if ($numArgs == 0) {
 }
 
 if ($ARGV[0] !~ /^slackware(64)?-([0-9]+\.[0-9]+|current){1}$/i) {
-	printf "Parameter '%s' doesn't look like Slackware version to me.\n",
+	printf("Parameter '%s' doesn't look like Slackware version to me.\n",
 		$ARGV[0]);
 	exit 1;
 }
