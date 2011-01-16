@@ -262,6 +262,10 @@ sqlite3 -init "${BATCHDIR}/SQLBATCH-${SVER}" \
 
 sh "${SCRIPTDIR}./changelog-convert.sh" "${SVER}"
 
+cp ./CHECKSUMS.md5.pkgs \
+	"${STORDIR}/CHECKSUMS.md5.pkgs.$(date '+%Y-%m-%d_%H-%M-%S')"
+cp ./CHECKSUMS.md5.files \
+	"${STORDIR}/CHECKSUMS.md5.files.$(date '+%Y-%m-%d_%H-%M-%S')"
 # TODO - don't move files ending with number
 mv -f ./FILELIST.TXT.* "${STORDIR}/distdata/${SVER}/"
 mv -f ./CHECKSUMS.md5.* "${STORDIR}/distdata/${SVER}/"
