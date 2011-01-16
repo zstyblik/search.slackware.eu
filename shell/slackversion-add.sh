@@ -206,9 +206,9 @@ sh "${SCRIPTDIR}./changelog-convert.sh" "${SVER}" || \
 }
 
 # TODO ~ do no copy files ending with number!
-mv ./FILELIST.TXT.* "${STORDIR}/distdata/${SVER}/"
-mv ./CHECKSUMS.md5.* "${STORDIR}/distdata/${SVER}/"
-mv ./ChangeLog.txt "${STORDIR}/distdata/${SVER}/"
+mv -f ./FILELIST.TXT.* "${STORDIR}/distdata/${SVER}/"
+mv -f ./CHECKSUMS.md5.* "${STORDIR}/distdata/${SVER}/"
+mv -f ./ChangeLog.txt "${STORDIR}/distdata/${SVER}/"
 cd "${TMPDIR}"
 # TODO - cmd review
 rm -Rf "./${SVER}/"
