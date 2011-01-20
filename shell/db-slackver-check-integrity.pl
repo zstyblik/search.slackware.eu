@@ -86,10 +86,12 @@ my $sql200 = sprintf("SELECT id_packages FROM packages WHERE
 my $result200 = $dbh->selectall_arrayref($sql200, { Splice => {} }) 
 	or die("Unable to select packages count from PgSQL.");
 
-my $sqlitePath = $self->cfg('SQLITE_PATH');
+my $sqlitePath = $CFG{SQLITE_PATH};
 my $sqLiteFile = sprintf("%s/%s.sq3", $sqlitePath, $slackVer);
 unless ( -e $sqLiteFile ) {
-	return @pkgsFound;
+	my $errMsg = sprintf("SQLite file doesn't exist for '%s'.", $slackVer);
+	print STDERR $errMsg;
+	exit 0;
 }
 
 my $dbhLite = DBI->connect("dbi:SQLite:dbname=".$sqLiteFile, 
@@ -101,7 +103,9 @@ my $dbhLite = DBI->connect("dbi:SQLite:dbname=".$sqLiteFile,
 );
 
 unless ($dbhLite) {
-	return @pkgsFound;
+	my $errMsg = sprintf("Failed to connect to SQLite '%s'.", $slackVer);
+	print STDERR $errMsg;
+	exit 0;
 }
 
 my $sql300 = "SELECT DISTINCT(id_packages) FROM files;";
