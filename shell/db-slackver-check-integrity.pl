@@ -3,6 +3,7 @@
 # Desc: check DB integrity of given Slackware version
 use lib "/srv/httpd/search.slackware.eu/perl/";
 use Slackware::Search::ConfigParser qw(_getConfig);
+use Slackware::Search::SupportLib;
 
 use DBI;
 use strict;
@@ -110,7 +111,7 @@ unless ($dbhLite) {
 
 my $sql300 = "SELECT DISTINCT(id_packages) FROM files;";
 my $result300 = $dbhLite->selectall_arrayref($sql300, 
-	{ Splite => {}) or die("Unable to select packages count from SQLite.");
+	{ Splite => {}}) or die("Unable to select packages count from SQLite.");
 
 $dbh->disconnect;
 $dbhLite->disconnect;
