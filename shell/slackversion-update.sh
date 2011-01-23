@@ -228,7 +228,17 @@ dlFiles 'DOWNLOAD.files.desc'
 cat FILELIST.TXT.files | \
 grep -i 'PACKAGES.TXT'  > FILELIST.TXT.files.desc
 
-mv -f PACKAGES.TXT "$(echo "${SVER}" | cut -d '-' -f 1)/"
+SLACKDIR=$(echo "${SVER}" | cut -d '-' -f 1)
+
+# BUGFIX ~ ./${SLACKDIR}/PACKAGES.TXT do not exists, yet ...
+for FIXIT in $(echo "./CHECKSUMS.md5.files.diff ./FILELIST.TXT.files \
+	./FILELIST.TXT.files.desc ./CHECKSUMS.md5.files"); do
+	sed -i -r -e \
+	"s#./PACKAGES.TXT#./${SLACKDIR}/PACKAGES.TXT#" \
+	"${FIXIT}";
+done
+cp -f PACKAGES.TXT "${SLACKDIR}/"
+# BUGFIX
 
 # TODO - lsof here?
 rm -f "${BATCHDIR}/SQLBATCH-${SVER}"
