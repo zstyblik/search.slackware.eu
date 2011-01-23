@@ -271,7 +271,7 @@ while (my $linePkg5 = <FPKGS5>) {
 	my @arrPath = split('/', $arrLine[1]);
 
 	next unless (exists($pkgsAdd{$arrLine[1]}) 
-		|| exists($pkgsMod{$arrLine[1]}));
+		&& exists($pkgsMod{$arrLine[1]}));
 
 	my $pkgName = pop(@arrPath);
 	
