@@ -242,7 +242,7 @@ sub _validate_serie {
 	my $self = shift;
 	my $serie = shift || '';
 	return 0 unless ($serie);
-	return 0 if ($serie !~ /^[A-Za-z0-9\-\_\.\/]+$/);
+	return 0 if ($serie !~ /^[A-Za-z0-9@\-\_\.\/]+$/);
 	return 1;
 } # sub _validate_serie
 # desc: validate input
