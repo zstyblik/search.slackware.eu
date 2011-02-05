@@ -64,7 +64,7 @@ $slib->_set_sverName($ARGV[0]);
 
 my ($category, $garbage) = split(/-/, $slackVer);
 
-if ($action -eq 'desc') {
+if ($action -eq 'desc' || $action -eq 'md5') {
 	# Check for PKGS w/o MD5 sums
 	my $sql099 = sprintf("SELECT id_category FROM category WHERE 
 		category_name = '%s';", $category);
@@ -73,9 +73,15 @@ if ($action -eq 'desc') {
 		print STDERR "I can't find category '$category' in database!!!";
 		exit 0;
 	}
+
+	my $column = 'package_md5sum';
+	if ($action -eq 'desc') {
+		$column = 'package_desc';
+	}
+
 	my $sql100 = sprintf("SELECT id_packages, package_name FROM view_packages 
-		WHERE (id_slackversion = %i AND id_category = %i) AND package_desc 
-		IS NULL;", $idSlackVer, $idCategory);
+		WHERE (id_slackversion = %i AND id_category = %i) AND %s 
+		IS NULL;", $column, $idSlackVer, $idCategory);
 
 	my $result100 = $dbh->selectall_arrayref($sql100, { Splice => {} }) 
 		or die("Unable to SQL100.");
@@ -84,27 +90,6 @@ if ($action -eq 'desc') {
 		exit 1;
 	}
 } # $action -eq desc 
-elsif ($action -eq 'md5') {
-	# Check for PKGS w/o MD5 sums
-	my $sql099 = sprintf("SELECT id_category FROM category WHERE 
-		category_name = '%s';", $category);
-	my $idCategory = $dbh->selectrow_array($sql099);
-	unless ($idCategory) {
-		print STDERR "I can't find category '$category' in database!!!";
-		exit 0;
-	}
-	my $sql100 = sprintf("SELECT id_packages, package_name FROM view_packages 
-		WHERE (id_slackversion = %i AND id_category = %i) AND package_md5sum IS 
-		NULL;", $idSlackVer, $idCategory);
-
-	my $result100 = $dbh->selectall_arrayref($sql100, { Splice => {} }) 
-		or die("Unable to SQL100.");
-
-	$dbh->disconnect;
-	if ($result100) {
-		exit 1;
-	}
-} # $action -eq md5 
 elsif ($action -eq 'files') {
 	# Check for PKGS w/o FILES
 	my $sql200 = sprintf("SELECT id_packages FROM packages WHERE 
