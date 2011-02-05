@@ -92,7 +92,7 @@ sub home {
 		return $self->error($errorMsg);
 	}
 	my $template = $self->load_tmpl("index.htm");
-	$template->param(TITLE => "Slackware Unofficial Package Browser/Search");
+	$template->param(TITLE => "Home");
 	$template->param(HOME => 1);
 	my $idSlackverStable = $self->_get_slackversion_idStable();
 	$template->param(SVERSTABLE => $idSlackverStable);
