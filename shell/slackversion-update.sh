@@ -213,14 +213,14 @@ rm -f DOWNLOAD.files.manifests
 for MANFILE in $(grep -e 'MANIFEST\.bz2' \
 	./CHECKSUMS.md5.files.diff | awk '{ print $2 }'); do
 	grep -e "${MANFILE}" FILELIST.TXT.files >> \
-	FILELIST.TXT.files.manifests
-
+	FILELIST.TXT.files.manifests && \
 	echo "${MANFILE}" >> DOWNLOAD.files.manifests;
 done
 
 dlFiles 'DOWNLOAD.files.manifests'
 
-cat CHECKSUMS.md5.files.diff | grep -i 'PACKAGES.TXT' | \
+cat CHECKSUMS.md5.files.diff | grep -v -e '^D' | \
+grep -i 'PACKAGES.TXT' | \
 awk '{ print $2 }' > DOWNLOAD.files.desc
 
 dlFiles 'DOWNLOAD.files.desc'
