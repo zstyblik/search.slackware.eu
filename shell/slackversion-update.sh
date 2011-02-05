@@ -272,6 +272,17 @@ sqlite3 -init "${BATCHDIR}/SQLBATCH-${SVER}" \
 
 sh "${SCRIPTDIR}./changelog-convert.sh" "${SVER}"
 
+# check for inconsistencies
+## package's descriptions
+perl "${SCRIPTDIR}./db-slackver-check-integrity.pl" "${SVER} desc" || \
+	perl "${SCRIPTDIR}./db-fix-pkgs-desc.pl" "${SVER}"
+## packages' MD5s
+perl "${SCRIPTDIR}./db-slackver-check-integrity.pl" "${SVER} md5" || \
+	perl "${SCRIPTDIR}./db-fix-pkgs-md5.pl" "${SVER}"
+## package's files
+#perl "${SCRIPTDIR}./db-slackver-check-integrity.pl "${SVER} files" || \
+#	perl "${SCRIPTDIR}./db-fix-pkgs-files.pl "${SVER}"
+
 cp ./CHECKSUMS.md5.pkgs.diff \
 	"${STORDIR}/distdata/${SVER}/CHECKSUMS.md5.pkgs.diff.$(date '+%Y-%m-%d_%H-%M-%S')"
 cp ./CHECKSUMS.md5.files.diff \
