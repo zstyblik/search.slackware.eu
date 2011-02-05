@@ -58,13 +58,19 @@ if ($sverExists == 0) {
 	printf("Please use add script.\n");
 	exit 1;
 }
+
+if ($action ne 'desc' || $action ne 'md5' || $action ne 'files') {
+	printf("Invalid param.\n");
+	exit 1;
+}
+
 my $idSlackVer = 0;
 $idSlackVer = $slib->getSlackVerId($slackVer);
 $slib->_set_sverName($ARGV[0]);
 
 my ($category, $garbage) = split(/-/, $slackVer);
 
-if ($action -eq 'desc' || $action -eq 'md5') {
+if ($action eq 'desc' || $action eq 'md5') {
 	# Check for PKGS w/o MD5 sums
 	my $sql099 = sprintf("SELECT id_category FROM category WHERE 
 		category_name = '%s';", $category);
@@ -75,7 +81,7 @@ if ($action -eq 'desc' || $action -eq 'md5') {
 	}
 
 	my $column = 'package_md5sum';
-	if ($action -eq 'desc') {
+	if ($action eq 'desc') {
 		$column = 'package_desc';
 	}
 
@@ -89,8 +95,8 @@ if ($action -eq 'desc' || $action -eq 'md5') {
 	if ($result100) {
 		exit 1;
 	}
-} # $action -eq desc 
-elsif ($action -eq 'files') {
+} # $action eq desc 
+elsif ($action eq 'files') {
 	# Check for PKGS w/o FILES
 	my $sql200 = sprintf("SELECT id_packages FROM packages WHERE 
 		id_slackversion = %i;", $idSlackVer);
