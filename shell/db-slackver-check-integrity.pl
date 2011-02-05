@@ -59,7 +59,7 @@ if ($sverExists == 0) {
 	exit 1;
 }
 
-if ($action ne 'desc' || $action ne 'md5' || $action ne 'files') {
+if ($action ne 'desc' && $action ne 'md5' && $action ne 'files') {
 	printf("Invalid param.\n");
 	exit 1;
 }
@@ -87,7 +87,7 @@ if ($action eq 'desc' || $action eq 'md5') {
 
 	my $sql100 = sprintf("SELECT id_packages, package_name FROM view_packages 
 		WHERE (id_slackversion = %i AND id_category = %i) AND %s 
-		IS NULL;", $column, $idSlackVer, $idCategory);
+		IS NULL;", $idSlackVer, $idCategory, $column);
 
 	my $result100 = $dbh->selectall_arrayref($sql100, { Splice => {} }) 
 		or die("Unable to SQL100.");
