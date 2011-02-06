@@ -1,2 +1,0 @@
-[Tue Jun 01 19:27:35 2010] [error] [client 109.108.24.210] [Tue Jun  1 19:27:35 2010] search.cgi: Use of uninitialized value in concatenation (.) or string at /home/search.slackware.eu/perl//Slackware/Search/Finder.pm line 381., referer: http://search.slackware.eu/cgi-bin/search.cgi?rm=search&needle=finnish&haystack=2&sver=13&button-search=Search
-
