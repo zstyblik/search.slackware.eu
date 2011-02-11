@@ -237,7 +237,7 @@ for FIXIT in $(echo "./CHECKSUMS.md5.files.diff ./FILELIST.TXT.files \
 	"s# ./PACKAGES.TXT# ./${SLACKDIR}/PACKAGES.TXT#" \
 	"${FIXIT}";
 done
-cp -f PACKAGES.TXT "${SLACKDIR}/"
+cp -f PACKAGES.TXT "${SLACKDIR}/" 2>/dev/null || true
 # BUGFIX
 
 # TODO - lsof here?
@@ -274,10 +274,10 @@ sh "${SCRIPTDIR}./changelog-convert.sh" "${SVER}"
 
 # check for inconsistencies
 ## package's descriptions
-perl "${SCRIPTDIR}./db-slackver-check-integrity.pl" "${SVER} desc" || \
+perl "${SCRIPTDIR}./db-slackver-check-integrity.pl" "${SVER}" 'desc' || \
 	perl "${SCRIPTDIR}./db-fix-pkgs-desc.pl" "${SVER}"
 ## packages' MD5s
-perl "${SCRIPTDIR}./db-slackver-check-integrity.pl" "${SVER} md5" || \
+perl "${SCRIPTDIR}./db-slackver-check-integrity.pl" "${SVER}" 'md5' || \
 	perl "${SCRIPTDIR}./db-fix-pkgs-md5.pl" "${SVER}"
 ## package's files
 #perl "${SCRIPTDIR}./db-slackver-check-integrity.pl "${SVER} files" || \
