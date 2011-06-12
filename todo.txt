@@ -1,23 +1,52 @@
+* ADD: FE ~ RSS from Slackware security
+* ADD: FE ~ News in DB instead of files (?)
+* ADD: FE ~ site map
+* BUG: FE ~ search doesn't work outside index page
+* ENH: FE ~ add shorturl for view pkg ~ using id_packages ?
 * ENH: FE ~ add ^..$ regexp to limit the search, or "complete" regex support
 * ENH: FE ~ diffs like in % diff; for each change in changelog
-* ADD: BE ~ parse and update only package descriptions
-* ADD: BE ~ parse only FILELIST (or whatever) and create SQL batch, so .sq3 for
- specific distro can be created; no updates/deletes - whole file
- in other words an [SQL] batch file for PgSQL an SQLite
+* ENH: FE ~ pkg-browser links from search results (CANCELED/HOLD)
+* ENH: FE ~ *_validate_*() should be used accross whole web
+* ENH: FE ~ dynamic tags
+* ADD: BE ~ locks
 * ADD: BE ~ force update - compare each package, update each package, whatever
+* ADD: BE ~ locking is probably a good idea
+* ENH: BE ~ paralel ops
 * ENH: BE ~ write syncer for country flags
 * ENH: BE ~ PKG availability at mirror
 * ENH: BE ~ debug, may be global debug option
-* ENH: BE ~ auto add new Slackware version
+* ENH: BE ~ more comparison than CHECKSUMS.md5 wouldn't hurt ...
+@ ADD: FE ~ heading ~ search in which slackversion?
 @ ADD: FE ~ changelogs at web ~ offer PNG|TXT|HTML
+@ ADD: FE ~ remote news
+@ ADD: FE ~ /download/slacksearch.sh [FIXED in doinst.sh]
 @ BUG: FE ~ error doesn't work!
 @ BUG: FE ~ new URL path and non-encoded serie name in URL
+@ BUG: FE ~ files -> search, matched files don't show up
+@ BUG: FE ~ select slackware64-current+files -> search, slackver changes
+@ BUG: FE ~ '@' in pkgname
 @ ENH: FE ~ add flags next to mirror locations
 @ ENH: FE ~ Slackversion browser; slackvers -> cats -> pkgs
+@ ENH: FE ~ add links to browser from ViewPkg
 @ FIX: FE ~ hide/show quick search at certain pages eg. search in search is
 useless ~ negatory due layout shifting around
 @ FIX: FE ~ input focus order ~ what to look for -> in what -> version; search form
 @ FIX: FE ~ keep cat + f/p + slackver selection after each search!
 @ FIX: FE ~ browser ~ back links on error
+@ FIX: FE ~ get rid of all '-1' RCs
+@ FIX: FE ~ don't die if tmpl is missing ~ HTML::Template PATCH
+@ ADD: BE ~ parse only FILELIST (or whatever) and create SQL batch, so .sq3 for
+ specific distro can be created; no updates/deletes - whole file
+ in other words an [SQL] batch file for PgSQL an SQLite
+@ ADD: BE ~ anti-ROOT lock-out !!!
+@ ADD: BE ~ parse and update only package descriptions (special tool)
+@ BUG: BE ~ ERROR:  duplicate key value violates unique constraint "packages_index1"
+[HOTFIXED]
+@ BUG: BE ~ MD5 is missing if/when PKG is rebuilt (caused by non-sense logic)
+@ ENH: BE ~ auto add new Slackware version
 @ FIX: BE ~ replace all COUNT(*) with something more apropriate ~ done where could be
 @ FIX: BE ~ unified config(s) for all scripts and what-not ~ done even in Perl
+@ FIX: BE ~ blacklist slackware-3.3 and slackware-7.1 and '^slackware$'
+@ FIX: BE ~ get rid of all '-1' RCs
+@ FIX: BE ~ PKGS are not in DB sometimes
+@ FIX: BE ~ PKGS desc is not updated (PACKAGES.TXT misplaced)
