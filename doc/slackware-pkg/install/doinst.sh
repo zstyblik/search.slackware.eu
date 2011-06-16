@@ -25,3 +25,4 @@ mkdir /srv/httpd/search.slackware.eu/htdocs/download/
 cp /srv/httpd/search.slackware.eu/shell/slacksearch.sh \
 	/srv/httpd/search.slackware.eu/htdocs/download/
 
+#crontab /mnt/search.slackware.eu/conf/crontab -u slacker
