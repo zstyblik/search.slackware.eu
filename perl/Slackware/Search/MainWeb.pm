@@ -149,6 +149,11 @@ sub _get_slackversion_idStable {
 	version <> 9999 AND slackversion_name NOT LIKE 'slackware64-%' \
 	ORDER BY version DESC LIMIT 1;";
 	my $idSlackver = $dbh->selectrow_array($sql1);
+	unless ($idSlackver) {
+		my $sql2 = "SELECT id_slackversion FROM slackversion WHERE \
+		version <> 9999 ORDER BY version DESC LIMIT 1;";
+		$idSlackver = $dbh->selectrow_array($sql2);
+	}
 	return 0 unless ($idSlackver);
 	return $idSlackver;
 } # sub _get_slackversion_idStable 
