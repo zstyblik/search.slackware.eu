@@ -104,6 +104,10 @@ sub view_category {
 	my $navigation = sprintf("%s/%s/", $slackverLink, $category);
 	$template->param(NAVIGATION => $navigation);
 	$template->param(ITEMS => \@items);
+	my $idSlackverStable = $self->_get_slackversion_idStable();
+	$template->param(SVERSTABLE => $idSlackverStable);
+	my $slackverStable = $self->_get_slackversion_name($idSlackverStable);
+	$template->param(SVERNAME => $slackverStable);
 	return $template->output();
 }
 

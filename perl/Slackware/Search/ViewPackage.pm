@@ -130,7 +130,10 @@ sub download {
 
 	$template->param(SWURL => $pkgURLPath);
 	$template->param(SWLABEL => "Choose another location");
-
+	my $idSlackverStable = $self->_get_slackversion_idStable();
+	$template->param(SVERSTABLE => $idSlackverStable);
+	my $slackverStable = $self->_get_slackversion_name($idSlackverStable);
+	$template->param(SVERNAME => $slackverStable);
 	return $template->output();
 } # sub download
 
@@ -216,7 +219,10 @@ sub inspect {
 
 	$template->param(SWURL => $pkgURLPath);
 	$template->param(SWLABEL => "Download");
-
+	my $idSlackverStable = $self->_get_slackversion_idStable();
+	$template->param(SVERSTABLE => $idSlackverStable);
+	my $slackverStable = $self->_get_slackversion_name($idSlackverStable);
+	$template->param(SVERNAME => $slackverStable);
 	return $template->output();
 } # sub inspect
 
@@ -343,6 +349,10 @@ sub view {
 	} # while $counter < $countriesSize
 	
 	$template->param(COUNTRIES => \@countriesTpl);
+	my $idSlackverStable = $self->_get_slackversion_idStable();
+	$template->param(SVERSTABLE => $idSlackverStable);
+	my $slackverStable = $self->_get_slackversion_name($idSlackverStable);
+	$template->param(SVERNAME => $slackverStable);
 
 	return $template->output();
 } # sub view
