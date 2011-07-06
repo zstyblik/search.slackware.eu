@@ -196,7 +196,7 @@ sub _find_files {
 	unless ($catsToCheck) {
 		return @pkgsFound;
 	}	
-	my %CFG = ${ $self->param('CONFIG') };
+	my %CFG = %{ $self->param('CONFIG') };
 	my $sqlitePath = $CFG{'SQLITE_PATH'};
 	my $sqLiteFile = $sqlitePath."/".$findParams->{SLACKVERNAME}.".sq3";
 	unless ( -e $sqLiteFile ) {
@@ -257,7 +257,7 @@ sub _find_files {
 
 	my %packagesFiltered;
 	for my $row2 (@$result2) {
-		my $serieEnc = $row2->{serie_name};
+		my $serieEnc = $row2->{serie_name} || "";
 		$serieEnc =~ s/\/+/@/g;
 		$serieEnc =~ $self->_url_encode($serieEnc);
 		my $pkgLocation = sprintf("%s/%s", $row2->{category_name},
