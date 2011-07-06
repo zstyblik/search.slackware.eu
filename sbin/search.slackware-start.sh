@@ -17,11 +17,8 @@ source "${CFG}"
 
 cd /mnt/search.slackware.eu/
 
-if [ ! -d "${TMPDIR}" ]; then
-	mkdir "${TMPDIR}" || true
-fi
-
 rm -rf "${TMPDIR}"
+mkdir "${TMPDIR}" || true
 mkdir "${TMPDIR}/changelogs/" "${TMPDIR}/news/"
 chown -R slacker "${TMPDIR}/"
 
