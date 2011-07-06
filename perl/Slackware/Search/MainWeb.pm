@@ -1,6 +1,6 @@
 package Slackware::Search::MainWeb;
 
-use constant CONF_FILE => '/mnt/search.slackware.eu/conf/config.sh';
+use constant CONFIG_FILE => '/mnt/search.slackware.eu/conf/config.pl';
 
 use strict;
 use warnings;
