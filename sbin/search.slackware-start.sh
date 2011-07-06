@@ -6,7 +6,7 @@
 set -e
 set -u
 
-CFG="/srv/httpd/search.slackware.eu/conf/config.sh"
+CFG="/mnt/search.slackware.eu/conf/config.sh"
 
 if [ ! -e "${CFG}" ]; then
 	echo "Config file '${CFG}' not found."
@@ -15,7 +15,7 @@ fi
 
 source "${CFG}"
 
-cd /srv/httpd/search.slackware.eu/
+cd /mnt/search.slackware.eu/
 
 if [ ! -d "${TMPDIR}" ]; then
 	mkdir "${TMPDIR}" || true

@@ -5,7 +5,7 @@
 set -e
 set -u
 
-CFG="/srv/httpd/search.slackware.eu/conf/config.sh"
+CFG="/mnt/search.slackware.eu/conf/config.sh"
 
 if [ ! -e "${CFG}" ]; then
 	echo "Config file '${CFG}' not found."

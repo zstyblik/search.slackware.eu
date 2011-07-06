@@ -2,7 +2,7 @@
 # 2009/Mar/01 @ Zdenek Styblik
 # Desc: add new version of Slackware into DB and everything 
 # that belongs to it.
-use lib "/srv/httpd/search.slackware.eu/perl/";
+use lib "/mnt/search.slackware.eu/perl/";
 use Slackware::Search::ConfigParser qw(_getConfig);
 use Slackware::Search::SupportLib qw(:T1);
 
@@ -10,7 +10,7 @@ use DBI;
 use strict;
 use warnings;
 
-use constant CFGFILE => '/srv/httpd/search.slackware.eu/conf/config.pl';
+use constant CFGFILE => '/mnt/search.slackware.eu/conf/config.pl';
 
 my $cfgParser = 'Slackware::Search::ConfigParser';
 my %CFG = $cfgParser->_getConfig(CFGFILE);

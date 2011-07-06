@@ -4,14 +4,14 @@
 # Desc: get Slackware mirrors and insert them into DB
 # Desc: wipe out old (removed) mirrors
 #
-use lib "/srv/httpd/search.slackware.eu/perl/";
+use lib "/mnt/search.slackware.eu/perl/";
 use Slackware::Search::ConfigParser qw(_getConfig);
 
 use strict;
 use warnings;
 use DBI;
 
-use constant CFGFILE => '/srv/httpd/search.slackware.eu/conf/config.pl';
+use constant CFGFILE => '/mnt/search.slackware.eu/conf/config.pl';
 
 my $slacksite = 'http://www.slackware.com/getslack/';
 my $startMatch = '<TD><B>max. users</B></TD>';

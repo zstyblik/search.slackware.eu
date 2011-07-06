@@ -5,7 +5,7 @@
 set -e
 set -u
 
-CFG="/srv/httpd/search.slackware.eu/conf/config.sh"
+CFG="/mnt/search.slackware.eu/conf/config.sh"
 
 if [ ! -e "${CFG}" ]; then
 	echo "Config file '${CFG}' not found."
@@ -53,7 +53,7 @@ fi
 
 CHANGELOGTMP="${CHANGELOGDIR}/${ARG1}/ChangeLog.tmp"
 
-perl "/srv/httpd/search.slackware.eu/shell/changelog-preptemplate.pl" "${ARG1}"
+perl "/mnt/search.slackware.eu/shell/changelog-preptemplate.pl" "${ARG1}"
 
 sed -r -e "/REPLACEME/r ${CHANGELOGTMP}" \
 	-e 's/REPLACEME//g' \

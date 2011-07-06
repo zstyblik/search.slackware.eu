@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # 2010/Mar/16 @ Zdenek Styblik
 # desc: Fix Slackware's package's MD5s
-use lib "/srv/httpd/search.slackware.eu/perl/";
+use lib "/mnt/search.slackware.eu/perl/";
 use Slackware::Search::ConfigParser qw(_getConfig);
 use Slackware::Search::SupportLib qw(:T1);
 
@@ -9,7 +9,7 @@ use DBI;
 use strict;
 use warnings;
 
-use constant CFGFILE => '/srv/httpd/search.slackware.eu/conf/config.pl';
+use constant CFGFILE => '/mnt/search.slackware.eu/conf/config.pl';
 
 my $cfgParser = 'Slackware::Search::ConfigParser';
 my %CFG = $cfgParser->_getConfig(CFGFILE);

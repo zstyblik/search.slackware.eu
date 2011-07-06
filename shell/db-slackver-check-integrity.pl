@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # 2011/Jan/17 @ Zdenek Styblik
 # Desc: check DB integrity of given Slackware version
-use lib "/srv/httpd/search.slackware.eu/perl/";
+use lib "/mnt/search.slackware.eu/perl/";
 use Slackware::Search::ConfigParser qw(_getConfig);
 use Slackware::Search::SupportLib;
 
@@ -9,7 +9,7 @@ use DBI;
 use strict;
 use warnings;
 
-use constant CFGFILE => '/srv/httpd/search.slackware.eu/conf/config.pl';
+use constant CFGFILE => '/mnt/search.slackware.eu/conf/config.pl';
 
 my $cfgParser = 'Slackware::Search::ConfigParser';
 my %CFG = $cfgParser->_getConfig(CFGFILE);
