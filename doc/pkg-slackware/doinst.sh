@@ -49,8 +49,8 @@ cp /mnt/search.slackware.eu/shell/slacksearch.sh \
 cd /mnt/search.slackware.eu
 chown -R lighttpd:lighttpd cgi-bin htdocs perl template
 chmod -R o-rwx cgi-bin htdocs perl template
-chmod o+rx perl perl/Slackware/ perl/Slackware/Search \
-	perl/Slackware/Search/* template template/*
+chmod o+rx perl perl/Slackware/ perl/Slackware/Search template
+chmod o+r perl/Slackware/Search/* template/*
 #
 chmod 750 conf
 #
