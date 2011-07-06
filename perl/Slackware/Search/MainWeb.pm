@@ -1,13 +1,31 @@
 package Slackware::Search::MainWeb;
 
+use constant CONF_FILE => '/mnt/search.slackware.eu/conf/config.sh';
+
 use strict;
 use warnings;
 
 use base 'CGI::Application';
-use CGI::Application::Plugin::ConfigAuto (qw/cfg/);
+use Carp;
 use CGI::Application::Plugin::DBH (qw/dbh_config dbh/);
 use CGI::Application::Plugin::Redirect;
+use Slackware::Search::ConfigParser (qw/_getConfig/);
 
+sub cgiapp_prerun {
+	my $self = shift;
+
+	my %CFG = $self->_get_config;
+
+	$self->param('CONFIG', \%CFG);
+
+	$self->tmpl_path([$CFG{'TMPL_PATH'}]);
+
+	$self->dbh_config(
+		$CFG{'DB_DSN'},
+		$CFG{'DB_USER'},
+		$CFG{'DB_PASS'},
+	);
+} # sub cgiapp_prerun
 sub error {
 	my $self = shift;
 	my $error = shift;
@@ -43,6 +61,17 @@ sub _get_categories  {
 	}
 	return @cats;
 } # sub _get_categories
+# desc: return config as hash arr
+# @return: hashArr
+sub _get_config {
+	my $configFile = CONFIG_FILE || undef;
+	my $configPBash = 'Slackware::Search::ConfigParser';
+	my %configParsed = $configPBash->_getConfig($configFile);
+	if (!%configParsed) {
+		carp "Unable to parse config file.";
+	}
+	return %configParsed;
+} # sub _get_config
 # desc: return haystacks
 # $idHaystack: integer;
 # @return: array;

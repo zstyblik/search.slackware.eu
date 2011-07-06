@@ -20,16 +20,8 @@ sub setup {
 
 sub cgiapp_init {
 	my $self = shift;
-
-	my %CFG = $self->cfg;
-
-	$self->tmpl_path([$CFG{'TMPL_PATH'}]);
-
-	$self->dbh_config(
-		$CFG{'DB_DSN'},
-		$CFG{'DB_USER'},
-		$CFG{'DB_PASS'},
-	);
+	
+	$self->SUPER::cgiapp_prerun;
 } # sub cgiapp_init
 
 sub view_serie {

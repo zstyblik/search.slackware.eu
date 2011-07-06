@@ -25,17 +25,8 @@ sub setup {
 
 sub cgiapp_init {
 	my $self = shift;
-
-	my %CFG = $self->cfg;
-
-	$self->tmpl_path([$CFG{'TMPL_PATH'}]);
-
-  # open database connection
-	$self->dbh_config(
-    $CFG{'DB_DSN'},
-    $CFG{'DB_USER'},
-    $CFG{'DB_PASS'},
-  );
+	
+	$self->SUPER::cgiapp_prerun;
 } # sub cgiapp_prerun
 
 sub about {
@@ -65,7 +56,8 @@ sub changelog {
 		return $self->error("Slackversion is not in DB.", 
 			'/cgi-bin/search.cgi');
 	}
-	my $tmpDir = $self->cfg('TMPDIR') || '/tmp/';
+	my %CFG = %{ $self->param('CONFIG') };
+	my $tmpDir = $CFG{'TMPDIR'} || '/tmp/';
 	my $changeLogPath = sprintf("%s/changelogs/%s/", 
 		$tmpDir,	$slackver);
 	my $changeLog = sprintf("%s/changelogs/%s/ChangeLog.htm", 
@@ -82,7 +74,8 @@ sub changelog {
 
 sub home {
 	my $self = shift;
-	my $tmpDir = $self->cfg('TMPDIR') || '/tmp/';
+	my %CFG = %{ $self->param('CONFIG') };
+	my $tmpDir = $CFG{'TMPDIR'} || '/tmp/';
 	my $linuxsecNews = sprintf("%s/news/linuxsec-news.htm", $tmpDir);
 	my $slackNews = sprintf("%s/news/slack-news.htm", $tmpDir);
 	my $slackTorrents = sprintf("%s/news/slack-torrents.htm", $tmpDir);

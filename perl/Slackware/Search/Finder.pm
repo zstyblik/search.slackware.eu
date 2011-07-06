@@ -27,17 +27,8 @@ sub setup {
 # exec the following before we execute the requested run mode
 sub cgiapp_init {
 	my $self = shift;
-
-	my %CFG = $self->cfg;
-
-	$self->tmpl_path([$CFG{'TMPL_PATH'}]);
-
-  # open database connection
-	$self->dbh_config(
-    $CFG{'DB_DSN'},
-    $CFG{'DB_USER'},
-    $CFG{'DB_PASS'},
-  );
+	
+	$self->SUPER::cgiapp_prerun;
 } # sub cgiapp_prerun
 
 sub search_form: Runmode {
@@ -205,8 +196,8 @@ sub _find_files {
 	unless ($catsToCheck) {
 		return @pkgsFound;
 	}	
-	
-	my $sqlitePath = $self->cfg('SQLITE_PATH');
+	my %CFG = ${ $self->param('CONFIG') };
+	my $sqlitePath = $CFG{'SQLITE_PATH'};
 	my $sqLiteFile = $sqlitePath."/".$findParams->{SLACKVERNAME}.".sq3";
 	unless ( -e $sqLiteFile ) {
 		return @pkgsFound;

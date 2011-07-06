@@ -25,17 +25,8 @@ sub setup {
 
 sub cgiapp_init {
 	my $self = shift;
-
-	my %CFG = $self->cfg;
-
-	$self->tmpl_path([$CFG{'TMPL_PATH'}]);
-
-  # open database connection
-	$self->dbh_config(
-    $CFG{'DB_DSN'},
-    $CFG{'DB_USER'},
-    $CFG{'DB_PASS'},
-  );
+	
+	$self->SUPER::cgiapp_prerun;
 } # sub cgiapp_prerun
 
 # desc: choose mirror in specified country where to download from
@@ -539,7 +530,8 @@ sub _get_pkg_files {
 		return @filesFound;
 	}
 
-	my $sqlitePath = $self->cfg('SQLITE_PATH');
+	my %CFG = %{ $self->param('CONFIG') };
+	my $sqlitePath = $CFG{'SQLITE_PATH'};
 	my $sqLiteFile = $sqlitePath."/".$slackver.".sq3";
 	unless ( -e $sqLiteFile ) {
 		return @filesFound;
