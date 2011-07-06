@@ -1,7 +1,6 @@
 * ADD: FE ~ RSS from Slackware security
 * ADD: FE ~ News in DB instead of files (?)
 * ADD: FE ~ site map
-* BUG: FE ~ search doesn't work outside index page
 * ENH: FE ~ add shorturl for view pkg ~ using id_packages ?
 * ENH: FE ~ add ^..$ regexp to limit the search, or "complete" regex support
 * ENH: FE ~ diffs like in % diff; for each change in changelog
@@ -25,6 +24,7 @@
 @ BUG: FE ~ files -> search, matched files don't show up
 @ BUG: FE ~ select slackware64-current+files -> search, slackver changes
 @ BUG: FE ~ '@' in pkgname
+@ BUG: FE ~ search doesn't work outside index page
 @ ENH: FE ~ add flags next to mirror locations
 @ ENH: FE ~ Slackversion browser; slackvers -> cats -> pkgs
 @ ENH: FE ~ add links to browser from ViewPkg
