@@ -1,0 +1,77 @@
+#!/bin/sh
+
+# Copyright 2008, 2009  Patrick J. Volkerding, Sebeka, Minnesota, USA
+# All rights reserved.
+#
+# Redistribution and use of this script, with or without modification, is
+# permitted provided that the following conditions are met:
+#
+# 1. Redistributions of this script must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#
+#  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
+#  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+#  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO
+#  EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+#  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+#  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+#  OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+#  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+#  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+#  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+# Modified 2010/Apr/14 @ Zdenek Styblik
+# Desc: Slackware's SlackBuild template
+set -e
+set -u
+
+VERSION=${VERSION:-0.2.7}
+ARCH=${ARCH:-"noarch"}
+NUMJOBS=${NUMJOBS:-" -j7 "}
+BUILD=${BUILD:-1}
+AUTHOR=""
+APPL="slackware-eu-search"
+TRSFX="tar.bz2"
+
+CWD=$(pwd)
+TMP=${TMP:-/tmp}
+PKG="${TMP}/package-${APPL}"
+
+rm -rf "${PKG}"
+mkdir -p "${TMP}" "${PKG}"
+
+cd "${TMP}"
+cd "${PKG}"
+mkdir -p "mnt/search.slackware.eu"
+cp -r ${CWD}/* "mnt/search.slackware.eu"
+#
+rm -f mnt/search.slackware.eu/files.txt
+rm -f mnt/search.slackware.eu/todo.txt
+#
+rm -rf mnt/search.slackware.eu/doc
+rm -rf 'mnt/search.slackware.eu/.git'
+#
+mv mnt/search.slackware.eu/conf/config.sh \
+	mnt/search.slackware.eu/conf/config.sh.new
+mv mnt/search.slackware.eu/conf/config.pl \
+	mnt/search.slackware.eu/conf/config.pl.new
+mv mnt/search.slackware.eu/conf/crontab \
+	mnt/search.slackware.eu/conf/crontab.new
+#
+chown -R root:root mnt/search.slackware.eu/
+
+mkdir -p "${PKG}/install"
+if [ -e "${CWD}/doc/pkg-slackware/slack-desc" ]; then
+	cat "${CWD}/doc/pkg-slackware/slack-desc" > "${PKG}/install/slack-desc"
+fi
+if [ -e "${CWD}/doc/pkg-slackware/doinst.sh" ]; then
+	cat "${CWD}/doc/pkg-slackware/doinst.sh" > "${PKG}/install/doinst.sh";
+fi
+
+# Build the package:
+cd "${PKG}"
+makepkg -c n -l y "${TMP}/${APPL}-${VERSION}-${ARCH}-${BUILD}${AUTHOR}.txz"
+
+md5sum "${TMP}/${APPL}-${VERSION}-${ARCH}-${BUILD}${AUTHOR}.txz" > \
+"${TMP}/${APPL}-${VERSION}-${ARCH}-${BUILD}${AUTHOR}.md5"
+
