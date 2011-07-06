@@ -113,4 +113,12 @@ sub links {
 	return $template->output();
 } # sub links
 
+sub sitemap {
+	my $self = shift;
+	my $template= $self->load_tmpl("index.htm");
+	$template->param(TITLE => "Sitemap");
+	$template->param(SITEMAP => 1);
+	return $template->output();
+} # sub sitemap
+
 1;
