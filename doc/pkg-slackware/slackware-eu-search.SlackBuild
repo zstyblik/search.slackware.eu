@@ -25,7 +25,7 @@
 set -e
 set -u
 
-VERSION=${VERSION:-0.2.7}
+VERSION=${VERSION:-0.2.8}
 ARCH=${ARCH:-"noarch"}
 NUMJOBS=${NUMJOBS:-" -j7 "}
 BUILD=${BUILD:-1}
