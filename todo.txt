@@ -11,6 +11,10 @@
 * ADD: BE ~ locks
 * ADD: BE ~ force update - compare each package, update each package, whatever
 * ADD: BE ~ locking is probably a good idea
+* BUG: BE ~ slacker@observatory:/mnt/search.slackware.eu/bin$ ./check-slackversions.sh 
+mktemp: failed to create file via template `/mnt/tmp/search.slack/tmp.XXXXXXXXXX': No such file or directory
+* BUG: BE ~ full list of required Perl modules ~ DBD::Pg, DBD::SQLite
+* BUG: BE ~ Bash -> Dash, because shell mess doesn't work in Debian
 * ENH: BE ~ paralel ops
 * ENH: BE ~ write syncer for country flags
 * ENH: BE ~ PKG availability at mirror
