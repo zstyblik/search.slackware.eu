@@ -13,8 +13,11 @@
 * ADD: BE ~ locking is probably a good idea
 * BUG: BE ~ slacker@observatory:/mnt/search.slackware.eu/bin$ ./check-slackversions.sh 
 mktemp: failed to create file via template `/mnt/tmp/search.slack/tmp.XXXXXXXXXX': No such file or directory
+* BUG: BE ~ + sh /mnt/search.slackware.eu//shell/./changelog-convert.sh slackware-10.0
+HTML::Template->new() : Cannot open included file /mnt/tmp/search.slack/news/slack-news.htm : file not found. at /usr/local/share/perl/5.10.1/HTML/Template.pm line 2264.
 * BUG: BE ~ full list of required Perl modules ~ DBD::Pg, DBD::SQLite
 * BUG: BE ~ Bash -> Dash, because shell mess doesn't work in Debian
+* BUG: BE ~ write Perl parser for Slackware versions from FTP/HTTP; utilize LWP?
 * ENH: BE ~ paralel ops
 * ENH: BE ~ write syncer for country flags
 * ENH: BE ~ PKG availability at mirror
