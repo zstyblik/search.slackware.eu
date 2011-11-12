@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # 2011/Jan/01 @ Zdenek Styblik
 # Desc: check for new version of Slackware and add it
 #
@@ -25,34 +25,35 @@
 set -e
 set -u
 
-CFG="/mnt/search.slackware.eu/conf/config.sh"
+SELFDIR=$(dirname "${0}")
+
+CFG=${CFG:-"${SELFDIR}/../conf/config.sh"}
 
 if [ ! -e "${CFG}" ]; then
 	echo "Config file '${CFG}' not found."
-	exit 254;
+	exit 254
 fi
 
-source "${CFG}"
+. "${CFG}"
 
 SVERSLIST=$(mktemp -p "${TMPDIR}")
 
-wget -q "${LINK}/" -O "${SVERSLIST}" || \
-	{
-		echo "Unable to download list of Slackware versions.";
-		rm -f "${SVERSLIST}";
-		exit 1;
-	}
+if ! wget -q "${LINK}/" -O "${SVERSLIST}"; then
+	echo "Unable to download list of Slackware versions."
+	rm -f "${SVERSLIST}"
+	exit 1
+fi
 
 for SVER in $(grep -e '<a href=' "${SVERSLIST}" | tr -s ' ' | \
 	cut -d '>' -f 2- | cut -d '<' -f 1 | sed -e 's#\/##' | \
 	grep -v -E -e '(-iso|unsupported|_source)'); do
-	if [ "${SVER}" == "slackware-3.3" ] || \
-		[ "${SVER}" == "slackware-7.1" ] || \
-		[ "${SVER}" == "slackware" ]; then
-		continue;
+	if [ "${SVER}"="slackware-3.3" ] || \
+		[ "${SVER}"="slackware-7.1" ] || \
+		[ "${SVER}"="slackware" ]; then
+		continue
 	fi
 	perl "${SCRIPTDIR}/db-check-slackversion.pl" "${SVER}" && \
-		sh "${SCRIPTDIR}/slackversion-add.sh" "${SVER}" || continue;
+		sh "${SCRIPTDIR}/slackversion-add.sh" "${SVER}" || continue
 done
 
 rm -f "${SVERSLIST}"

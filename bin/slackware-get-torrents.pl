@@ -51,14 +51,14 @@ unless ( -e $outDir ) {
 	exit 254;
 }
 
-my $outFile = sprintf(">%s/slack-torrents.htm", $outDir);
+my $outFile = sprintf("%s/slack-torrents.htm", $outDir);
 
-open(FILE, $outFile) or die("Unable to write to file.");
-print FILE "\t\t\t<div class=\"remoteNews\">\n";
-print FILE "\t\t\t\t<fieldset>\n";
-print FILE "\t\t\t\t\t<legend>Slackware torrents</legend>\n";
-print FILE "\t\t\t\t\t<ul>\n";
-print FILE $printOut;
-print FILE "\t\t\t\t\t</ul>\n";
-print FILE "\t\t\t</div>\n";
-close(FILE);
+open(FH_F, '>', $outFile) or die("Unable to write to file '$outFile'. $!");
+printf(FH_F "\t\t\t<div class=\"remoteNews\">\n");
+printf(FH_F "\t\t\t\t<fieldset>\n");
+printf(FH_F "\t\t\t\t\t<legend>Slackware torrents</legend>\n");
+printf(FH_F "\t\t\t\t\t<ul>\n");
+printf(FH_F "%s", $printOut);
+printf(FH_F "\t\t\t\t\t</ul>\n");
+printf(FH_F "\t\t\t</div>\n");
+close(FH_F) or die("Unable to close file handler. $!");

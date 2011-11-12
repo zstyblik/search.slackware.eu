@@ -37,7 +37,7 @@ my $numArgs = $#ARGV + 1;
 if ($numArgs != 1
 	|| $ARGV[0] !~ /^slackware(64)?-([0-9]+\.[0-9]+|current){1}$/i) {
 	printf("This script takes only one argument - slackwareversion.\n");
-	printf("Example: slackware64-13.1\n");
+	printf("Example: %s slackware64-13.1\n", $0);
 	exit 1;
 }
 
@@ -61,10 +61,10 @@ $template->param(SVER => $sver);
 my $title = sprintf("Changelog of %s", $sver);
 $template->param(TITLE => $title);
 
-my $fileHtmlOut = sprintf(">%s/changelogs/%s/ChangeLog.tmpl", $CFG{TMPDIR},
+my $fileHtmlOut = sprintf("%s/changelogs/%s/ChangeLog.tmpl", $CFG{TMPDIR},
 	$sver);
 
-open(FHTML, $fileHtmlOut) or die("Unable to open HTML out-file.");
+open(FHTML, '>', $fileHtmlOut) or die("Unable to open HTML out-file.");
 print FHTML $template->output();
 close(FHTML);
 

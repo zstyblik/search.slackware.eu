@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # 2010/Nov/18 @ Zdenek Styblik
 # 2010/Mar/26 @ Zdenek Styblik
 #
@@ -30,53 +30,55 @@ SEARCHSITE=${SEARCHSITE:-'http://search.slackware.eu/cgi-bin/search-cli.cgi/find
 
 # desc: just print some help non-sense
 # @return: 0
-function help()
+print_help()
 {
 	echo "slacksearch.sh <haystack> <needle> [slackware version]" 1>&2
 	echo "supported haystacks: file, package" 1>&2
-	return 0;
-}
+	return 0
+} # print_help
 
+### MAIN ###
 NOARGS=$#
 ARG1=${1:-0}
 ARG2=${2:-0}
 ARG3=${3:-""}
+# check whether we have CURL as it is not standard
+CURL=$(which curl)
+if [ -z "${CURL}" ]; then
+	echo "CURL is required, yet not found in your PATH."
+	exit 1
+fi
 
 if [ $NOARGS -lt 2 ]; then
-	help
-	exit 1;
+	print_help
+	exit 1
 fi
 
 if [ "${ARG1}" == "0" ] || [ "${ARG2}" == "0" ]; then
-	help
-	exit 2;
+	print_help
+	exit 2
 fi
 
 if [ "${ARG1}" != 'file' ] && [ "${ARG1}" != 'package' ]; then
 	echo "Wrong haystack '${ARG1}'." 1>&2
 	echo "Supported haystacks are: file, package" 1>&2
-	exit 2;
+	exit 2
 fi
 
 if [ ! -z "${ARG3}" ]; then
-	SLACKVER="${ARG3}";
+	SLACKVER="${ARG3}"
 fi
 
-echo "${SLACKVER}" | \
-grep -q -i -E '^slackware(64)?-(current|[0-9]+\.[0-9]+){1}$' || \
-{
+if ! printf "%s" "${SLACKVER}" | \
+	grep -q -i -E -e '^slackware(64)?-(current|[0-9]+\.[0-9]+){1}$' ; then
 	echo "Slackware version '${SLACKVER}' has strange format." 1>&2
-	exit 3;
-}
+	exit 3
+fi
 
-echo "${ARG2}" | grep -q -i -E '^[A-Za-z0-9\.\-\_]+$' || \
-{
+if ! printf "%s" "${ARG2}" | grep -q -i -E -e '^[A-Za-z0-9\.\-\_]+$' ; then
 	echo "Package name '$2' is Gibberish to me." 1>&2
-	exit 4;
-}
-
-# Just to make sure, because // != /
-LINK=$(echo "" | sed -r 's/\/+/\//g')
+	exit 4
+fi
 
 curl -s "${SEARCHSITE}/${ARG1}/${SLACKVER}/${ARG2}" | column -t -s '|'
 

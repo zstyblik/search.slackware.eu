@@ -36,7 +36,7 @@ use warnings;
 # @return: hash;
 sub processFile {
 	my $file = shift;
-	open(FILE, $file) or die("Unable to open first file.");
+	open(FILE, '<', $file) or die("Unable to open first file.");
 	my %contents;
 	while (my $line = <FILE>) {
 		chomp($line);
@@ -90,16 +90,16 @@ for my $keyNew (keys(%contentsNew)) {
 		delete($contentsNew{$keyNew});
 	}
 }
-
-open(FILE, ">".$fileNew.".diff") or die("Unable to open diff file.");
+my $fileDiff = sprintf("%s.diff", $fileNew);
+open(FH_DIFF, ">", $fileDiff) or die("Unable to open diff file.");
 for my $keyDeleted (@keysDeleted) {
-	print FILE "D ".$keyDeleted."\n";
+	printf(FH_DIFF "D %s\n", $keyDeleted);
 }
 for my $keyMod (keys(%contentsNew)) {
-	print FILE "M ".$keyMod."\n";
+	printf(FH_DIFF "M %s\n", $keyMod);
 }
 for my $keyNew (@keysNew) {
-	print FILE "A ".$keyNew."\n";
+	printf(FH_DIFF "A %s\n", $keyNew);
 }
-close(FILE);
+close(FH_DIFF);
 

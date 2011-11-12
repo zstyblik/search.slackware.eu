@@ -26,6 +26,8 @@ use vars qw(@ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
 use strict;
 use warnings;
 
+use Encode;
+
 @ISA = qw(Exporter);
 @EXPORT = qw();
 @EXPORT_OK = qw(_set_pkgsAdd _set_pkgsDel _set_pkgsMod existsSlackVer
@@ -238,8 +240,10 @@ sub updatePkgNfo {
 			return 0;
 		}
 	} # for my $reqKey
-	$hashNfo->{PKGNFO} =~ s/[']+/"/g;
-	my $sql1 = sprintf("UPDATE packages SET package_desc = '%s' WHERE 
+	$hashNfo->{PKGNFO} = encode('utf8', $hashNfo->{PKGNFO});
+	$hashNfo->{PKGNFO} =~ s/["]+/\"/g;
+	$hashNfo->{PKGNFO} =~ s/[\']+/\'/g;
+	my $sql1 = sprintf("UPDATE packages SET package_desc = e'%s' WHERE 
 		id_package = %i AND id_serie = %s AND id_category = %i AND 
 		id_slackversion = %i;", $hashNfo->{PKGNFO}, $hashNfo->{IDPKG}, 
 		$hashNfo->{IDSER}, $hashNfo->{IDCAT}, $hashNfo->{IDSVER});

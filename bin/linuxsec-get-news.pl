@@ -65,18 +65,18 @@ unless ( -e $outDir ) {
 	exit 254;
 }
 
-my $outFile = sprintf(">%s/linuxsec-news.htm", $outDir);
+my $outFile = sprintf("%s/linuxsec-news.htm", $outDir);
 
-open(FILE, $outFile) or die("Unable write to file.");
-print FILE "\t\t\t<div class=\"remoteNews-right\">\n";
-print FILE "\t\t\t\t<fieldset>\n";
-print FILE "\t\t\t\t\t<legend>Linux Security headlines</legend>\n";
-print FILE "\t\t\t\t\t<ul>\n";
-print FILE $printOut;
-print FILE "\t\t\t\t\t</ul>\n";
-print FILE "\t\t\t\t\t<div class=\"remoteNews-source\">\n";
-print FILE "\t\t\t\t\t\t--source <a href=\"$url\">linuxsecurity.com</a>\n";
-print FILE "\t\t\t\t\t</div>\n";
-print FILE "\t\t\t\t</fieldset>";
-print FILE "\t\t\t</div>\n";
-close(FILE);
+open(FH_F, '>', $outFile) or die("Unable write to file '$outFile'. $!");
+printf(FH_F "\t\t\t<div class=\"remoteNews-right\">\n");
+printf(FH_F "\t\t\t\t<fieldset>\n");
+printf(FH_F "\t\t\t\t\t<legend>Linux Security headlines</legend>\n");
+printf(FH_F "\t\t\t\t\t<ul>\n");
+printf(FH_F "%s", $printOut);
+printf(FH_F "\t\t\t\t\t</ul>\n");
+printf(FH_F "\t\t\t\t\t<div class=\"remoteNews-source\">\n");
+printf(FH_F "\t\t\t\t\t\t--source <a href=\"%s\">linuxsecurity.com</a>\n", $url);
+printf(FH_F "\t\t\t\t\t</div>\n");
+printf(FH_F "\t\t\t\t</fieldset>");
+printf(FH_F "\t\t\t</div>\n");
+close(FH_F) or die("Unable to close file handler. $!");

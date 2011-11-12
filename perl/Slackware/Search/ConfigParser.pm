@@ -41,7 +41,7 @@ sub _getConfig {
 	unless ( -e $configFile ) {
 		return %configHash;
 	} # unless -e $configFile
-	open(CFGFILE, $configFile) or return %configHash;
+	open(CFGFILE, '<', $configFile) or return %configHash;
 	while (my $line = <CFGFILE>) {
 		chomp($line);
 		next unless ($line =~ /^\$CFG{[A-Za-z0-9\_\-]+}.+=*;$/);

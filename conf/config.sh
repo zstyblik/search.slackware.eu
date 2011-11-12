@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # 2010/Dec/08 @ Zdenek Styblik
 # Desc: Unified? config for all scripts
 

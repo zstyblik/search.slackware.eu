@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # 2010/Dec/22 @ Zdenek Styblik
 # Desc: prepare directories in case they don't exist, call templater, 
 # and process templates
@@ -26,55 +26,55 @@
 set -e
 set -u
 
-CFG="/mnt/search.slackware.eu/conf/config.sh"
+SELFDIR=$(dirname "${0}")
+
+CFG=${CFG:-"${SELFDIR}/../conf/config.sh"}
 
 if [ ! -e "${CFG}" ]; then
 	echo "Config file '${CFG}' not found."
-	exit 254;
+	exit 254
 fi
 
-source "${CFG}"
+. "${CFG}"
 
 ARG1=${1:-''}
 
 if [ -z "${ARG1}" ]; then
 	echo "$0 <Slackware_version>"
-	exit 1;
+	exit 1
 fi
 
-echo "${ARG1}" | \
-grep -q -i -E '^slackware(64)?-(current|[0-9]+\.[0-9]+){1}$' || \
-{
-	echo "Parameter doesn't look like Slackware version to me." \
-	1>&2
-	exit 1;
-}
+if ! echo "${ARG1}" | \
+	grep -q -i -E -e '^slackware(64)?-(current|[0-9]+\.[0-9]+){1}$'; then
+	echo "Parameter doesn't look like Slackware version to me." 1>&2
+	exit 1
+fi
 
 if [ $(id -u) -eq 0 ]; then
 	echo "Refusing to run as a root!"
 	echo "You are going to break it!!!"
-	exit 2;
+	exit 2
 fi
 
 CHANGELOGTXT="${TMPDIR}/${ARG1}/ChangeLog.txt"
 CHANGELOGDIR="${TMPDIR}/changelogs/"
 
 if [ ! -d "${CHANGELOGDIR}" ]; then
-	mkdir "${CHANGELOGDIR}";
+	mkdir "${CHANGELOGDIR}"
 fi
 
 if [ ! -e "${CHANGELOGTXT}" ]; then
-	echo "$0: ChangeLog '${CHANGELOGTXT}' doesn't seem to exist."
-	exit 2;
+	printf "%s: ChangeLog '%s' doesn't seem to exist." ${0} ${CHANGELOGTXT}
+	exit 2
 fi
 
 if [ ! -d "${CHANGELOGDIR}/${ARG1}" ]; then
-	mkdir "${CHANGELOGDIR}/${ARG1}";
+	mkdir "${CHANGELOGDIR}/${ARG1}"
 fi
 
 CHANGELOGTMP="${CHANGELOGDIR}/${ARG1}/ChangeLog.tmp"
 
-perl "/mnt/search.slackware.eu/shell/changelog-preptemplate.pl" "${ARG1}"
+perl "${SCRIPTDIR}/changelog-preptemplate.pl" "${ARG1}"
 
 sed -r -e "/REPLACEME/r ${CHANGELOGTMP}" \
 	-e 's/REPLACEME//g' \

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # 2011/Jan/01 @ Zdenek Styblik
 # Desc: start-up script for search.slackware.eu
 # Desc: create directory structure in $TMPDIR
@@ -27,7 +27,9 @@
 set -e
 set -u
 
-CFG="/mnt/search.slackware.eu/conf/config.sh"
+SELFDIR=$(dirname "${0}")
+
+CFG=${CFG:-"${DIRNAME}/../conf/config.sh"}
 
 if [ ! -e "${CFG}" ]; then
 	echo "Config file '${CFG}' not found."
@@ -36,7 +38,7 @@ fi
 
 source "${CFG}"
 
-cd /mnt/search.slackware.eu/
+cd "${STORDIR}"
 
 rm -rf "${TMPDIR}"
 mkdir "${TMPDIR}" || true
