@@ -240,9 +240,9 @@ sub updatePkgNfo {
 			return 0;
 		}
 	} # for my $reqKey
+	$hashNfo->{PKGNFO} =~ s/["]+/\\"/g;
+	$hashNfo->{PKGNFO} =~ s/[']+/\\'/g;
 	$hashNfo->{PKGNFO} = encode('utf8', $hashNfo->{PKGNFO});
-	$hashNfo->{PKGNFO} =~ s/["]+/\"/g;
-	$hashNfo->{PKGNFO} =~ s/[\']+/\'/g;
 	my $sql1 = sprintf("UPDATE packages SET package_desc = e'%s' WHERE 
 		id_package = %i AND id_serie = %s AND id_category = %i AND 
 		id_slackversion = %i;", $hashNfo->{PKGNFO}, $hashNfo->{IDPKG}, 
