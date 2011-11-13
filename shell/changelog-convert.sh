@@ -35,8 +35,15 @@ if [ ! -e "${CFG}" ]; then
 	exit 254
 fi
 
+if [ $(id -u) -eq 0 ]; then
+	echo "Refusing to run as a root!"
+	echo "You are going to break it!!!"
+	exit 2
+fi
+
 . "${CFG}"
 
+### MAIN
 ARG1=${1:-''}
 
 if [ -z "${ARG1}" ]; then
@@ -44,16 +51,10 @@ if [ -z "${ARG1}" ]; then
 	exit 1
 fi
 
-if ! echo "${ARG1}" | \
+if ! printf "%s" "${ARG1}" | \
 	grep -q -i -E -e '^slackware(64)?-(current|[0-9]+\.[0-9]+){1}$'; then
 	echo "Parameter doesn't look like Slackware version to me." 1>&2
 	exit 1
-fi
-
-if [ $(id -u) -eq 0 ]; then
-	echo "Refusing to run as a root!"
-	echo "You are going to break it!!!"
-	exit 2
 fi
 
 CHANGELOGTXT="${TMPDIR}/${ARG1}/ChangeLog.txt"
@@ -82,8 +83,8 @@ sed -r -e "/REPLACEME/r ${CHANGELOGTMP}" \
 	"${CHANGELOGDIR}/${ARG1}/ChangeLog.tmpl" > \
 	"${CHANGELOGDIR}/${ARG1}/ChangeLog.htm.new" || exit 4
 
-rm -f "${CHANGELOGDIR}/${ARG1}/ChangeLog.tmp"
-rm -f "${CHANGELOGDIR}/${ARG1}/ChangeLog.tmpl"
+rm -f "${CHANGELOGDIR}/${ARG1}/ChangeLog.tmp" \
+	"${CHANGELOGDIR}/${ARG1}/ChangeLog.tmpl"
 mv "${CHANGELOGDIR}/${ARG1}/ChangeLog.htm.new" \
 	"${CHANGELOGDIR}/${ARG1}/ChangeLog.htm"
 cp "${CHANGELOGTXT}" "${CHANGELOGDIR}/${ARG1}/"
