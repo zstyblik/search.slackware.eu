@@ -15,7 +15,6 @@ mktemp: failed to create file via template `/mnt/tmp/search.slack/tmp.XXXXXXXXXX
 * BUG: BE ~ + sh /mnt/search.slackware.eu//shell/./changelog-convert.sh slackware-10.0
 HTML::Template->new() : Cannot open included file /mnt/tmp/search.slack/news/slack-news.htm : file not found. at /usr/local/share/perl/5.10.1/HTML/Template.pm line 2264.
 * BUG: BE ~ full list of required Perl modules ~ DBD::Pg, DBD::SQLite
-* BUG: BE ~ Bash -> Dash, because shell mess doesn't work in Debian
 * ENH: BE ~ paralel ops
 * ENH: BE ~ write syncer for country flags
 * ENH: BE ~ PKG availability at mirror
@@ -33,6 +32,8 @@ HTML::Template->new() : Cannot open included file /mnt/tmp/search.slack/news/sla
 @ BUG: FE ~ search doesn't work outside index page
 @ BUG: BE ~ write Perl parser for Slackware versions from FTP/HTTP; utilize LWP? 
  done by AWK script and it seems to be working
+@ BUG: BE ~ Bash -> Dash, because shell mess doesn't work in Debian; it seems to
+ be much more compliant now.
 @ ENH: FE ~ add flags next to mirror locations
 @ ENH: FE ~ Slackversion browser; slackvers -> cats -> pkgs
 @ ENH: FE ~ add links to browser from ViewPkg
