@@ -1,6 +1,8 @@
 * ADD: FE ~ RSS from Slackware security
 * ADD: FE ~ News in DB instead of files (?)
 * ADD: FE ~ site map
+* BUG: FE ~ Debian package
+* BUG: FE ~ Slackware package
 * ENH: FE ~ add shorturl for view pkg ~ using id_packages ?
 * ENH: FE ~ add ^..$ regexp to limit the search, or "complete" regex support
 * ENH: FE ~ diffs like in % diff; for each change in changelog
@@ -10,6 +12,8 @@
 * ENH: FE ~ "Looking for arch XY?" link to other arch(s)
 * ADD: BE ~ force update - compare each package, update each package, whatever
 * ADD: BE ~ locks, locking is probably a good idea
+* BUG: BE ~ Debian package
+* BUG: BE ~ Slackware package
 * BUG: BE ~ slacker@observatory:/mnt/search.slackware.eu/bin$ ./check-slackversions.sh 
 mktemp: failed to create file via template `/mnt/tmp/search.slack/tmp.XXXXXXXXXX': No such file or directory
 * BUG: BE ~ + sh /mnt/search.slackware.eu//shell/./changelog-convert.sh slackware-10.0
