@@ -29,28 +29,21 @@ SELFDIR=$(dirname "${0}")
 
 CFG=${CFG:-"${SELFDIR}/../conf/config.sh"}
 
+if [ $(id -u) -eq 0 ]; then
+	echo "Refusing to run as a root!"
+	echo "You are going to break it!!!"
+	exit 2
+fi
+
 if [ ! -e "${CFG}" ]; then
 	echo "Config file '${CFG}' not found."
 	exit 254
 fi
-
+### CONFIG
 . "${CFG}"
-
-dlFiles() {
-	for FILE in $(cat "./${1}"); do
-		printf "%s\n" "${FILE}"
-		TODIR=$(printf "%s" "${FILE}" | sed 's/^\.\///' | \
-			awk '{ print substr($1, 0, index($1, "/")) }')
-		mkdir "${TODIR}" 2>/dev/null || true
-		if ! wget -q "${LINK}/${SVER}/${FILE}" -O "${FILE}" ; then
-			echo "Download of ${FILE} has failed." 1>&2
-			exit 2
-		fi
-	done
-	return 0
-} # dlFiles()
-
-### MAIN ###
+### FUNCTIONS
+. "${SELFDIR}/common-functions.sh"
+### MAIN
 ARG1=${1:-""}
 
 if [ -z "${ARG1}" ]; then
@@ -58,21 +51,15 @@ if [ -z "${ARG1}" ]; then
 	exit 1
 fi
 
-if ! echo "${ARG1}" | \
+if ! printf "%s" "${ARG1}" | \
 	grep -q -i -E -e '^slackware(64)?-(current|[0-9]+\.[0-9]+){1}$' ; then
 	echo "Parameter doesn't look like Slackware version to me." 1>&2
 	exit 1
 fi
 
-if [ $(id -u) -eq 0 ]; then
-	echo "Refusing to run as a root!"
-	echo "You are going to break it!!!"
-	exit 2
-fi
-
 # CWD to appropriate directory and do stuff
 if [ ! -d "${TMPDIR}" ]; then
-	mkdir "${TMPDIR}" || exit 31
+	mkdir -p "${TMPDIR}" || exit 31
 fi
 cd "${TMPDIR}" || exit 32
 rm -rf "${TMPDIR}/${ARG1}"
@@ -80,18 +67,18 @@ mkdir "${ARG1}" 2>/dev/null || true
 cd "${ARG1}" || exit 33
 
 if [ ! -d "${BATCHDIR}" ]; then
-	mkdir "${BATCHDIR}" || exit 34
+	mkdir -p "${BATCHDIR}" || exit 34
 fi
 
 SVER="${ARG1}"
 
-rm -f ./FILELIST.TXT
-rm -f ./FILELIST.TXT.files
-rm -f ./FILELIST.TXT.md5
-rm -f ./FILELIST.TXT.pkgs
-rm -f ./CHECKSUMS.md5
-rm -f ./CHECKSUMS.md5.files
-rm -f ./CHECKSUMS.md5.pkgs
+rm -f ./FILELIST.TXT \
+	./FILELIST.TXT.files \
+	./FILELIST.TXT.md5 \
+	./FILELIST.TXT.pkgs \
+	./CHECKSUMS.md5 \
+	./CHECKSUMS.md5.files \
+	./CHECKSUMS.md5.pkgs
 
 if [ ! -d "${STORDIR}/distdata/${SVER}" ]; then
 	echo "Dir '${STORDIR}/distdata/${SVER}/' doesn't exist."
@@ -104,16 +91,7 @@ if ! wget -q "${LINK}/${SVER}/CHECKSUMS.md5" ; then
 	exit 2
 fi
 
-if [ ! -e './CHECKSUMS.md5' ]; then
-	echo "CHECKSUMS.md5 doesn't exist." 1>&2
-	exit 2
-fi
-
-if [ -z './CHECKSUMS.md5' ]; then
-	echo "CHECKSUMS.md5 has zero lenght." 1>&2
-	exit 2
-fi
-
+check_files "CHECKSUMS.md5"
 
 grep -e '\./FILELIST.TXT' ./CHECKSUMS.md5 | \
 	grep -v -e '\./source/' > FILELIST.TXT.md5
@@ -121,20 +99,10 @@ grep -e '\./FILELIST.TXT' ./CHECKSUMS.md5 | \
 grep -E -e '(CHECKSUMS.md5|MANIFEST.bz2|PACKAGES.TXT)$' ./CHECKSUMS.md5 | \
 	grep -v -e '\./source/' > CHECKSUMS.md5.files
 
-if [ -z './CHECKSUMS.md5.files' ]; then
-	echo "CHECKSUMS.md5.files has zero lenght. I have nothing to do." 1>&2
-	exit 2
-fi
-
-
 grep -E -e '\.(tgz|txz)$' ./CHECKSUMS.md5 | \
 	grep -v -e '\./source/' > CHECKSUMS.md5.pkgs
 
-if [ -z './CHECKSUMS.md5.pkgs' ]; then
-	echo "CHECKSUMS.md5.pkgs has zero lenght. I have nothing to do." 1>&2
-	exit 2
-fi
-
+check_files "CHECKSUMS.md5.files CHECKSUMS.md5.pkgs"
 
 ### probably remove and let the script deal with it ?
 ### or do double check eg. CHECKSUMS.md5.files ?
@@ -170,16 +138,7 @@ if ! wget -q "${LINK}/${SVER}/FILELIST.TXT" ; then
 	echo "Download of FILELIST.TXT has failed." 1>&2
 	exit 2
 fi
-if [ ! -e './FILELIST.TXT' ]; then
-	echo "FILELIST.TXT doesn't exist." 1>&2
-	exit 2
-fi
-
-if [ -z './FILELIST.TXT' ]; then
-	echo "FILELIST.TXT has zero lenght." 1>&2
-	exit 2
-fi
-
+check_files "FILELIST.TXT"
 
 FLISTMD51=$(md5sum ./FILELIST.TXT | awk '{print $1}')
 FLISTMD52=$(cat ./FILELIST.TXT.md5 | awk '{print $1}')
@@ -193,19 +152,11 @@ fi
 grep -E -e '(CHECKSUMS.md5|MANIFEST.bz2|PACKAGES.TXT)$' ./FILELIST.TXT | \
 	grep -v -e '\./source/' > FILELIST.TXT.files
 
-if [ -z './FILELIST.TXT.files' ]; then
-	echo "FILELIST.TXT.files has zero lenght. I have nothing to do." 1>&2
-	exit 2
-fi
-
 
 grep -E -e '\.(tgz|txz)$' ./FILELIST.TXT | \
 	grep -v -e '\./source/' > FILELIST.TXT.pkgs
 
-if [ -z './FILELIST.TXT.pkgs' ]; then
-	echo "FILELIST.TXT.pkg has zero lenght. I have nothing to do." 1>&2
-	exit 2
-fi
+check_files "FILELIST.TXT.files FILELIST.TXT.pkgs"
 
 if [ -z './CHECKSUMS.md5.files.diff' ] \
 	&& [ -z 'CHECKSUMS.md5.pkgs.diff']; then
@@ -215,8 +166,7 @@ if [ -z './CHECKSUMS.md5.files.diff' ] \
 fi
 
 # clean-up in case these do exist
-rm -f FILELIST.TXT.files.manifests
-rm -f DOWNLOAD.files.manifests
+rm -f FILELIST.TXT.files.manifests DOWNLOAD.files.manifests
 
 for MANFILE in $(grep -e 'MANIFEST\.bz2' \
 	./CHECKSUMS.md5.files.diff | awk '{ print $2 }'); do
@@ -224,20 +174,20 @@ for MANFILE in $(grep -e 'MANIFEST\.bz2' \
 		echo "${MANFILE}" >> DOWNLOAD.files.manifests
 done
 
-dlFiles 'DOWNLOAD.files.manifests'
+download_files 'DOWNLOAD.files.manifests'
 
 # TODO ~ more awk ?
 grep -v -e '^D' CHECKSUMS.md5.files.diff | \
 	grep -i -e 'PACKAGES.TXT' | \
 	awk '{ print $2 }' > DOWNLOAD.files.desc
 
-dlFiles 'DOWNLOAD.files.desc'
+download_files 'DOWNLOAD.files.desc'
 
 grep -i -e 'PACKAGES.TXT' FILELIST.TXT.files > FILELIST.TXT.files.desc
 
-SLACKDIR=$(echo "${SVER}" | cut -d '-' -f 1)
+SLACKDIR=$(printf "%s" "${SVER}" | cut -d '-' -f 1)
 
-# BUGFIX ~ ./${SLACKDIR}/PACKAGES.TXT do not exists, yet ...
+# BUGFIX ~ ./${SLACKDIR}/PACKAGES.TXT does not exists, yet ...
 for FIXIT in $(echo "./CHECKSUMS.md5.files.diff ./FILELIST.TXT.files \
 	./FILELIST.TXT.files.desc ./CHECKSUMS.md5.files"); do
 	sed -i -r -e "s# ./PACKAGES.TXT# ./${SLACKDIR}/PACKAGES.TXT#" "${FIXIT}"

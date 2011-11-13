@@ -33,24 +33,11 @@ if [ ! -e "${CFG}" ]; then
 	echo "Config file '${CFG}' not found."
 	exit 254
 fi
-
+### CONFIG
 . "${CFG}"
-
-dlFiles() {
-	for FILE in $(cat "./${1}"); do
-		echo "${FILE}"
-		TODIR=$(printf "%s" "${FILE}" | sed 's/^\.\///' | \
-			awk '{ print substr($1, 0, index($1, "/")) }')
-		mkdir "${TODIR}" 2>/dev/null || true
-		if ! wget -q "${LINK}/${SVER}/${FILE}" -O "${FILE}" ; then
-			echo "Download of ${FILE} has failed." 1>&2
-			exit 2
-		fi
-	done
-	return 0
-} # dlFiles()
-
-### MAIN ###
+### FUNCTIONS
+. "${SELFDIR}/common-functions.sh"
+### MAIN
 ARG1=${1:-""}
 
 if [ -z "${ARG1}" ]; then
@@ -69,7 +56,7 @@ TMPDIR='/tmp/slacktest/'
 
 # CWD to appropriate directory and do stuff
 if ! [ -d "${TMPDIR}" ]; then
-	mkdir "${TMPDIR}" || exit 31
+	mkdir -p "${TMPDIR}" || exit 31
 fi
 cd "${TMPDIR}" || exit 32
 rm -rf "${TMPDIR}/${ARG1}"
@@ -77,18 +64,18 @@ mkdir "${ARG1}" 2>/dev/null || true
 cd "${ARG1}" || exit 33
 
 if ! [ -d "${BATCHDIR}" ]; then
-	mkdir "${BATCHDIR}" || exit 34
+	mkdir -p "${BATCHDIR}" || exit 34
 fi
 
 SVER="${ARG1}"
 
-rm -f ./FILELIST.TXT
-rm -f ./FILELIST.TXT.files
-rm -f ./FILELIST.TXT.md5
-rm -f ./FILELIST.TXT.pkgs
-rm -f ./CHECKSUMS.md5
-rm -f ./CHECKSUMS.md5.files
-rm -f ./CHECKSUMS.md5.pkgs
+rm -f ./FILELIST.TXT \
+	./FILELIST.TXT.files \
+	./FILELIST.TXT.md5 \
+	./FILELIST.TXT.pkgs \
+	./CHECKSUMS.md5 \
+	./CHECKSUMS.md5.files \
+	./CHECKSUMS.md5.pkgs
 
 if ! [ -d "${STORDIR}/distdata/${SVER}" ]; then
 	echo "Dir '${STORDIR}/distdata/${SVER}/' doesn't exist."
@@ -101,16 +88,7 @@ if ! wget -q "${LINK}/${SVER}/CHECKSUMS.md5" ; then
 	exit 2
 fi
 
-if ! [ -e './CHECKSUMS.md5' ]; then
-	echo "CHECKSUMS.md5 doesn't exist." 1>&2
-	exit 2
-fi
-
-if [ -z './CHECKSUMS.md5' ]; then
-	echo "CHECKSUMS.md5 has zero lenght." 1>&2
-	exit 2
-fi
-
+check_files "./CHECKSUMS.md5"
 
 grep -e '\./FILELIST.TXT' ./CHECKSUMS.md5 | \
 	grep -v -e '\./source/' > FILELIST.TXT.md5
@@ -118,19 +96,10 @@ grep -e '\./FILELIST.TXT' ./CHECKSUMS.md5 | \
 grep -E -e '(CHECKSUMS.md5|MANIFEST.bz2|PACKAGES.TXT)$' ./CHECKSUMS.md5 | \
 	grep -v -e '\./source/' > CHECKSUMS.md5.files
 
-if [ -z './CHECKSUMS.md5.files' ]; then
-	echo "CHECKSUMS.md5.files has zero lenght. I have nothing to do." 1>&2
-	exit 2
-fi
-
-
 grep -E -e '\.(tgz|txz)$' ./CHECKSUMS.md5 | \
 	grep -v -e '\./source/' > CHECKSUMS.md5.pkgs
 
-if [ -z './CHECKSUMS.md5.pkgs' ]; then
-	echo "CHECKSUMS.md5.pkgs has zero lenght. I have nothing to do." 1>&2
-	exit 2
-fi
+check_files "./CHECKSUMS.md5.files ./CHECKSUMS.md5.pkgs"
 
 ### FILELIST.TXT
 if ! wget -q "${LINK}/${SVER}/FILELIST.TXT" ; then
@@ -138,16 +107,7 @@ if ! wget -q "${LINK}/${SVER}/FILELIST.TXT" ; then
 	exit 2
 fi
 
-if [ ! -e './FILELIST.TXT' ]; then
-	echo "FILELIST.TXT doesn't exist." 1>&2
-	exit 2
-fi
-
-if [ -z './FILELIST.TXT' ]; then
-	echo "FILELIST.TXT has zero lenght." 1>&2
-	exit 2
-fi
-
+check_files "./FILELIST.TXT"
 
 FLISTMD51=$(md5sum ./FILELIST.TXT | awk '{print $1}')
 FLISTMD52=$(cat ./FILELIST.TXT.md5 | awk '{print $1}')
@@ -160,41 +120,30 @@ fi
 grep -E -e '(CHECKSUMS.md5|MANIFEST.bz2|PACKAGES.TXT)$' ./FILELIST.TXT | \
 	grep -v -e '\./source/' > FILELIST.TXT.files
 
-if [ -z './FILELIST.TXT.files' ]; then
-	echo "FILELIST.TXT.files has zero lenght. I have nothing to do." 1>&2
-	exit 2
-fi
-
 grep -E -e '\.(tgz|txz)$' ./FILELIST.TXT | \
 	grep -v -e '\./source/' > FILELIST.TXT.pkgs
 
-if [ -z './FILELIST.TXT.pkgs' ]; then
-	echo "FILELIST.TXT.pkg has zero lenght. I have nothing to do." 1>&2
-	exit 2
-fi
+check_files "./FILELIST.TXT.files ./FILELIST.TXT.pkgs"
 
 # clean-up in case these do exist
-rm -f FILELIST.TXT.files.manifests
-rm -f DOWNLOAD.files.manifests
+rm -f FILELIST.TXT.files.manifests DOWNLOAD.files.manifests
 
-for MANFILE in $(grep -e 'MANIFEST\.bz2' \
-	./CHECKSUMS.md5.files | awk '{ print $2 }'); do
+for MANFILE in $(awk '{ if ( $0 ~ /MANIFEST.bz2/ ) { print $2; } }' \
+	./CHECKSUMS.md5.files); do
 	grep -e "${MANFILE}" FILELIST.TXT.files >> FILELIST.TXT.files.manifests
 	printf "%s\n" "${MANFILE}" >> DOWNLOAD.files.manifests
 done
 
-dlFiles 'DOWNLOAD.files.manifests'
+download_files 'DOWNLOAD.files.manifests'
 
-# TODO ~ replace grep with % awk; ~ % awk '/PACKAGES.TXT/ '{ print $2 }';
-cat CHECKSUMS.md5.files | grep -i -e 'PACKAGES.TXT' | \
-	awk '{ print $2 }' > DOWNLOAD.files.desc
+awk '{ if ( $0 ~ /PACKAGES.TXT/ { print $2; } }' \
+	CHECKSUMS.md5.files > DOWNLOAD.files.desc
 
-dlFiles 'DOWNLOAD.files.desc'
+download_files 'DOWNLOAD.files.desc'
 
 mv PACKAGES.TXT $(printf "%s" "${SVER}" | cut -d '-' -f 1)
 
-cat FILELIST.TXT.files | \
-	grep -i -e 'PACKAGES.TXT' > FILELIST.TXT.files.desc
+grep -i -e 'PACKAGES.TXT' FILELIST.TXT.files > FILELIST.TXT.files.desc
 
 # FIX Pkgs description
 perl "${SCRIPTDIR}/db-fix-pkgs-desc.pl" "${SVER}"
