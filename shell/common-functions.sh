@@ -40,7 +40,7 @@ check_files() {
 	if [ -z "${FILES}" ]; then
 		return 1
 	fi
-	for CHECKFILE in "${FILES}"; do
+	for CHECKFILE in $(printf "%s" "${FILES}"); do
 		if [ ! -e "${CHECKFILE}" ]; then
 			echo "File '${CHECKFILE}' doesn't exist." 1>&2
 			exit 2
