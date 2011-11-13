@@ -44,12 +44,15 @@ if ! wget -q "${LINK}/" -O "${SVERSLIST}"; then
 	exit 1
 fi
 
-for SVER in $(grep -e '<a href=' "${SVERSLIST}" | tr -s ' ' | \
-	cut -d '>' -f 2- | cut -d '<' -f 1 | sed -e 's#\/##' | \
-	grep -v -E -e '(-iso|unsupported|_source)'); do
-	if [ "${SVER}"="slackware-3.3" ] || \
-		[ "${SVER}"="slackware-7.1" ] || \
-		[ "${SVER}"="slackware" ]; then
+for SVER in $(awk '{ split($0, arr, />/); \
+	for (i = 1; i < NF; i++) { \
+		if (arr[i] !~ /^slackware(64)?-(current|[0-9]+\.[0-9]+)+?/) { continue; } \
+		if (arr[i] ~ /-iso/) { continue; } \
+		split(arr[i], arr2, /</); \
+		sub(/\//, "", arr2[1]); print arr2[1]; next; } }' "${SVERSLIST}"); do
+	if [ "${SVER}" = "slackware-3.3" ] || \
+		[ "${SVER}" = "slackware-7.1" ] || \
+		[ "${SVER}" = "slackware" ]; then
 		continue
 	fi
 	perl "${SCRIPTDIR}/db-check-slackversion.pl" "${SVER}" && \
