@@ -54,7 +54,7 @@ if [ $NOARGS -lt 2 ]; then
 	exit 1
 fi
 
-if [ "${ARG1}" == "0" ] || [ "${ARG2}" == "0" ]; then
+if [ "${ARG1}" = "0" ] || [ "${ARG2}" = "0" ]; then
 	print_help
 	exit 2
 fi
