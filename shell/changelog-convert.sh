@@ -61,11 +61,15 @@ CHANGELOGTXT="${TMPDIR}/${ARG1}/ChangeLog.txt"
 CHANGELOGDIR="${TMPDIR}/changelogs/"
 
 if [ ! -d "${CHANGELOGDIR}" ]; then
-	mkdir "${CHANGELOGDIR}"
+	mkdir -p "${CHANGELOGDIR}" || true
+	if [ ! -d "${CHANGELOGDIR}" ]; then
+		echo "Failed to create '${CHANGELOGDIR}' directory."
+		exit 2
+	fi
 fi
 
 if [ ! -e "${CHANGELOGTXT}" ]; then
-	printf "%s: ChangeLog '%s' doesn't seem to exist." ${0} ${CHANGELOGTXT}
+	printf "%s: ChangeLog '%s' doesn't seem to exist.\n" ${0} ${CHANGELOGTXT}
 	exit 2
 fi
 

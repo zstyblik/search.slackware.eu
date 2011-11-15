@@ -64,18 +64,18 @@ $template->param(TITLE => $title);
 my $fileHtmlOut = sprintf("%s/changelogs/%s/ChangeLog.tmpl", $CFG{TMPDIR},
 	$sver);
 
-open(FHTML, '>', $fileHtmlOut) or die("Unable to open HTML out-file.");
-print FHTML $template->output();
-close(FHTML);
+open(FH_HTML, '>', $fileHtmlOut) or die("Unable to open HTML out-file.");
+print FH_HTML $template->output();
+close(FH_HTML);
 
 my $tagPreOpen = 0;
 my $fileChlog = sprintf("%s/%s/ChangeLog.txt", $CFG{TMPDIR}, $sver);
-my $fileChlogNew = sprintf(">%s/changelogs/%s/ChangeLog.tmp", $CFG{TMPDIR},
-$sver);
-open(FCHLOG, $fileChlog) or die("Unable to open ChangeLog.");
-open(FCHLOGNEW, $fileChlogNew) 
+my $fileChlogNew = sprintf("%s/changelogs/%s/ChangeLog.tmp", $CFG{TMPDIR},
+	$sver);
+open(FH_CHLOG, '<', $fileChlog) or die("Unable to open ChangeLog.");
+open(FH_CHLOGNEW, '>', $fileChlogNew) 
 	or die("Unable to open ChangeLog for output.");
-while (my $line = <FCHLOG>) {
+while (my $line = <FH_CHLOG>) {
 	chomp($line);
 	if ($line =~ /^[A-Za-z]{3}[\ ]+[A-Za-z]{3}[\ ]+[0-9]{1,2}[\ ]+[0-9]{2}:[0-9]{2}:[0-9]{2}[\ ]+[A-Z]{3,4}[\ ]+[0-9]{4}$/) {
 		$line =~ s/(^[A-Za-z]{3}[\ ]+[A-Za-z]{3}[\ ]+[0-9]{1,2}[\ ]+[0-9]{2}:[0-9]{2}:[0-9]{2}[\ ]+[A-Z]{3,4}[\ ]+[0-9]{4}$)/<h5>$1<\/h5><pre>/;
@@ -96,16 +96,15 @@ while (my $line = <FCHLOG>) {
 	$line =~ s/>/&gt;/g;
 	$line =~ s/&/&#38;/g;
 	if ($tagPreOpen == 0) {
-		print FCHLOGNEW "<pre>\n";
+		printf(FH_CHLOGNEW "<pre>\n");
 		$tagPreOpen = 1;
 	}
 	PRINTLINE:
-	print FCHLOGNEW $line;
-	print FCHLOGNEW "\n";
+	printf(FH_CHLOGNEW, "%s\n", $line);
 } # while my $lineChlog
 if ($tagPreOpen == 1) {
-	print FCHLOGNEW "</pre>\n";
+	printf(FH_CHLOGNEW "</pre>\n");
 }
-close(FCHLOG);
-close(FCHLOGNEW);
+close(FH_CHLOG);
+close(FH_CHLOGNEW);
 
