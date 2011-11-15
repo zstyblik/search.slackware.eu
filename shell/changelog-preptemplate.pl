@@ -100,7 +100,7 @@ while (my $line = <FH_CHLOG>) {
 		$tagPreOpen = 1;
 	}
 	PRINTLINE:
-	printf(FH_CHLOGNEW, "%s\n", $line);
+	printf(FH_CHLOGNEW "%s\n", $line);
 } # while my $lineChlog
 if ($tagPreOpen == 1) {
 	printf(FH_CHLOGNEW "</pre>\n");
