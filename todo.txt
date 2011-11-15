@@ -8,7 +8,7 @@
 * ENH: FE ~ diffs like in % diff; for each change in changelog
 * ENH: FE ~ pkg-browser links from search results (CANCELED/HOLD)
 * ENH: FE ~ *_validate_*() should be used accross whole web
-* ENH: FE ~ dynamic tags
+* ENH: FE ~ dynamic tags ~ as in HTML, SEO and stuff
 * ENH: FE ~ "Looking for arch XY?" link to other arch(s)
 * ADD: BE ~ force update - compare each package, update each package, whatever
 * ADD: BE ~ locks, locking is probably a good idea
