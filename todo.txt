@@ -14,10 +14,6 @@
 * ADD: BE ~ locks, locking is probably a good idea
 * BUG: BE ~ Debian package
 * BUG: BE ~ Slackware package
-* BUG: BE ~ slacker@observatory:/mnt/search.slackware.eu/bin$ ./check-slackversions.sh 
-mktemp: failed to create file via template `/mnt/tmp/search.slack/tmp.XXXXXXXXXX': No such file or directory
-* BUG: BE ~ + sh /mnt/search.slackware.eu//shell/./changelog-convert.sh slackware-10.0
-HTML::Template->new() : Cannot open included file /mnt/tmp/search.slack/news/slack-news.htm : file not found. at /usr/local/share/perl/5.10.1/HTML/Template.pm line 2264.
 * BUG: BE ~ full list of required Perl modules ~ DBD::Pg, DBD::SQLite
 * ENH: BE ~ paralel ops
 * ENH: BE ~ write syncer for country flags
@@ -34,10 +30,6 @@ HTML::Template->new() : Cannot open included file /mnt/tmp/search.slack/news/sla
 @ BUG: FE ~ select slackware64-current+files -> search, slackver changes
 @ BUG: FE ~ '@' in pkgname
 @ BUG: FE ~ search doesn't work outside index page
-@ BUG: BE ~ write Perl parser for Slackware versions from FTP/HTTP; utilize LWP? 
- done by AWK script and it seems to be working
-@ BUG: BE ~ Bash -> Dash, because shell mess doesn't work in Debian; it seems to
- be much more compliant now.
 @ ENH: FE ~ add flags next to mirror locations
 @ ENH: FE ~ Slackversion browser; slackvers -> cats -> pkgs
 @ ENH: FE ~ add links to browser from ViewPkg
@@ -56,6 +48,19 @@ useless ~ negatory due layout shifting around
 @ BUG: BE ~ ERROR:  duplicate key value violates unique constraint "packages_index1"
 [HOTFIXED]
 @ BUG: BE ~ MD5 is missing if/when PKG is rebuilt (caused by non-sense logic)
+@ BUG: BE ~ write Perl parser for Slackware versions from FTP/HTTP; utilize LWP? 
+ done by AWK script and it seems to be working
+@ BUG: BE ~ Bash -> Dash, because shell mess doesn't work in Debian; it seems to
+ be much more compliant now.
+@ BUG: BE ~ slacker@observatory:/mnt/search.slackware.eu/bin$ ./check-slackversions.sh 
+ mktemp: failed to create file via template `/mnt/tmp/search.slack/tmp.XXXXXXXXXX': 
+ No such file or directory
+ ~ should be solved by creating directory struct or exit on failure
+@ BUG: BE ~ sh /mnt/search.slackware.eu//shell/./changelog-convert.sh slackware-10.0
+ HTML::Template->new() : Cannot open included file 
+ /mnt/tmp/search.slack/news/slack-news.htm : file not found. 
+ at /usr/local/share/perl/5.10.1/HTML/Template.pm line 2264.
+ ~ script doesn't know all dependencies, so ... shrug
 @ ENH: BE ~ auto add new Slackware version
 @ FIX: BE ~ replace all COUNT(*) with something more apropriate ~ done where could be
 @ FIX: BE ~ unified config(s) for all scripts and what-not ~ done even in Perl
