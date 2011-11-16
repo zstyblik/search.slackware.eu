@@ -53,7 +53,12 @@ for SVER in $(perl "${SCRIPTDIR}./db-get-slackversions.pl"); do
 		printf "Download of ChangeLog.txt for %s has failed.\n" "${SVER}" 1>&2
 		continue
 	fi
-	sh "${SCRIPTDIR}./changelog-convert.sh" "${SVER}"
+	if sh "${SCRIPTDIR}./changelog-convert.sh" "${SVER}" ; then
+		printf "Update ChangeLog for %s was successful.\n" "${SVER}"
+	else
+		printf "Update ChangeLog for %s has failed.\n" "${SVER}"
+	fi
+	mv -f ChangeLog.txt "${STORDIR}/distdata/${SVER}/"
 	rm -f ChangeLog.txt
 done
 # EOF
