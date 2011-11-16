@@ -12,6 +12,7 @@
 * ENH: FE ~ "Looking for arch XY?" link to other arch(s)
 * ADD: BE ~ force update - compare each package, update each package, whatever
 * ADD: BE ~ locks, locking is probably a good idea
+* ADD: BE ~ add script to "refresh" changelogs
 * BUG: BE ~ Debian package
 * BUG: BE ~ Slackware package
 * BUG: BE ~ full list of required Perl modules ~ DBD::Pg, DBD::SQLite
