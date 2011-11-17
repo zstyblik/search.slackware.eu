@@ -287,7 +287,7 @@ sub _validate_package {
 	my $self = shift;
 	my $package = shift || '';
 	return 0 unless ($package);
-	return 0 if ($package !~ /^[A-Za-z0-9@\-\.\_]+\.t(g|x)z$/);
+	return 0 if ($package !~ /^[A-Za-z0-9@\+\-\.\_]+\.t(g|x)z$/);
 	return 1;
 } # sub _validate_package
 # desc; validate input ~ serie
