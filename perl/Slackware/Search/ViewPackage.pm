@@ -509,7 +509,7 @@ sub _get_packages_id {
 	my $idCategory = shift;
 	my $idSlackver = shift;
 
-	if ($package !~ /^[A-Za-z0-9@\-\.\_]+$/) {
+	unless ($self->_validate_package($package)) {
 		return 0;
 	}
 	if ($idCategory !~ /^[0-9]+$/) {
