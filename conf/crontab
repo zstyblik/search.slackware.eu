@@ -1,11 +1,11 @@
 # search.slackware.eu stuff
 ## update slackware versions already in DB
-*/30 * * * * /bin/bash /mnt/search.slackware.eu/bin/update-slackversions.sh 1>/dev/null
+*/30 * * * * /bin/sh /mnt/search.slackware.eu/bin/update-slackversions.sh 1>/dev/null
 ## check what's new in the world
 */30 * * * * /usr/bin/perl /mnt/search.slackware.eu/bin/linuxsec-get-news.pl  
 */30 * * * * /usr/bin/perl /mnt/search.slackware.eu/bin/slackware-get-security.pl
 ## check for new version of slackware
-5 */6 * * * /bin/bash /mnt/search.slackware.eu/bin/check-slackversions.sh
+5 */6 * * * /bin/sh /mnt/search.slackware.eu/bin/check-slackversions.sh
 ## sync mirrors every 2 days
 0 3 */2 * * /usr/bin/perl /mnt/search.slackware.eu/shell/db-sync-mirrors.pl
 # end of search.slackware.eu stuff
