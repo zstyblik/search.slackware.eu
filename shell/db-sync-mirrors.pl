@@ -91,7 +91,7 @@ for my $line1 ( split(/\n/, $response->content) ) {
 		$dbh->do($sql101);
 		$idCountry = $dbh->selectrow_array($sql100);
 	}
-	my $response2 = $browser->get_response($link);
+	my $response2 = $browser->get($link);
 	if ($response2->is_error()) {
 		printf(STDERR "Unable to get response for '%s'.\n", $link);
 		next;
