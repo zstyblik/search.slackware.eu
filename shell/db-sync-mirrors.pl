@@ -30,6 +30,7 @@ use Slackware::Search::ConfigParser qw(_getConfig);
 use strict;
 use warnings;
 use DBI;
+use LWP;
 
 use constant CFGFILE => '/mnt/search.slackware.eu/conf/config.pl';
 
@@ -46,9 +47,10 @@ unless (%CFG || keys(%CFG)) {
 	exit 2;
 }
 
-my $dbh = DBI->connect($CFG{DB_DSN},
-$CFG{DB_USER},
-$CFG{DB_PASS},
+my $dbh = DBI->connect(
+	$CFG{DB_DSN},
+	$CFG{DB_USER},
+	$CFG{DB_PASS},
 	{
 		AutoCommit => 0, 
 		RaiseError => 1, 
@@ -59,10 +61,16 @@ $CFG{DB_PASS},
 die("Unable to connect to DB.") unless ($dbh);
 
 ### MAIN ###
-$ENV{PATH} = '/usr/bin/';
-for my $line1 (`curl -s '$slacksite'| grep 'list\.php\?country='`) 
-{
+my $browser = LWP::UserAgent->new;
+my $response = $browser->get($slacksite) 
+	or die("Unable to get URL '$slacksite'.");
+die ("Error while getting URL '$slacksite'.") if ($response->is_error());
+
+for my $line1 ( split(/\n/, $response->content) ) {
 	chomp($line1);
+	if ($line1 !~ /list\.php\?country=/) {
+		next;
+	}
 	my @arr1 = split(/"/, $line1);
 	my $link = $slacksite.$arr1[1];
 	my $record = 0;
@@ -83,7 +91,12 @@ for my $line1 (`curl -s '$slacksite'| grep 'list\.php\?country='`)
 		$dbh->do($sql101);
 		$idCountry = $dbh->selectrow_array($sql100);
 	}
-	for my $line2 (`curl -s '$link'`) {
+	my $response2 = $browser->get_response($link);
+	if ($response2->is_error()) {
+		printf(STDERR "Unable to get response for '%s'.\n", $link);
+		next;
+	}
+	for my $line2 ( split(/\n/, $response2->content) ) {
 		chomp($line2);
 		if ($line2 =~ /$startMatch/i) {
 			$record = 1;
@@ -101,7 +114,7 @@ for my $line1 (`curl -s '$slacksite'| grep 'list\.php\?country='`)
 			my @arr3 = split(/:\/\//, $arr2[1]);
 			my $desc = substr($arr3[1], 0, index($arr3[1], '/'));
 			my $sql1 = sprintf("INSERT INTO mirror (mirror_url, id_country, \
-			mirror_desc, mirror_proto) VALUES ('%s', %i, '%s', '%s');", 
+			mirror_desc, mirror_proto) VALUES ('%s', %i, '%s', '%s');",
 			$arr2[1], $idCountry, $desc, $arr3[0]);
 #			printf("%s\n", $sql1);
 			$dbh->do($sql1) or die("Unable to insert mirror");
