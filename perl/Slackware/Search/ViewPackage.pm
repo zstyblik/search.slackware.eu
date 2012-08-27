@@ -443,7 +443,7 @@ sub _get_mirrors {
 	}
 	my $dbh = $self->dbh;
 	my $sql1 = sprintf("SELECT * FROM mirror WHERE \
-	id_country = %i;", $idCountry);
+	id_country = %i ORDER BY mirror_desc, mirror_proto;", $idCountry);
 	my $result1 = $dbh->selectall_arrayref($sql1, { Slice => {}});
 	
 	unless ($result1) {
