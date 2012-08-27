@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 # 2010/Mar/15 @ Zdenek Styblik
 #
+# Desc: sync 'us' -> 'United States' aliases, resp. mirror locations
 # Desc: get Slackware mirrors and insert them into DB
 # Desc: wipe out old (removed) mirrors
 #
@@ -34,10 +35,8 @@ use LWP;
 
 use constant CFGFILE => '/mnt/search.slackware.eu/conf/config.pl';
 
-my $slacksite = 'http://www.slackware.com/getslack/';
-my $startMatch = '<TD><B>max. users</B></TD>';
-my $stopMatch = '</TABLE>';
-my $lineMatch = 'A HREF=\"(ftp|http):\/\/';
+my $slacksite = 'http://mirrors.slackware.com/mirrorlist/';
+my $debug = $ENV{'DEBUG'} || 0;
 
 my $cfgParser = 'Slackware::Search::ConfigParser';
 my %CFG = $cfgParser->_getConfig(CFGFILE);
@@ -45,6 +44,26 @@ my %CFG = $cfgParser->_getConfig(CFGFILE);
 unless (%CFG || keys(%CFG)) {
 	printf("Parsing of config file has failed.\n");
 	exit 2;
+}
+
+### MAIN ###
+my $browser = LWP::UserAgent->new;
+my $response = $browser->get($slacksite) 
+	or die("Unable to get URL '$slacksite'.");
+die ("Error while getting URL '$slacksite'.") if ($response->is_error());
+
+my %countries;
+for my $line1 ( split(/\n/, $response->content) ) {
+	chomp($line1);
+	if ($line1 !~ /<a href=/) {
+		next;
+	}
+
+	$line1 =~ />.*\(([A-Za-z]{2}+)\).*</;
+	if (!$1) {
+		next;
+	}
+	$countries{$1} = 1;
 }
 
 my $dbh = DBI->connect(
@@ -60,68 +79,71 @@ my $dbh = DBI->connect(
 
 die("Unable to connect to DB.") unless ($dbh);
 
-### MAIN ###
-my $browser = LWP::UserAgent->new;
-my $response = $browser->get($slacksite) 
-	or die("Unable to get URL '$slacksite'.");
-die ("Error while getting URL '$slacksite'.") if ($response->is_error());
+# Synchronize aliases 'us' -> 'United States'
+for my $country (keys(%countries)) {
+	my $sql100 = sprintf("SELECT id_country FROM country WHERE flag_url LIKE '%%/%s.png' LIMIT 1;",
+		$country);
+	printf STDERR "``%s''\n", $sql100 if ($debug > 0);
+	my $id_country = $dbh->selectrow_array($sql100);
+	if (!$id_country || $id_country !~ /^[0-9]+$/) {
+		$id_country = 'NIL';
+		printf STDERR "Country '%s' not found in DB.\n", $country;
+		next;
+	}
+	printf STDERR "country:id_country:%s:%s\n", $country, $id_country if ($debug > 0);
+	my $sql120 = sprintf("UPDATE country SET name_short = '%s' WHERE id_country = %s;",
+		$country, $id_country);
+	printf STDERR "``%s''\n", $sql120 if($debug > 0);
+	$dbh->do($sql120) or die("Unable to execute '".$sql120."'");
+} # for my $country
 
-for my $line1 ( split(/\n/, $response->content) ) {
-	chomp($line1);
-	if ($line1 !~ /list\.php\?country=/) {
+# Insert mirrors and link them with countries
+for my $line ( split(/\n/, $response->content) ) {
+	chomp($line);
+	if ($line !~ /<a href=/) {
 		next;
 	}
-	my @arr1 = split(/"/, $line1);
-	my $link = $slacksite.$arr1[1];
-	my $record = 0;
-	my $countryOrg = substr($arr1[2], 1, index($arr1[2], '<')-1);
-	my $country;
-	my @countryArr = split(//, $countryOrg);
-	while (my $char = shift(@countryArr)) {
-		next if ($char !~ /[A-Za-z0-9\ ]+/);
-		$country.= $char;
-	}
-	my $sql100 = sprintf("SELECT id_country FROM country WHERE 
-	name = '%s';", $country);
-	my $idCountry = $dbh->selectrow_array($sql100);
-	# evaluate
-	if (!$idCountry) {
-		my $sql101 = sprintf("INSERT INTO country (name) VALUES ('%s');", 
-			$country);
-		$dbh->do($sql101);
-		$idCountry = $dbh->selectrow_array($sql100);
-	}
-	my $response2 = $browser->get($link);
-	if ($response2->is_error()) {
-		printf(STDERR "Unable to get response for '%s'.\n", $link);
+	$line =~ />.*\(([A-Za-z]{2}+)\).*</;
+	my $mirror_country = $1 || 'NIL';
+	if (length($mirror_country) != 2) {
+		printf STDERR "Invalid line: ``%s''\n", $line;
 		next;
 	}
-	for my $line2 ( split(/\n/, $response2->content) ) {
-		chomp($line2);
-		if ($line2 =~ /$startMatch/i) {
-			$record = 1;
-			next;
-		}
-		if ($record == 0) {
-			next;
-		}
-		if ($line2 =~ /$stopMatch/i) {
-			$record = 0;
-			last;
-		}
-		if ($record == 1 && $line2 =~ /$lineMatch/i) {
-			my @arr2 = split(/"/, $line2);
-			my @arr3 = split(/:\/\//, $arr2[1]);
-			my $desc = substr($arr3[1], 0, index($arr3[1], '/'));
-			my $sql1 = sprintf("INSERT INTO mirror (mirror_url, id_country, \
-			mirror_desc, mirror_proto) VALUES ('%s', %i, '%s', '%s');",
-			$arr2[1], $idCountry, $desc, $arr3[0]);
-#			printf("%s\n", $sql1);
-			$dbh->do($sql1) or die("Unable to insert mirror");
-		}
+	my $sql150  = sprintf("SELECT id_country FROM country WHERE name_short = '%s';",
+		$mirror_country);
+	my $id_country = $dbh->selectrow_array($sql150);
+	if (!$id_country || $id_country !~ /^[0-9]+$/) {
+		printf STDERR "Country '%s' not found in DB.\n", $mirror_country;
+		printf STDERR "Input line was: ``%s''\n", $line;
 		next;
 	}
-}
+
+	my $pos_end = index($line, '</a>');
+	my $pos_begin = rindex($line, '>', $pos_end);
+	my $mirror_url = substr($line, $pos_begin+1, $pos_end - $pos_begin - 1);
+	if ($mirror_url !~ /^(http|ftp|rsync):\/\/.+$/) {
+		printf STDERR "Invalid mirror URL: '%s'.\n", $mirror_url;
+		printf STDERR "Input line was: ``%s''\n", $line;
+		next;
+	}
+
+	my $sql160 = sprintf("SELECT COUNT(id_mirror) FROM mirror WHERE mirror_url = '%s' AND id_country = %s;",
+		$mirror_url, $id_country);
+	my $mirror_count = $dbh->selectrow_array($sql160);
+	my $sql170 = "";
+	if ($mirror_count == 1) {
+		$sql170 = sprintf("UPDATE mirror SET mirror_updated = now() WHERE mirror_url = '%s' AND id_country = %s;",
+			$mirror_url, $id_country);
+	} else {
+		# [0] -> proto, [1] -> desc to extract
+		my @arr_url = split(/:\/\//, $mirror_url);
+		my $mirror_desc = substr($arr_url[1], 0, index($arr_url[1], '/'));
+		$sql170 = sprintf("INSERT INTO mirror (mirror_url, id_country, mirror_desc, mirror_proto) VALUES ('%s', %s, '%s', '%s');",
+			$mirror_url, $id_country, $mirror_desc, $arr_url[0]);
+	}
+	printf STDERR "``%s''\n", $sql170 if ($debug > 0);
+	$dbh->do($sql170) or die("Unable to execute: ``".$sql170."''");
+} # for my $line
 
 #### Clean-up DB ####
 my $sql2 = "DELETE FROM mirror WHERE \
@@ -130,4 +152,4 @@ $dbh->do($sql2) or die("Unable to clean up in mirrors table.");
 
 $dbh->commit;
 $dbh->disconnect;
-
+# EOF
