@@ -27,7 +27,7 @@ use warnings;
 use base 'Slackware::Search::MainWeb';
 use CGI::Application::Plugin::Routes;
 
-sub setup {
+SUB Setup {
 	my $self = shift;
 	$self->start_mode('view');
 
@@ -91,7 +91,7 @@ sub download {
 		return $self->error("Slackware version is not in DB.", 
 			'/cgi-bin/search.cgi');
 	}
-  # does category exist? fast lookup
+	# does category exist? fast lookup
 	my $idCategory = $self->_get_category_id($category, $idSlackver);
 	unless ($idCategory) {
 		return $self->error("Category is not in DB.", '/cgi-bin/search.cgi');
@@ -101,7 +101,7 @@ sub download {
 	unless ($idSerie) {
 		return $self->error("Serie is not in DB.", '/cgi-bin/search.cgi');
 	}
-	# does country exists?
+	# does country exist?
 	my $idCountry = $self->_get_country_id($country);
 	unless ($idCountry) {
 		return $self->error("Country is not in DB.", '/cgi-bin/search.cgi');
@@ -185,7 +185,7 @@ sub inspect {
 		return $self->error("Slackware version is not in DB.", 
 			'/cgi-bin/search.cgi');
 	}
-  # does category exist? fast lookup
+	# does category exist? fast lookup
 	my $idCategory = $self->_get_category_id($category, $idSlackver);
 	unless ($idCategory) {
 		return $self->error("Category is not in DB.", '/cgi-bin/search.cgi');
@@ -281,7 +281,7 @@ sub view {
 		return $self->error("Slackware version is not in DB.", 
 			'/cgi-bin/search.cgi');
 	}
-  # does category exist? fast lookup
+	# does category exist? fast lookup
 	my $idCategory = $self->_get_category_id($category, $idSlackver);
 	unless ($idCategory) {
 		return $self->error("Category is not in DB.", '/cgi-bin/search.cgi');
@@ -561,7 +561,7 @@ sub _get_pkg_files {
 	my $dbhLite = DBI->connect("dbi:SQLite:dbname=".$sqLiteFile, 
 		"","", 
 		{ AutoCommit => 1,
-      PrintError => 0,
+			PrintError => 0,
 			RaiseError => 0
 		}
 	);
