@@ -30,6 +30,7 @@ CREATE OR REPLACE RULE "ctgry_insert_ignore" AS ON INSERT TO category WHERE EXIS
 CREATE TABLE country (
 	id_country SERIAL NOT NULL PRIMARY KEY UNIQUE,
 	name VARCHAR NOT NULL,
+	name_short CHAR(2),
 	flag_url TEXT NOT NULL DEFAULT '/img/flag-icons/png/none.png'
 );
 
@@ -39,7 +40,7 @@ CREATE TABLE mirror (
 	id_country INTEGER REFERENCES country(id_country),
 	mirror_updated TIMESTAMP NOT NULL DEFAULT NOW(),
 	mirror_desc VARCHAR NOT NULL,
-	mirror_proto VARCHAR(4) NOT NULL
+	mirror_proto VARCHAR(5) NOT NULL
 );
 CREATE OR REPLACE RULE "mirror_insert_update" AS ON INSERT TO mirror WHERE EXISTS(SELECT true FROM mirror WHERE mirror_url = NEW.mirror_url) DO INSTEAD UPDATE mirror SET mirror_updated = NOW() WHERE mirror_url = NEW.mirror_url;
 
