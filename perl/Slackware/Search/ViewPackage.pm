@@ -356,7 +356,7 @@ sub view {
 			$item{LINKFLAG4} = $country->{LINKFLAG};
 		}
 
-		push(@countriesTpl, \%item);
+		push(@countriesTpl, \%item) if (%item);
 		last unless ($country);
 	} # while $counter < $countriesSize
 	
@@ -397,7 +397,8 @@ sub _get_mirror_locations {
 	}
 
 	my $dbh = $self->dbh;
-	my $sql1 = "SELECT name, flag_url FROM country ORDER BY name;";
+	my $sql1 = "SELECT name, flag_url FROM country WHERE \
+		EXISTS(SELECT 1 FROM mirror WHERE id_country = country.id_country);";
 	my $result1 = $dbh->selectall_arrayref($sql1, { Slice => {}});
 
 	unless ($result1) {
