@@ -27,7 +27,7 @@ use warnings;
 use base 'Slackware::Search::MainWeb';
 use CGI::Application::Plugin::Routes;
 
-SUB Setup {
+sub Setup {
 	my $self = shift;
 	$self->start_mode('view');
 
