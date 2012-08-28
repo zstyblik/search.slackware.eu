@@ -36,7 +36,7 @@ if [ ! -e "${CFG}" ]; then
 	exit 254;
 fi
 
-source "${CFG}"
+. "${CFG}"
 
 cd "${STORDIR}"
 
