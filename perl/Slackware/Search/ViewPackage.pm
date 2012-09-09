@@ -398,7 +398,8 @@ sub _get_mirror_locations {
 
 	my $dbh = $self->dbh;
 	my $sql1 = "SELECT name, flag_url FROM country WHERE \
-		EXISTS(SELECT 1 FROM mirror WHERE id_country = country.id_country);";
+		EXISTS(SELECT 1 FROM mirror WHERE \
+		id_country = country.id_country) ORDER BY name;";
 	my $result1 = $dbh->selectall_arrayref($sql1, { Slice => {}});
 
 	unless ($result1) {
