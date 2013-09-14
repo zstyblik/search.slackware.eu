@@ -25,13 +25,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
-use lib "/mnt/search.slackware.eu/perl/";
-use Slackware::Search::ConfigParser qw(_getConfig);
+#use lib "/mnt/search.slackware.eu/perl/";
+#use Slackware::Search::ConfigParser qw(_getConfig);
 
 use strict;
 use warnings;
 use DBI;
 use LWP;
+use Data::Dumper;
 
 use constant CFGFILE => '/mnt/search.slackware.eu/conf/config.pl';
 
@@ -42,7 +43,7 @@ my $cfgParser = 'Slackware::Search::ConfigParser';
 my %CFG = $cfgParser->_getConfig(CFGFILE);
 
 unless (%CFG || keys(%CFG)) {
-	printf("Parsing of config file has failed.\n");
+	printf(STDERR "Parsing of config file has failed.\n");
 	exit 2;
 }
 
@@ -50,20 +51,36 @@ unless (%CFG || keys(%CFG)) {
 my $browser = LWP::UserAgent->new;
 my $response = $browser->get($slacksite) 
 	or die("Unable to get URL '$slacksite'.");
-die ("Error while getting URL '$slacksite'.") if ($response->is_error());
+if ($response->is_error()) {
+	die ("Error while getting URL '$slacksite'.");
+}
 
-my %countries;
-for my $line1 ( split(/\n/, $response->content) ) {
-	chomp($line1);
-	if ($line1 !~ /<a href=/) {
+my @mirrors = ();
+my %countries = ();
+for my $line (split(/\n/, $response->content)) {
+	chomp($line);
+	if ($line !~ /<a href=/) {
 		next;
 	}
 
-	$line1 =~ />.*\(([A-Za-z]{2}+)\).*</;
-	if (!$1) {
+	# Expected line: ``CC[white-spaces]<a href=...>link</a>''
+	my $country_code = substr($line, 0, 2);
+	if ($country_code !~ /^[A-Za-z]{2}+$/) {
+		printf STDERR "No Country Code found in ``%s''.\n", $line;
 		next;
 	}
-	$countries{$1} = 1;
+	my $pos_end = index($line, '</a>');
+	my $pos_begin = rindex($line, '>', $pos_end);
+	my $mirror_url = substr($line, $pos_begin + 1,
+		($pos_end - $pos_begin - 1));
+	if ($mirror_url !~ /^(http|ftp|rsync):\/\/.+$/) {
+		printf STDERR "Invalid mirror URL: '%s'.\n", $mirror_url;
+		printf STDERR "Input line was: ``%s''.\n", $line;
+		next;
+	}
+	my %mirror = ( $country_code => $mirror_url );
+	push(@mirrors, \%mirror);
+	$countries{$key} = 1;
 }
 
 my $dbh = DBI->connect(
@@ -87,46 +104,35 @@ for my $country (keys(%countries)) {
 	my $id_country = $dbh->selectrow_array($sql100);
 	if (!$id_country || $id_country !~ /^[0-9]+$/) {
 		$id_country = 'NIL';
-		printf STDERR "Country '%s' not found in DB.\n", $country;
+		printf STDERR "Update Country Alias - '%s' not found in DB.\n",
+			$country;
 		next;
 	}
-	printf STDERR "country:id_country:%s:%s\n", $country, $id_country if ($debug > 0);
 	my $sql120 = sprintf("UPDATE country SET name_short = '%s' WHERE id_country = %s;",
 		$country, $id_country);
-	printf STDERR "``%s''\n", $sql120 if($debug > 0);
+	if ($debug > 0) {
+		printf STDERR "country:id_country:%s:%s\n",
+			$country, $id_country;
+		printf STDERR "``%s''\n", $sql120;
+	}
 	$dbh->do($sql120) or die("Unable to execute '".$sql120."'");
 } # for my $country
 
 # Insert mirrors and link them with countries
-for my $line ( split(/\n/, $response->content) ) {
-	chomp($line);
-	if ($line !~ /<a href=/) {
-		next;
-	}
-	$line =~ />.*\(([A-Za-z]{2}+)\).*</;
-	my $mirror_country = $1 || 'NIL';
-	if (length($mirror_country) != 2) {
-		printf STDERR "Invalid line: ``%s''\n", $line;
-		next;
+for my $mirror (@mirrors) {
+	my $mirror_country = "";
+	for my $key (keys(%$mirror)) {
+		$mirror_country = $key;
 	}
 	my $sql150  = sprintf("SELECT id_country FROM country WHERE name_short = '%s';",
 		$mirror_country);
 	my $id_country = $dbh->selectrow_array($sql150);
 	if (!$id_country || $id_country !~ /^[0-9]+$/) {
 		printf STDERR "Country '%s' not found in DB.\n", $mirror_country;
-		printf STDERR "Input line was: ``%s''\n", $line;
 		next;
 	}
-
-	my $pos_end = index($line, '</a>');
-	my $pos_begin = rindex($line, '>', $pos_end);
-	my $mirror_url = substr($line, $pos_begin+1, $pos_end - $pos_begin - 1);
-	if ($mirror_url !~ /^(http|ftp|rsync):\/\/.+$/) {
-		printf STDERR "Invalid mirror URL: '%s'.\n", $mirror_url;
-		printf STDERR "Input line was: ``%s''\n", $line;
-		next;
-	}
-
+	
+	my $mirror_url = $mirror->{$mirror_country};
 	my $sql160 = sprintf("SELECT COUNT(id_mirror) FROM mirror WHERE mirror_url = '%s' AND id_country = %s;",
 		$mirror_url, $id_country);
 	my $mirror_count = $dbh->selectrow_array($sql160);
@@ -141,15 +147,20 @@ for my $line ( split(/\n/, $response->content) ) {
 		$sql170 = sprintf("INSERT INTO mirror (mirror_url, id_country, mirror_desc, mirror_proto) VALUES ('%s', %s, '%s', '%s');",
 			$mirror_url, $id_country, $mirror_desc, $arr_url[0]);
 	}
-	printf STDERR "``%s''\n", $sql170 if ($debug > 0);
+	if ($debug > 0) {
+		printf STDERR "``%s''\n", $sql170;
+	}
 	$dbh->do($sql170) or die("Unable to execute: ``".$sql170."''");
 } # for my $line
 
 #### Clean-up DB ####
-my $sql2 = "DELETE FROM mirror WHERE \
-mirror_updated <= (NOW() - INTERVAL '7 DAYS');";
-$dbh->do($sql2) or die("Unable to clean up in mirrors table.");
-
+my $sql200 = "SELECT COUNT(id_mirror) FROM mirror WHERE mirror_updated <= (NOW() - INTERVAL '7 DAYS'";
+my $deletion_count = $dbh->selectrow_array($sql200);
+if ($deletion_count > 0) {
+	printf STDERR "Will delete %i mirrors.\n", $mirror_count;
+	my $sql2 = "DELETE FROM mirror WHERE mirror_updated <= (NOW() - INTERVAL '7 DAYS');";
+	$dbh->do($sql2) or die("Unable to clean up in mirrors table.");
+}
 $dbh->commit;
 $dbh->disconnect;
 # EOF
