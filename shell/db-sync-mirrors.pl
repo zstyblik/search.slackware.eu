@@ -25,8 +25,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
-#use lib "/mnt/search.slackware.eu/perl/";
-#use Slackware::Search::ConfigParser qw(_getConfig);
+use lib "/mnt/search.slackware.eu/perl/";
+use Slackware::Search::ConfigParser qw(_getConfig);
 
 use strict;
 use warnings;
@@ -80,7 +80,7 @@ for my $line (split(/\n/, $response->content)) {
 	}
 	my %mirror = ( $country_code => $mirror_url );
 	push(@mirrors, \%mirror);
-	$countries{$key} = 1;
+	$countries{$country_code} = 1;
 }
 
 my $dbh = DBI->connect(
@@ -154,10 +154,10 @@ for my $mirror (@mirrors) {
 } # for my $line
 
 #### Clean-up DB ####
-my $sql200 = "SELECT COUNT(id_mirror) FROM mirror WHERE mirror_updated <= (NOW() - INTERVAL '7 DAYS'";
+my $sql200 = "SELECT COUNT(id_mirror) FROM mirror WHERE mirror_updated <= (NOW() - INTERVAL '7 DAYS');";
 my $deletion_count = $dbh->selectrow_array($sql200);
 if ($deletion_count > 0) {
-	printf STDERR "Will delete %i mirrors.\n", $mirror_count;
+	printf STDERR "Will delete %i mirrors.\n", $deletion_count;
 	my $sql2 = "DELETE FROM mirror WHERE mirror_updated <= (NOW() - INTERVAL '7 DAYS');";
 	$dbh->do($sql2) or die("Unable to clean up in mirrors table.");
 }
